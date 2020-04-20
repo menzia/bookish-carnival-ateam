@@ -1,23 +1,12 @@
 /**
- * MonthADT.java created by alexm on Dell Inspiron in ATeam.
+ * MonthADT.java
  *
  * Author: Alex Menzia, Linyi Lyu, Ethan Huang
  * Date: 4/20/2020
  * 
  * Course: CS400
  * Semester: Spring 2020
- * Lecture: 001
- *
- * IDE: Eclipse IDE for Java Developers
- * Version: 2019-12 (4.14.0)
- * Build id: 20191212-1212
- *
- * Device: MENZIA-DELLINSPIRON
- * OS: Windows 10 Home
- * Version: 1903
- * OS Build: 18362.592
- *
- * List Collaborators: n/a
+ * Lecture: 001/001/002
  *
  * Other Credits: n/a
  *
@@ -49,11 +38,14 @@ public interface MonthADT {
 	public int totalWeight();
 	
 	/**
-	 * Sets the weight for the given day of the month to the given weight
+	 * Sets the weight for the given day of the month to the given weight,
+	 * then returns the previous weight.
+	 * 
 	 * @param weight to set daily weight to
 	 * @param dayNum to set daily weight of
+	 * @return the previous weight of that day
 	 */
-	public void set(int weight, int dayNum);
+	public int set(int weight, int dayNum);
 	
 	/**
 	 * Returns the weight for the given day of this month
@@ -80,7 +72,9 @@ public interface MonthADT {
 	public int getRange(int dayNumStart);
 	
 	/**
-	 * Sets the weight for the given day to 0
+	 * Sets the weight for the given day to 0 and returns
+	 * the previous weight.
+	 * 
 	 * @param dayNum to set daily weight of to 0
 	 * @return the previous weight in the given day
 	 */
