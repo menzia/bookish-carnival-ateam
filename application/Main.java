@@ -23,8 +23,26 @@
  * Know Bugs: known unresolved bugs
  */
 package application;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -33,19 +51,47 @@ import javafx.stage.Stage;
  *
  */
 public class Main extends Application {
-
+    private static final int WINDOW_WIDTH = 1000;
+    private static final int WINDOW_HEIGHT = 1000;
+    private static final String APP_TITLE = "Milk_Weight";
     @Override
-    public void start(Stage arg0) throws Exception {
-        // TODO Auto-generated method stub
+    public void start(Stage primaryStage) throws Exception {
+    
+        //left panel
+        BorderPane bd = new BorderPane();    
+        bd.setLeft(left());
+        
+        //Scene
+        Scene scene_1 = new Scene(bd,WINDOW_WIDTH,WINDOW_HEIGHT);
+        
+        //set stage
+        primaryStage.setScene(scene_1);
+        primaryStage.show();
+        
+        
 
     }
-
+    
+    
+public VBox left() {
+    VBox leftvb = new VBox();
+    //Buttons on the left VBox
+    Button upcsv = new Button("Upload CSV");
+    Button edit = new Button("Add/Edit/Remove(day)");
+    Button minmax =  new Button("Display Max/Min/Avg");
+    Button report = new Button("Generate Report");
+    
+    leftvb.getChildren().addAll(upcsv,edit,minmax,report);
+    return leftvb;
+}
     /**
      * @param args
      */
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-
+        launch(args);
     }
+    
+   
 
 }
