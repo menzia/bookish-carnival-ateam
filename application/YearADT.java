@@ -54,7 +54,7 @@ public interface YearADT {
 	 * Returns the average monthly weight for this year
 	 * @return average monthly weight in this year
 	 */
-	public int avgMonthWeight();
+	public float avgMonthWeight();
 	
 	/**
 	 * Returns the total amount of weight stored from the given starting date

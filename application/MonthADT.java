@@ -69,7 +69,15 @@ public interface MonthADT {
 	 * @param dayNumStart day to start count of milk weight
 	 * @return total amount of milk from start date to end of the month
 	 */
-	public int getRange(int dayNumStart);
+	public int getUpperRange(int dayNumStart);
+	
+	/**
+	 * Returns the total amount of weight from the beginning of the month
+	 * to the end day given, inclusive on both sides.
+	 * @param dayNumEnd day to end summation on
+	 * @return total amount of milk from start of month to the end date
+	 */
+	public int getLowerRange(int dayNumEnd);
 	
 	/**
 	 * Sets the weight for the given day to 0 and returns

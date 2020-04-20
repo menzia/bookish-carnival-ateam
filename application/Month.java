@@ -33,13 +33,13 @@ public class Month implements MonthADT {
 	 * 
 	 * @param yearNum of month to create
 	 * @param monthNum of month to create
-	 * @throws IndexOutOfBoundsException is month number is out of valid range
+	 * @throws IllegalArgumentException is month number is out of valid range
 	 */
-	public Month(int yearNum, int monthNum) {
+	public Month(int yearNum, int monthNum) throws IllegalArgumentException {
 		totalWeight = 0;
 		
 		if (monthNum < 1 || monthNum > 12) {
-			throw new IndexOutOfBoundsException("Month number must be between 1 and 12");
+			throw new IllegalArgumentException("Month number must be between 1 and 12");
 		}
 		
 		int size = getNumDays(yearNum,monthNum);
@@ -52,8 +52,13 @@ public class Month implements MonthADT {
 	 * @param yearNum of month to use
 	 * @param monthNum of month to use
 	 * @return number of days in given month
+	 * @throws IllegalArgumentException if month number is invalid
 	 */
-	private static int getNumDays(int yearNum,int monthNum) {
+	private static int getNumDays(int yearNum,int monthNum) throws IllegalArgumentException {
+		if (monthNum < 1 || monthNum > 12) {
+			throw new IllegalArgumentException("Month number must be between 1 and 12");
+		}
+		
 		//April, June, September, and November have 30 days
 		if (monthNum == 4 || monthNum == 6 || monthNum == 9 || monthNum == 11) {
 			return 30;
@@ -113,18 +118,23 @@ public class Month implements MonthADT {
 	/**
 	 * Sets the weight for the given day of the month to the given weight,
 	 * then returns the previous weight. If weight is negative or the
-	 * day number is out of range, will return 0 and do nothing rather
-	 * than throw an exception.
+	 * day number is out of range, will throw an IllegalArgumentException.
 	 * 
 	 * @param weight to set daily weight to
 	 * @param dayNum to set daily weight of
 	 * @return the previous weight of that day
+	 * @throws IllegalArgumentException if weight is negative or day number invalid
 	 */
-	public int set(int weight, int dayNum) {
+	public int set(int weight, int dayNum) throws IllegalArgumentException {
+		if (weight < 0) {
+			throw new IllegalArgumentException("Weight must be non-negative");
+		}
 		
 		int index = dayNum - 1;
-		
-		if (0<= index && index < dailyWeights.length && weight >= 0) {
+		if (index < 0 || index >= dailyWeights.length) {
+			throw new IllegalArgumentException("Day number out of range.");
+			
+		}else {
 			int prevWeight = dailyWeights[index];
 			dailyWeights[index] = weight;
 			
@@ -132,9 +142,6 @@ public class Month implements MonthADT {
 			
 			return prevWeight;
 			
-		} else {
-			
-			return 0;
 		}
 		
 	}
@@ -142,19 +149,20 @@ public class Month implements MonthADT {
 	@Override
 	/**
 	 * Returns the weight for the given day of this month. If the day is
-	 * out of range, will simply return 0 rather than throw an exception.
+	 * out of range, will throw IllegalArgumentException
 	 * 
 	 * @param dayNum to return weight of
 	 * @return weight of given day
+	 * @throws IllegalArgumentException if day number out of range
 	 */
-	public int get(int dayNum) {
+	public int get(int dayNum) throws IllegalArgumentException {
 		int index = dayNum-1;
 		
 		if (0<= index && index < dailyWeights.length) {
 			return dailyWeights[index];
 			
 		} else {
-			return 0;
+			throw new IllegalArgumentException("Day number out of range.");
 			
 		}
 	}
@@ -163,19 +171,20 @@ public class Month implements MonthADT {
 	/**
 	 * Returns the total amount of weight from the start day given
 	 * to the end day given, inclusive on both sides. If day numbers
-	 * are out of range, will simply trim them to the closest in 
-	 * range values.
+	 * are out of range, will throw IllegalArgumentException.
 	 * 
 	 * @param dayNumStart day to start count of milk weight
 	 * @param dayNumEnd day to end count of milk weight
 	 * @return total amount of milk from start date to end date
+	 * @throws IllegalArgumentException if days out of range
 	 */
-	public int getRange(int dayNumStart, int dayNumEnd) {
+	public int getRange(int dayNumStart, int dayNumEnd) throws IllegalArgumentException {
 		int index1 = dayNumStart - 1;
-		index1 = Math.max(0, index1);
-		
 		int index2 = dayNumEnd - 1;
-		index2 = Math.min(dayNumStart, dailyWeights.length - 1);
+		
+		if (index1 < 0 || index2 < 0 || index1 >= dailyWeights.length || index2 >= dailyWeights.length) {
+			throw new IllegalArgumentException("Day numbers out of range.");
+		}
 		
 		int sum = 0;
 		for (int i = index1; i <= index2; ++i) {
@@ -189,26 +198,41 @@ public class Month implements MonthADT {
 	/**
 	 * Returns the total amount of weight from the start day given
 	 * to the end of the month.If the day number is out of range,
-	 * will simply trim to the nearest in range value.
+	 * will throw exception
 	 * 
 	 * @param dayNumStart day to start count of milk weight
 	 * @return total amount of milk from start date to end of the month
+	 * @throws IllegalArgumentException if day number out of range
 	 */
-	public int getRange(int dayNumStart) {
+	public int getUpperRange(int dayNumStart) throws IllegalArgumentException {
 		
 		return getRange(dayNumStart, dailyWeights.length);
+	}
+	
+	/**
+	 * Returns the total amount of weight from the start of the
+	 * month to the given day. If day is out of range,
+	 * throws IllegalArgumentException.
+	 * 
+	 * @param dayNumStart day to end count of milk weight
+	 * @return total amount of milk from start of month to day given
+	 */
+	public int getLowerRange(int dayNumEnd) throws IllegalArgumentException {
+		
+		return getRange(1, dayNumEnd);
 	}
 
 	@Override
 	/**
 	 * Sets the weight for the given day to 0 and returns
 	 * the previous weight. If the day number is out of
-	 * range, will simply do nothing and return 0.
+	 * range, will throw IllegalArgumentException.
 	 * 
 	 * @param dayNum to set daily weight of to 0
 	 * @return the previous weight in the given day
+	 * @throws IllegalArgumentException if date out of range
 	 */
-	public int clear(int dayNum) {
+	public int clear(int dayNum) throws IllegalArgumentException {
 		
 		return set(0, dayNum);
 	}
