@@ -1,6 +1,7 @@
 /**
  * Main.java created by {user} on Surface Pro 7 in ateam_MilkWeights
  * Author:   Linyi Lyu (llyu4@wisc.edu)
+ * 			 Ethan Huang (ihuang22@wisc.edu)
  * Date:     @date
  * 
  * Course:   CS400
@@ -23,6 +24,8 @@
  * Know Bugs: known unresolved bugs
  */
 package application;
+
+import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,51 +50,65 @@ import javafx.stage.Stage;
 
 /**
  * Main - TODO Describe purpose of this user defined type
+ * 
  * @author Linyi Lyu (2020)
+ * @author Ethan Huang (2020)
  *
  */
 public class Main extends Application {
-    private static final int WINDOW_WIDTH = 1000;
-    private static final int WINDOW_HEIGHT = 1000;
-    private static final String APP_TITLE = "Milk_Weight";
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-    
-        //left panel
-        BorderPane bd = new BorderPane();    
-        bd.setLeft(left());
-        
-        //Scene
-        Scene scene_1 = new Scene(bd,WINDOW_WIDTH,WINDOW_HEIGHT);
-        
-        //set stage
-        primaryStage.setScene(scene_1);
-        primaryStage.show();
-        
-        
+	private static final int WINDOW_WIDTH = 800;
+	private static final int WINDOW_HEIGHT = 800;
+	private static final String APP_TITLE = "Milk_Weight";
 
-    }
-    
-    
-public VBox left() {
-    VBox leftvb = new VBox();
-    //Buttons on the left VBox
-    Button upcsv = new Button("Upload CSV");
-    Button edit = new Button("Add/Edit/Remove(day)");
-    Button minmax =  new Button("Display Max/Min/Avg");
-    Button report = new Button("Generate Report");
-    
-    leftvb.getChildren().addAll(upcsv,edit,minmax,report);
-    return leftvb;
-}
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
-        launch(args);
-    }
-    
-   
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+
+		// left panel
+		BorderPane bd = new BorderPane();
+		bd.setLeft(left());
+		
+		// Scene
+		Scene scene_1 = new Scene(bd, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+		// set stage
+		primaryStage.setScene(scene_1);
+		primaryStage.show();
+
+	}
+
+	public VBox left() {
+		VBox leftvb = new VBox();
+		leftvb.setSpacing(10);
+		leftvb.setStyle("-fx-background-color: #336699;");
+		
+		
+		// Buttons on the left VBox		
+		Button upcsv = new Button("Upload CSV");
+		upcsv.setPrefSize(100, 20);
+		
+		Button edit = new Button("Add/Edit/Remove(day)");
+		edit.setPrefSize(100, 20);
+		
+		Button minmax = new Button("Display Max/Min/Avg");
+		minmax.setPrefSize(100, 20);
+		
+		Button report = new Button("Generate Report");
+		report.setPrefSize(100, 20);
+		
+		
+		leftvb.getChildren().addAll(upcsv, edit, minmax, report);
+		return leftvb;
+	}
+
+	
+	
+	
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		launch(args);
+	}
 
 }
