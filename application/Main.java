@@ -39,9 +39,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -63,7 +65,7 @@ import javafx.stage.Stage;
  *
  */
 public class Main extends Application {
-	private static final int WINDOW_WIDTH = 400;
+	private static final int WINDOW_WIDTH = 600;
 	private static final int WINDOW_HEIGHT = 400;
 	private static final String APP_TITLE = "Milk_Weight System";
 
@@ -81,7 +83,7 @@ public class Main extends Application {
 
 		// left panel
 		BorderPane bd = new BorderPane();
-		bd.setCenter(menuButton());
+		bd.setLeft(menuButton(bd,primaryStage));
 
 		// Scene
 		Scene scene_1 = new Scene(bd, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -93,95 +95,50 @@ public class Main extends Application {
 
 	}
 
-	public VBox menuButton() {
-		Label temp = new Label("(Available now)");
-		Label temp2 = new Label("(Available now)");
-		temp.setFont(new Font("Arial", 20));
-		temp2.setFont(new Font("Arial", 20));
+	public VBox menuButton(BorderPane bd, Stage primaryStage) {
+		
 		// BorderPane mbp = new BorderPane();
 		VBox leftvb = new VBox();
 		leftvb.setSpacing(10);
-		leftvb.setStyle("-fx-background-color: #336699;");
+		leftvb.setStyle("-fx-background-color: #6699FF;");
 
 		// Buttons on the left VBox
-		Button upcsv = new Button("Upload CSV");
-		upcsv.setOnAction(e ->{
-			ChooseFile cf = new ChooseFile();
-			Stage stage = new Stage();
-			try {
-				cf.start(stage);
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		});
+		ToggleGroup group = new ToggleGroup();
 		
+		RadioButton upcsv = new RadioButton("Import/Export Data");
+		upcsv.setOnAction(e ->bd.setCenter(ChooseFile.chooseFileDialogue(primaryStage)));
 		upcsv.setPrefSize(150, 20);
+		upcsv.setToggleGroup(group);
+		upcsv.setSelected(true);
+		
 		HBox csvTemp = new HBox();
-		csvTemp.getChildren().addAll(upcsv,temp2);
+		csvTemp.getChildren().addAll(upcsv);
 		
 
-		Button edit = new Button("Add/Edit/Remove(day)");
+		RadioButton edit = new RadioButton("Add/Edit/Remove(day)");
+		edit.setToggleGroup(group);
 		edit.setPrefSize(150, 20);
 
-		Button minmax = new Button("Display Max/Min/Avg");
+		RadioButton minmax = new RadioButton("Display Max/Min/Avg");
+		minmax.setToggleGroup(group);
 		minmax.setPrefSize(150, 20);
 
-		Button report = new Button("Generate Report");
+		RadioButton report = new RadioButton("Generate Report");
+		report.setToggleGroup(group);
 		
 	
 		HBox reportTemp = new HBox();
-		reportTemp.getChildren().addAll(report,temp);
+		reportTemp.getChildren().addAll(report);
 		report.setPrefSize(150, 20);
 		report.setOnAction(e ->{
-			TabPaneGenerateReport rp = new TabPaneGenerateReport();
-			Stage st = new Stage();
-			rp.start(st);;
+			bd.setCenter(TabPaneGenerateReport.tabPane());
 		});
 		
+		leftvb.getChildren().addAll(csvTemp, reportTemp, edit, minmax);
 		
-		
-		leftvb.getChildren().addAll(csvTemp, edit, minmax, reportTemp);
-
-		DropShadow shadow = new DropShadow();
-		// Adding the shadow when the mouse cursor is on
-		upcsv.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent e) {
-				
-				upcsv.setEffect(shadow);
-
-			}
-		});
-		
-		//upcsv.setOnAction(this.handleupcsvButtonAction());
-
-		edit.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				edit.setEffect(shadow);
-			}
-		});
-
-		// Removing the shadow when the mouse cursor is off
-		minmax.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				
-				minmax.setEffect(shadow);
-			}
-		});
-
-		report.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				
-				report.setEffect(shadow);
-			}
-		});
-
-
+		//Start off in the import/export dialogue box since the user
+		//Will need to do this before generating reports
+		bd.setCenter(ChooseFile.chooseFileDialogue(primaryStage));
 
 		return leftvb;
 	}

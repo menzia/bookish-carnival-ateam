@@ -1,6 +1,6 @@
 package application;
 /**
- * Main.java created by {user} on Surface Pro 7 in ateam_MilkWeights
+ * farmReport.java 
  * Author:   Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu)
  * Date:     @date
  * 
@@ -49,12 +49,12 @@ public class farmReport extends Stage {
 	private final ObservableList<month> data = FXCollections.observableArrayList(
 			new month("Jan", "234", "12.34"),
 			new month("Feb", "326", "13.24"),
-			new month("March", "135", "7.362"),
-			new month("April", "635", "40.54"));
+			new month("Mar", "135", "7.362"),
+			new month("Apr", "635", "40.54"));
 
-	TableColumn monthCol = new TableColumn("month");
+	TableColumn monthCol = new TableColumn("Month");
 	TableColumn totalWeights = new TableColumn("Total Milk Weight(lbs)");
-	TableColumn percent = new TableColumn("Percentage of All(%)");
+	TableColumn percent = new TableColumn("Percentage of Total(%)");
 	final VBox vbox = new VBox();
 
 	farmReport() {
@@ -75,9 +75,9 @@ public class farmReport extends Stage {
 		table.setItems(data);
 		table.getColumns().addAll(monthCol, totalWeights, percent);
 
-		int id = 6;
+		String id = "Farm 6";
 		int year = 2018;
-		final Label label = new Label("Farm " + id + " REPORT " + year);
+		final Label label = new Label(id + " Report " + year);
 		label.setFont(new Font("Arial", 20));
 		vbox.setSpacing(5);
 		vbox.setPadding(new Insets(10, 0, 0, 10));
