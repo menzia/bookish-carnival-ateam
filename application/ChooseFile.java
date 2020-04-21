@@ -1,5 +1,5 @@
 /**
- * Main.java created by {user} on Alienware M15 in ateam_MilkWeights
+ * ChooseFile.java 
  * Author:   Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu) Alex Menzia(menzia@wisc.edu)
  * Date:     @date
  * 
@@ -24,72 +24,104 @@
  */
 package application;
 
-import javafx.application.Application; 
-import javafx.scene.Scene; 
-import javafx.scene.control.*; 
-import javafx.scene.layout.*; 
-import javafx.stage.Stage; 
-import javafx.geometry.*; 
-import javafx.scene.paint.*; 
-import javafx.scene.canvas.*; 
-import javafx.scene.text.*; 
-import javafx.scene.Group; 
-import javafx.scene.shape.*; 
-import javafx.event.ActionEvent; 
-import javafx.event.EventHandler; 
-import javafx.collections.*; 
-import java.io.*; 
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
+import javafx.geometry.*;
+import javafx.scene.paint.*;
+import javafx.scene.canvas.*;
+import javafx.scene.text.*;
+import javafx.scene.Group;
+import javafx.scene.shape.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.collections.*;
+import java.io.*;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
-
-public class ChooseFile extends Application {
-
-	@Override
-	public void start(Stage stage) throws Exception {
-		// TODO Auto-generated method stub
-		stage.setTitle("FileChooser");
-		FileChooser chooser = new FileChooser(); 
+public class ChooseFile {
 	
-		Label label = new Label("no files selected"); 
-	  
-    // create a Button 
-    Button button = new Button("Show open dialog");
-    
-    button.setOnAction(e ->{
-   // get the file selected 
-      File file = chooser.showOpenDialog(stage); 
+	boolean importDirectory = true;
 
-      if (file != null) { 
-            
-          label.setText(file.getAbsolutePath()  
-                              + "  selected"); 
-      } 
-    });
-    
-    // create a Button 
-    Button button1 = new Button("Show save dialog"); 
-    button1.setOnAction(e ->{
-    	 // get the file selected 
-      File file = chooser.showSaveDialog(stage); 
+	/**
+	 * Creates a stage in which the user can choose either to
+	 * import data to their project or export the data in their
+	 * project to a specified directory.
+	 * 
+	 * TODO:Once data structure section is finished,
+	 * this will need to have some way to access it in order
+	 * to modify it.
+	 * 
+	 */
+	static public VBox chooseFileDialogue(Stage stage) {
+		
+		//Top most section will consist of two radio buttons
+		//which user can use to choose between importing and
+		//exporting
+		HBox topSelection = new HBox();
+		topSelection.setAlignment(Pos.CENTER);
+		topSelection.setSpacing(20);
+		
+		ToggleGroup group = new ToggleGroup();
+	    RadioButton importButton = new RadioButton("Import Data");
+	    importButton.setToggleGroup(group);
+	    importButton.setSelected(true);
+	    RadioButton exportButton = new RadioButton("Export Data");
+	    exportButton.setToggleGroup(group);
+		
+		topSelection.getChildren().addAll(importButton,exportButton);
+		
+		//Next section will be a button which the user can
+		//press to open a dialogue where they can choose the
+		//directory they want to import or export.
+		DirectoryChooser chooser = new DirectoryChooser();
+		Label confirmLabel = new Label("No Import Directory Selected");
+		Button confirmButton = new Button("Import");
+		HBox confirmBar = new HBox(20,confirmLabel,confirmButton);
+		confirmBar.setAlignment(Pos.CENTER);
+		
+		Button fileButton = new Button("Choose a Directory to Import From");
+		
+		importButton.setOnAction(e -> {
+			fileButton.setText("Choose a Directory to Import From");
+			confirmLabel.setText("No Import Directory Selected");
+			confirmButton.setText("Import");
+		
+		});
+		
+		exportButton.setOnAction(e -> {
+			fileButton.setText("Choose a Directory to Export To");
+			confirmLabel.setText("No Export Directory Selected");
+			confirmButton.setText("Export");
+		});
 
-      if (file != null) { 
-          label.setText(file.getAbsolutePath()  
-                              + "  selected"); 
-      } 
-    }); 
-    // create a VBox 
-    VBox vbox = new VBox(30, label, button, button1); 
+		// When pressed, button opens directory dialogue and attempts to import from
+		// or export to the given directory 
+		fileButton.setOnAction(e -> {if (importButton.isSelected()){
+			// try to import the directory selected
+			File file = chooser.showDialog(stage);
 
-    // set Alignment 
-    vbox.setAlignment(Pos.CENTER); 
+			if (file != null) {
 
-    // create a scene 
-    Scene scene = new Scene(vbox, 600, 400); 
+				confirmLabel.setText(file.getAbsolutePath() + " Selected");
+			}
+		} else {
+			//try to export to directory selected
+			File file = chooser.showDialog(stage);
+			
+			if (file != null) {
+				confirmButton.setText(file.getAbsolutePath() + " Selected");
+			}
+		}});	
+		
+		// create a VBox
+		VBox vbox = new VBox(30, topSelection,confirmBar, fileButton);
+		vbox.setAlignment(Pos.CENTER);
 
-    // set the scene 
-    stage.setScene(scene); 
+		return vbox;
 
-    stage.show(); 
-
-}
+	}
 }

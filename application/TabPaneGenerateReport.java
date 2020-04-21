@@ -28,6 +28,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.Tab;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -36,18 +37,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class TabPaneGenerateReport extends Application {
+public class TabPaneGenerateReport {
 
-	private static final int WINDOW_WIDTH = 400;
-	private static final int WINDOW_HEIGHT = 400;
-
-	public static void main(String[] args) {
-		launch(args);
-	}
-
-	public void start(Stage primaryStage) {
+	// Creates the center dialogue box which allows the user to
+	// select the report they would like to create.
+	// In actual implementation will need to pass in access
+	// to the FarmLand object so that a report can be created
+	static public VBox tabPane() {
 
 		TabPane tabPane = new TabPane();
+		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
 		Tab tab1 = new Tab("Farm Report", farmRep());
 		Tab tab2 = new Tab("Annual Report", new Label("Show all cars available"));
@@ -60,14 +59,11 @@ public class TabPaneGenerateReport extends Application {
 		tabPane.getTabs().add(tab4);
 
 		VBox vBox = new VBox(tabPane);
-		Scene scene = new Scene(vBox, WINDOW_WIDTH, WINDOW_HEIGHT);
-
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("JavaFX App");
-		primaryStage.show();
+		
+		return vBox;
 	}
 
-	public BorderPane farmRep() {
+	static public BorderPane farmRep() {
 		BorderPane farmRep = new BorderPane();
 		VBox farmid = new VBox();
 		farmid.getChildren().addAll(new Label("Enter Farm ID:"), new TextField());
@@ -86,7 +82,7 @@ public class TabPaneGenerateReport extends Application {
 	}
 
 	// click on generate to generate a table view format farm report
-	public void buttonAction() {
+	static public void buttonAction() {
 		farmReport fm = new farmReport();
 		fm.centerOnScreen();
 	}
