@@ -25,12 +25,14 @@
 package application;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.Tab;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -39,6 +41,14 @@ import javafx.stage.Stage;
 
 public class TabPaneGenerateReport {
 
+	Integer[] months = {1,2,3,4,5,6,7,8,9,10,11,12};
+	
+	//farms and years are hard-coded in here, but in actual
+	//implementation will be calculated from the FarmLand
+	//object given
+	static String[] farms = {"Farm A","Farm B","Farm C"};
+	static Integer[] years = {2017,2018,2019,2020};
+	
 	// Creates the center dialogue box which allows the user to
 	// select the report they would like to create.
 	// In actual implementation will need to pass in access
@@ -49,7 +59,7 @@ public class TabPaneGenerateReport {
 		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
 		Tab tab1 = new Tab("Farm Report", farmRep());
-		Tab tab2 = new Tab("Annual Report", new Label("Show all cars available"));
+		Tab tab2 = new Tab("Annual Report", annualRep());
 		Tab tab3 = new Tab("Monthly Report", new Label("Show all boats available"));
 		Tab tab4 = new Tab("Date Report", new Label("Show all boats available"));
 
@@ -63,28 +73,62 @@ public class TabPaneGenerateReport {
 		return vBox;
 	}
 
-	static public BorderPane farmRep() {
-		BorderPane farmRep = new BorderPane();
-		VBox farmid = new VBox();
-		farmid.getChildren().addAll(new Label("Enter Farm ID:"), new TextField());
+	static public VBox farmRep() {
+		VBox farmRep = new VBox();
+		farmRep.setSpacing(30);
+		
+		ComboBox<String> idBox = new ComboBox<String>(
+				FXCollections.observableArrayList(farms)
+				);
+		VBox farmId = new VBox(new Label("Select Farm ID:"), idBox);
 
-		VBox year = new VBox();
-		year.getChildren().addAll(new Label("Enter Year:"), new TextField());
+		ComboBox<Integer> yearBox = new ComboBox<Integer>(
+				FXCollections.observableArrayList(years)
+				);
+		VBox year = new VBox(new Label("Select Year:"), yearBox);
 
-		HBox hb = new HBox();
-		hb.getChildren().addAll(farmid, year);
-		farmRep.setCenter(hb);
+		HBox hb = new HBox(30,farmId, year);
+		
 		Button gButton = new Button("Generate");
-		gButton.setOnAction(e -> buttonAction());
-		farmRep.setBottom(gButton);
+		gButton.setOnAction(e -> farmReportAction());
+		
+		farmRep.getChildren().addAll(hb, gButton);
+		
 		return farmRep;
 
 	}
+	
+	static public VBox annualRep() {
+		VBox yearRep = new VBox();
+		yearRep.setSpacing(30);
+		
+
+		ComboBox<Integer> yearBox = new ComboBox<Integer>(
+				FXCollections.observableArrayList(years)
+				);
+		VBox year = new VBox(new Label("Select Year:"), yearBox);
+		
+		Button gButton = new Button("Generate");
+		gButton.setOnAction(e -> annualReportAction());
+		
+		yearRep.getChildren().addAll(year, gButton);
+		
+		return yearRep;
+
+	}
+	
+	
 
 	// click on generate to generate a table view format farm report
-	static public void buttonAction() {
+	static public void farmReportAction() {
 		farmReport fm = new farmReport();
 		fm.centerOnScreen();
+	}
+	
+	//Generates a table view format annual report
+	static public void annualReportAction() {
+		//TODO: Implement
+		
 	}
 
 }
