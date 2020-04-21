@@ -1,8 +1,6 @@
-package application;
 /**
- * Main.java created by {user} on Surface Pro 7 in ateam_MilkWeights
- * Author:   Linyi Lyu (llyu4@wisc.edu)
- * 			 Ethan Huang (ihuang22@wisc.edu)
+ * Main.java created by {user} on Alienware M15 in ateam_MilkWeights
+ * Author:   Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu) Alex Menzia(menzia@wisc.edu)
  * Date:     @date
  * 
  * Course:   CS400
@@ -24,6 +22,8 @@ package application;
  *
  * Know Bugs: known unresolved bugs
  */
+package application;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.TabPane;

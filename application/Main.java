@@ -1,7 +1,6 @@
 /**
- * Main.java created by {user} on Surface Pro 7 in ateam_MilkWeights
- * Author:   Linyi Lyu (llyu4@wisc.edu)
- * 			 Ethan Huang (ihuang22@wisc.edu)
+ * Main.java created by {user} on Alienware M15 in ateam_MilkWeights
+ * Author:   Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu) Alex Menzia(menzia@wisc.edu)
  * Date:     @date
  * 
  * Course:   CS400
@@ -60,17 +59,14 @@ import javafx.stage.Stage;
  * 
  * @author Linyi Lyu (2020)
  * @author Ethan Huang (2020)
+ * @author Alex Menzia (2020)
  *
  */
 public class Main extends Application {
 	private static final int WINDOW_WIDTH = 400;
 	private static final int WINDOW_HEIGHT = 400;
 	private static final String APP_TITLE = "Milk_Weight System";
-	private final static int CHOICE_UPCSV = 0;
-	private final static int CHOICE_EDIT = 1;
-	private final static int CHOICE_MINMAX = 2;
-	private final static int CHOICE_REPORT = 3;
-	private int result = -1;
+
 
 	/**
 	 * @param args
@@ -90,35 +86,6 @@ public class Main extends Application {
 		// Scene
 		Scene scene_1 = new Scene(bd, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-		// button action while (true) {
-
-		// Ask the user if they want to perform a test
-
-		switch (result) {
-
-		case CHOICE_UPCSV:
-
-			System.out.println("Pressing UPCSV button");
-			break;
-
-		case CHOICE_EDIT:
-
-			System.out.println("Pressing EDIT button");
-			break;
-
-		case CHOICE_MINMAX:
-
-			System.out.println("Pressing MINMAX button");
-			break;
-
-		case CHOICE_REPORT:
-
-			System.out.println("Pressing REPORT button");
-			System.exit(0);
-			break;
-
-		}
-
 		// set stage
 		primaryStage.setTitle(APP_TITLE);
 		primaryStage.setScene(scene_1);
@@ -127,6 +94,10 @@ public class Main extends Application {
 	}
 
 	public VBox menuButton() {
+		Label temp = new Label("(Available now)");
+		Label temp2 = new Label("(Available now)");
+		temp.setFont(new Font("Arial", 20));
+		temp2.setFont(new Font("Arial", 20));
 		// BorderPane mbp = new BorderPane();
 		VBox leftvb = new VBox();
 		leftvb.setSpacing(10);
@@ -134,7 +105,21 @@ public class Main extends Application {
 
 		// Buttons on the left VBox
 		Button upcsv = new Button("Upload CSV");
+		upcsv.setOnAction(e ->{
+			ChooseFile cf = new ChooseFile();
+			Stage stage = new Stage();
+			try {
+				cf.start(stage);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		
 		upcsv.setPrefSize(150, 20);
+		HBox csvTemp = new HBox();
+		csvTemp.getChildren().addAll(upcsv,temp2);
+		
 
 		Button edit = new Button("Add/Edit/Remove(day)");
 		edit.setPrefSize(150, 20);
@@ -143,6 +128,10 @@ public class Main extends Application {
 		minmax.setPrefSize(150, 20);
 
 		Button report = new Button("Generate Report");
+		
+	
+		HBox reportTemp = new HBox();
+		reportTemp.getChildren().addAll(report,temp);
 		report.setPrefSize(150, 20);
 		report.setOnAction(e ->{
 			TabPaneGenerateReport rp = new TabPaneGenerateReport();
@@ -152,7 +141,7 @@ public class Main extends Application {
 		
 		
 		
-		leftvb.getChildren().addAll(upcsv, edit, minmax, report);
+		leftvb.getChildren().addAll(csvTemp, edit, minmax, reportTemp);
 
 		DropShadow shadow = new DropShadow();
 		// Adding the shadow when the mouse cursor is on
@@ -171,7 +160,6 @@ public class Main extends Application {
 		edit.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
-				
 				edit.setEffect(shadow);
 			}
 		});
@@ -193,19 +181,10 @@ public class Main extends Application {
 			}
 		});
 
-//		report.setOnAction(e -> reportButtonAction());
-//		mbp.setBottom(report);
+
 
 		return leftvb;
 	}
 
-	// click on generate to generate a table view format farm report
-	public void reportButtonAction() {
-		TabPaneGenerateReport tpgr = new TabPaneGenerateReport();
-
-	}
-	
-
-	
 
 }

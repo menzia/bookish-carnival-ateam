@@ -1,8 +1,7 @@
 package application;
 /**
  * Main.java created by {user} on Surface Pro 7 in ateam_MilkWeights
- * Author:   Linyi Lyu (llyu4@wisc.edu)
- * 			 Ethan Huang (ihuang22@wisc.edu)
+ * Author:   Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu)
  * Date:     @date
  * 
  * Course:   CS400
