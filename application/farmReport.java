@@ -42,15 +42,29 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class farmReport extends Stage {
+	
+	//Hardcoded parts below would be obtained from the FarmLand class
+	Integer year = 2018;
+	
+	String farmId = "Farm 6";
+	
 	Scene scene;
 	// ScrollPane sp = new ScrollPane();
 	BorderPane pane = new BorderPane();
-	private TableView<month> table = new TableView<month>();
-	private final ObservableList<month> data = FXCollections.observableArrayList(
-			new month("Jan", "234", "12.34"),
-			new month("Feb", "326", "13.24"),
-			new month("Mar", "135", "7.362"),
-			new month("Apr", "635", "40.54"));
+	private TableView<Month> table = new TableView<Month>();
+	private final ObservableList<Month> data = FXCollections.observableArrayList(
+			new Month("01 Jan", "100", "05.00"),
+			new Month("02 Feb", "100", "05.00"),
+			new Month("03 Mar", "200", "10.00"),
+			new Month("04 Apr", "200", "10.00"),
+			new Month("05 May", "400", "20.00" ),
+			new Month("06 Jun", "200", "10.00"),
+			new Month("07 Jul", "200", "10.00"),
+			new Month("08 Aug", "400","20.00"),
+			new Month("09 Sept", "200","10.00"),
+			new Month("10 Oct", "0", "00.00"),
+			new Month("11 Nov", "0","00.00"),
+			new Month("12 Dec", "0","00.00") );
 
 	TableColumn monthCol = new TableColumn("Month");
 	TableColumn totalWeights = new TableColumn("Total Milk Weight(lbs)");
@@ -62,23 +76,22 @@ public class farmReport extends Stage {
 		table.setEditable(true);
 		// month column
 		monthCol.setMinWidth(100);
-		monthCol.setCellValueFactory(new PropertyValueFactory<month, String>("month"));
+		monthCol.setCellValueFactory(new PropertyValueFactory<Month, String>("month"));
 
 		// total weights column
 		totalWeights.setMinWidth(140);
-		totalWeights.setCellValueFactory(new PropertyValueFactory<month, String>("weights"));
+		totalWeights.setCellValueFactory(new PropertyValueFactory<Month, String>("weights"));
 		// percentage column
 		percent.setMinWidth(140);
-		percent.setCellValueFactory(new PropertyValueFactory<month, String>("percent"));
+		percent.setCellValueFactory(new PropertyValueFactory<Month, String>("percent"));
 
 		//
 		table.setItems(data);
 		table.getColumns().addAll(monthCol, totalWeights, percent);
 
-		String id = "Farm 6";
-		int year = 2018;
-		final Label label = new Label(id + " Report " + year);
+		final Label label = new Label(farmId + " Report " + year);
 		label.setFont(new Font("Arial", 20));
+		
 		vbox.setSpacing(5);
 		vbox.setPadding(new Insets(10, 0, 0, 10));
 		vbox.getChildren().addAll(label, table);
@@ -97,12 +110,12 @@ public class farmReport extends Stage {
 
 	}
 
-	public static class month {
+	public static class Month {
 		private final SimpleStringProperty month;
 		private final SimpleStringProperty weights;
 		private final SimpleStringProperty percentag;
 
-		private month(String month, String weights, String percentag) {
+		private Month(String month, String weights, String percentag) {
 			this.month = new SimpleStringProperty(month);
 			this.weights = new SimpleStringProperty(weights);
 			this.percentag = new SimpleStringProperty(percentag);
