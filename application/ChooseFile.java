@@ -113,9 +113,18 @@ public class ChooseFile {
 			File file = chooser.showDialog(stage);
 			
 			if (file != null) {
-				confirmButton.setText(file.getAbsolutePath() + " Selected");
+				confirmLabel.setText(file.getAbsolutePath() + " Selected");
 			}
-		}});	
+		}});
+		
+		confirmButton.setOnAction(e ->{
+			if (importButton.isSelected()) {
+				//TODO: try to import from selected file
+				
+			} else {
+				//TODO:try to export to selected file
+			}
+		});
 		
 		// create a VBox
 		VBox vbox = new VBox(30, topSelection,confirmBar, fileButton);
