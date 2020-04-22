@@ -16,11 +16,11 @@
  * Version:
  * OS Build:
  *
- * List Collaborators: name, wisc.edu, lecture number
+ * List Collaborators: n/a
  * 
- * Other Credits: Other source, website or people
+ * Other Credits: n/a
  *
- * Know Bugs: known unresolved bugs
+ * Know Bugs: n/a
  */
 package application;
 
@@ -42,9 +42,14 @@ import java.io.*;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
+/**
+ * ChooseFile - Contains method chooseFileDialogue(), which returns
+ * a vertical box containg the input structure for getting the user
+ * to choose a directory to import data from or to export data to.
+ * 
+ *
+ */
 public class ChooseFile {
-	
-	boolean importDirectory = true;
 
 	/**
 	 * Creates a stage in which the user can choose either to
@@ -53,7 +58,8 @@ public class ChooseFile {
 	 * 
 	 * TODO:Once data structure section is finished,
 	 * this will need to have some way to access it in order
-	 * to modify it.
+	 * to modify it(ie by passing a FarmLand object as
+	 * one of the arguments)
 	 * 
 	 */
 	static public VBox chooseFileDialogue(Stage stage) {
@@ -69,6 +75,7 @@ public class ChooseFile {
 	    RadioButton importButton = new RadioButton("Import Data");
 	    importButton.setToggleGroup(group);
 	    importButton.setSelected(true);
+	    
 	    RadioButton exportButton = new RadioButton("Export Data");
 	    exportButton.setToggleGroup(group);
 		
@@ -78,13 +85,17 @@ public class ChooseFile {
 		//press to open a dialogue where they can choose the
 		//directory they want to import or export.
 		DirectoryChooser chooser = new DirectoryChooser();
+		// display the user's chosen directory
 		Label confirmLabel = new Label("No Import Directory Selected");
+		// user presses this to confirm import/export
 		Button confirmButton = new Button("Import");
 		HBox confirmBar = new HBox(20,confirmLabel,confirmButton);
 		confirmBar.setAlignment(Pos.CENTER);
 		
+		// User presses this to open a dialogue where they can choose a directory
 		Button fileButton = new Button("Choose a Directory to Import From");
 		
+		// When import button is pressed, switch all to import mode
 		importButton.setOnAction(e -> {
 			fileButton.setText("Choose a Directory to Import From");
 			confirmLabel.setText("No Import Directory Selected");
@@ -92,20 +103,21 @@ public class ChooseFile {
 		
 		});
 		
+		// When export button is pressed, switch all to export mode
 		exportButton.setOnAction(e -> {
 			fileButton.setText("Choose a Directory to Export To");
 			confirmLabel.setText("No Export Directory Selected");
 			confirmButton.setText("Export");
 		});
 
-		// When pressed, button opens directory dialogue and attempts to import from
+		// When pressed, file button opens directory dialogue and attempts to import from
 		// or export to the given directory 
 		fileButton.setOnAction(e -> {if (importButton.isSelected()){
 			// try to import the directory selected
 			File file = chooser.showDialog(stage);
 
 			if (file != null) {
-
+				//TODO:Finish when data structure available
 				confirmLabel.setText(file.getAbsolutePath() + " Selected");
 			}
 		} else {
@@ -113,10 +125,13 @@ public class ChooseFile {
 			File file = chooser.showDialog(stage);
 			
 			if (file != null) {
+				//TODO:Fiish when data structure available
 				confirmLabel.setText(file.getAbsolutePath() + " Selected");
 			}
 		}});
 		
+		// When pressed, will actually execute the users selected
+		// import/export
 		confirmButton.setOnAction(e ->{
 			if (importButton.isSelected()) {
 				//TODO: try to import from selected file
@@ -126,7 +141,7 @@ public class ChooseFile {
 			}
 		});
 		
-		// create a VBox
+		// create a VBox containing all above parts
 		VBox vbox = new VBox(30, topSelection,confirmBar, fileButton);
 		vbox.setAlignment(Pos.CENTER);
 

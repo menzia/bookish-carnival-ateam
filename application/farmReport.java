@@ -1,4 +1,3 @@
-package application;
 /**
  * farmReport.java 
  * Author:   Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu)
@@ -23,6 +22,8 @@ package application;
  *
  * Know Bugs: known unresolved bugs
  */
+package application;
+import java.util.zip.Adler32;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -41,6 +42,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * farmReport - Generates an example farm report for use in A2 GUI.
+ * Should not need to be used in the final project as the FarmLand section
+ * should take care of it on it's own.
+ * 
+ *
+ */
 public class farmReport extends Stage {
 	
 	//Hardcoded parts below would be obtained from the FarmLand class
@@ -71,6 +80,9 @@ public class farmReport extends Stage {
 	TableColumn percent = new TableColumn("Percentage of Total(%)");
 	VBox vbox = new VBox();
 
+	/**
+	 * Displays an example farm report to the screen
+	 */
 	farmReport() {
 		scene = new Scene(new Group());
 		table.setEditable(true);

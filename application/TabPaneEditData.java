@@ -1,5 +1,5 @@
 /**
- * Main.java created by {user} on Alienware M15 in ateam_MilkWeights
+ * TabPaneEditData.java
  * Author:   Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu) Alex Menzia(menzia@wisc.edu)
  * Date:     @date
  * 
@@ -16,11 +16,11 @@
  * Version:
  * OS Build:
  *
- * List Collaborators: name, wisc.edu, lecture number
+ * List Collaborators: n/a
  * 
- * Other Credits: Other source, website or people
+ * Other Credits: n/a
  *
- * Know Bugs: known unresolved bugs
+ * Know Bugs: n/a
  */
 package application;
 
@@ -46,22 +46,27 @@ import javafx.stage.Stage;
 
 public class TabPaneEditData {
 
+	// All valid integer values for a month
 	final static Integer[] months = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 
-	// farms and years are hard-coded in here, but in actual
+	// farms are hard-coded in here, but in actual
 	// implementation will be calculated from the FarmLand
 	// object given
 	static String[] farms = { "Farm A", "Farm B", "Farm C" };
 
-	// Creates the center dialogue box which allows the user to
-	// select the report they would like to create.
-	// In actual implementation will need to pass in access
-	// to the FarmLand object so that a report can be created
+	/**
+	 * Creates the center dialogue box which allows the user to select the report
+	 * they would like to create. In actual implementation will need to pass in
+	 * access to the FarmLand object so that a report can be created
+	 * 
+	 * @return VBox containing UI for data edit section
+	 */
 	static public VBox tabPane() {
 
 		TabPane tabPane = new TabPane();
 		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
+		//Make one tab for each type of edit
 		Tab tab1 = new Tab("Add Farm", addFarm());
 		Tab tab2 = new Tab("Edit Weight", editWeight());
 		Tab tab3 = new Tab("Add Weight", addWeight());
@@ -75,13 +80,21 @@ public class TabPaneEditData {
 		return vBox;
 	}
 
+	/**
+	 * Returns a Box containing the UI controls for adding
+	 * a farm with a given farm ID to the data structure.
+	 * 
+	 * @return VBox with UI controls for adding a farm
+	 */
 	static public VBox addFarm() {
 		VBox addFarm = new VBox();
 		addFarm.setSpacing(30);
 
+		// Gets text from user for the new farm Id
 		TextField farmIdField = new TextField();
 		VBox farmId = new VBox(new Label("Enter Farm ID to add:"), farmIdField);
 
+		// Button which is pressed to actually create new farm
 		Button gButton = new Button("Submit");
 		gButton.setOnAction(e -> addFarmAction(farmIdField.getText()));
 
@@ -91,25 +104,38 @@ public class TabPaneEditData {
 
 	}
 
+	/**
+	 *  Returns a VBox which contains the UI controls
+	 *  for changing the weight of a given farm on a
+	 *  given date to a given number
+	 *  
+	 *  @return VBox with UI controls for editing weight
+	 */
 	static public VBox editWeight() {
 		VBox editWeight = new VBox();
 		editWeight.setSpacing(30);
 
+		// Gets farm Id from user
 		ComboBox<String> idBox = new ComboBox<String>(FXCollections.observableArrayList(farms));
 		VBox farmId = new VBox(new Label("Select Farm:"), idBox);
 
+		// Gets date from user
 		DatePicker dateBox = new DatePicker();
 		VBox date = new VBox(new Label("Select Date:"), dateBox);
 
+		// Gets weight from user
 		Spinner<Integer> weightBox = new Spinner<Integer>(0, Integer.MAX_VALUE, 0);
 		VBox weight = new VBox(new Label("Select Weight to Set(lbs)"), weightBox);
 
+		// Box containing all selection controls
 		VBox selections = new VBox(farmId, date, weight);
 		selections.setSpacing(30);
 
+		// Button pressed to actually implement changes
 		Button gButton = new Button("Submit");
 		gButton.setOnAction(e -> editWeightAction(idBox.getValue(), dateBox.getValue(), weightBox.getValue()));
 
+		// Include all above nodes plus an explanatory label
 		editWeight.getChildren().addAll(selections, gButton,
 				new Label("Note: Must first add the farm if not already included."));
 
@@ -117,26 +143,39 @@ public class TabPaneEditData {
 
 	}
 
+	/**
+	 *  Returns a VBox which contains the UI controls
+	 *  for adding to the weight of a given farm on a
+	 *  given date by a given number
+	 *  
+	 *  @return VBox with UI controls for adding weight
+	 */
 	static public VBox addWeight() {
 		VBox addWeight = new VBox();
 		addWeight.setSpacing(30);
 
+		// Gets farm Id from user
 		ComboBox<String> idBox = new ComboBox<String>(FXCollections.observableArrayList(farms));
 		VBox farmId = new VBox(new Label("Select Farm:"), idBox);
 
+		// Gets date from user
 		DatePicker dateBox = new DatePicker();
 		VBox date = new VBox(new Label("Select Date:"), dateBox);
 
+		//Gets the weight to add from user
 		Spinner<Integer> weightBox = new Spinner<Integer>(0, Integer.MAX_VALUE, 0);
 		weightBox.setEditable(true);
 		VBox weight = new VBox(new Label("Select Weight to Add(lbs)"), weightBox);
 
+		// Box containing all selection controls
 		VBox selections = new VBox(farmId, date, weight);
 		selections.setSpacing(30);
 
+		// Button pressed to actually implement changes
 		Button gButton = new Button("Submit");
 		gButton.setOnAction(e -> editWeightAction(idBox.getValue(), dateBox.getValue(), weightBox.getValue()));
 
+		// Include all above nodes plus an explanatory label
 		addWeight.getChildren().addAll(selections, gButton,
 				new Label("Note: Must first add the farm if not already included."));
 
@@ -144,21 +183,44 @@ public class TabPaneEditData {
 
 	}
 
-	// Add a farm with the given ID to the collection of farms
+	/**
+	 * Adds a farm with the given ID to the collection of farms
+	 * 
+	 * TODO: implement once data structure finished
+	 * 
+	 * @param farmId to add to structure
+	 */
 	static public void addFarmAction(String farmId) {
 		// TODO: Implement
 		System.out.println("Add Farm: " + farmId);
 	}
 
-	// Generates a table view format annual report
-	// Actual version will need to take month and year
-	// As input
+	/**
+	 * Changes the weight associated to the given farm
+	 * on the given date to the given number.
+	 * 
+	 * TODO: implement once data structure finished
+	 * 
+	 * @param farmId to change weight of
+	 * @param date to change weight on
+	 * @param weight to change to
+	 */
 	static public void editWeightAction(String farmId, LocalDate date, Integer weight) {
 		// TODO: Implement using FarmLand
 		System.out.println("Edit Weight: " + farmId + ", " + date + ", " + weight + "lbs");
 
 	}
 
+	/**
+	 * Adds the given amount of weight to the given farm
+	 * on the given date.
+	 * 
+	 * TODO: implement once data structure finished
+	 * 
+	 * @param farmId to change weight of
+	 * @param date to change weight on
+	 * @param weight to add to previous weight
+	 */
 	static public void addWeightAction(String farmId, LocalDate date, Integer weight) {
 		// TODO: Implement
 		System.out.println("Add Weight: " + farmId + ", " + date + ", " + weight + "lbs");
