@@ -42,7 +42,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class TabPaneGenerateReport {
+public class TabPaneMinMax {
 
 	final static Integer[] months = {1,2,3,4,5,6,7,8,9,10,11,12};
 	
@@ -61,22 +61,18 @@ public class TabPaneGenerateReport {
 		TabPane tabPane = new TabPane();
 		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
-		Tab tab1 = new Tab("Farm Report", farmRep());
-		Tab tab2 = new Tab("Annual Report", annualRep());
-		Tab tab3 = new Tab("Monthly Report", monthRep());
-		Tab tab4 = new Tab("Range Report", rangeRep());
+		Tab tab1 = new Tab("By Month", byMonth());
+		Tab tab2 = new Tab("By Farm", byFarm());
 
 		tabPane.getTabs().add(tab1);
 		tabPane.getTabs().add(tab2);
-		tabPane.getTabs().add(tab3);
-		tabPane.getTabs().add(tab4);
 
 		VBox vBox = new VBox(tabPane);
 		
 		return vBox;
 	}
 
-	static public VBox farmRep() {
+	static public VBox byMonth() {
 		VBox farmRep = new VBox();
 		farmRep.setSpacing(30);
 		
@@ -93,7 +89,7 @@ public class TabPaneGenerateReport {
 		VBox selections = new VBox(30,farmId, year);
 		
 		Button gButton = new Button("Generate");
-		gButton.setOnAction(e -> farmReportAction(idBox.getValue(), yearBox.getValue()));
+		gButton.setOnAction(e -> byMonthAction(idBox.getValue(), yearBox.getValue()));
 		
 		farmRep.getChildren().addAll(selections, gButton, new Label("Note: If an ID or a year is not selectable, there is not data on it"));
 		
@@ -101,25 +97,7 @@ public class TabPaneGenerateReport {
 
 	}
 	
-	static public VBox annualRep() {
-		VBox yearRep = new VBox();
-		yearRep.setSpacing(30);
-		
-		ComboBox<Integer> yearBox = new ComboBox<Integer>(
-				FXCollections.observableArrayList(years)
-				);
-		VBox year = new VBox(new Label("Select Year:"), yearBox);
-		
-		Button gButton = new Button("Generate");
-		gButton.setOnAction(e -> annualReportAction(yearBox.getValue()));
-		
-		yearRep.getChildren().addAll(year, gButton, new Label("Note: If year is not selectable, there is no data on it"));
-		
-		return yearRep;
-
-	}
-	
-	static public VBox monthRep() {
+	static public VBox byFarm() {
 		VBox monthRep = new VBox();
 		monthRep.setSpacing(30);
 		
@@ -139,7 +117,7 @@ public class TabPaneGenerateReport {
 		selections.getChildren().addAll(year,month);
 		
 		Button gButton = new Button("Generate");
-		gButton.setOnAction(e -> monthlyReportAction(yearBox.getValue(), monthBox.getValue()));
+		gButton.setOnAction(e -> byFarmAction(yearBox.getValue(), monthBox.getValue()));
 		
 		
 		monthRep.getChildren().addAll(selections, gButton, new Label("Note: If year is selectable, there is no data on it"));
@@ -147,56 +125,21 @@ public class TabPaneGenerateReport {
 		return monthRep;
 	}
 	
-	static public VBox rangeRep() {
-		VBox rangeRep = new VBox();
-		rangeRep.setSpacing(30);
-		
-		VBox selections = new VBox();
-		selections.setSpacing(30);
-		
-		DatePicker startBox = new DatePicker();
-		VBox start = new VBox(new Label("Select start date:"), startBox); 
-		
-	    DatePicker endBox = new DatePicker();
-	    VBox end = new VBox(new Label("Selected end date:"), endBox);
-	    
-	    selections.getChildren().addAll(start,end);
-		
-		Button gButton = new Button("Generate");
-		gButton.setOnAction(e -> rangeReportAction(startBox.getValue(), endBox.getValue()));
-				
-		rangeRep.getChildren().addAll(selections, gButton);
-		
-		return rangeRep;
-	}
-	
-	
-
-	// click on generate to generate a table view format farm report
-	static public void farmReportAction(String farmId, Integer year) {
-		//TODO:Implement non-hardcoded version
-		System.out.println("Farm Report: " + farmId + " " + year);
-		farmReport fm = new farmReport();
-		fm.centerOnScreen();
+	// Generate a scene containing the min/max/average
+	// for a given farm on a given year by month
+	static public void byMonthAction(String farmId, Integer year) {
+		//TODO:Implement actual version
+		System.out.println("By Month: " + farmId + " " + year);
 	}
 	
 	//Generates a table view format annual report
 	//Actual version will need to take month and year
 	//As input
-	static public void annualReportAction(Integer year) {
-		//TODO: Implement using FarmLand
-		System.out.println("Annual Report: " + year);
+	static public void byFarmAction(Integer year, Integer month) {
+		//TODO: Implement actual version
+		System.out.println("By Farm: " + year + "/" + month);
 		
 	}
 	
-	static public void monthlyReportAction(Integer year, Integer month) {
-		//TODO: Implement
-		System.out.println("Month Report: " + year + "/" + month);
-	}
-	
-	static public void rangeReportAction(LocalDate start, LocalDate end) {
-		//TODO: Implement
-		System.out.println("Range Report: " + start + " to " + end);
-	}
-
 }
+

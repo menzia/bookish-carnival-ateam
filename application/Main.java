@@ -33,6 +33,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -67,7 +68,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	private static final int WINDOW_WIDTH = 600;
 	private static final int WINDOW_HEIGHT = 400;
-	private static final String APP_TITLE = "Milk_Weight System";
+	private static final String APP_TITLE = "Milk Weight System";
 
 
 	/**
@@ -99,8 +100,9 @@ public class Main extends Application {
 		
 		// BorderPane mbp = new BorderPane();
 		VBox leftvb = new VBox();
-		leftvb.setSpacing(10);
+		leftvb.setSpacing(80);
 		leftvb.setStyle("-fx-background-color: #6699FF;");
+		leftvb.setAlignment(Pos.CENTER);
 
 		// Buttons on the left VBox
 		ToggleGroup group = new ToggleGroup();
@@ -115,11 +117,13 @@ public class Main extends Application {
 		csvTemp.getChildren().addAll(upcsv);
 		
 
-		RadioButton edit = new RadioButton("Add/Edit/Remove(day)");
+		RadioButton edit = new RadioButton("Edit Data");
+		edit.setOnAction(e -> bd.setCenter(TabPaneEditData.tabPane()));
 		edit.setToggleGroup(group);
 		edit.setPrefSize(150, 20);
 
 		RadioButton minmax = new RadioButton("Display Max/Min/Avg");
+		minmax.setOnAction(e -> bd.setCenter(TabPaneMinMax.tabPane()));
 		minmax.setToggleGroup(group);
 		minmax.setPrefSize(150, 20);
 

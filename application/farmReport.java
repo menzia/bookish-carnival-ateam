@@ -69,7 +69,7 @@ public class farmReport extends Stage {
 	TableColumn monthCol = new TableColumn("Month");
 	TableColumn totalWeights = new TableColumn("Total Milk Weight(lbs)");
 	TableColumn percent = new TableColumn("Percentage of Total(%)");
-	final VBox vbox = new VBox();
+	VBox vbox = new VBox();
 
 	farmReport() {
 		scene = new Scene(new Group());
