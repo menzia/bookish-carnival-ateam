@@ -77,7 +77,7 @@ public interface FarmADT {
 	 * @return total weight stored in this range
 	 */
 	public int getRange(int startYear,int startMonth,int startDay,
-			int endMonth, int endDay);
+			int endYear, int endMonth, int endDay);
 	
 	/**
 	 * Set the daily weight for this farm and the given date to the given weight
