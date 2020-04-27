@@ -14,6 +14,7 @@
  */
 package application;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.zip.DataFormatException;
 import javafx.scene.control.TableView;
@@ -117,7 +118,7 @@ public interface FarmLandADT {
 										int endMonthNum, int endDayNum);
 	
 	
-	public void processFile(String fileName) throws FileNotFoundException, DataFormatException;
+	public String processDirectory(File dir) throws FileNotFoundException, DataFormatException;
 	
 	
 }

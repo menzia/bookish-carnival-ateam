@@ -25,6 +25,7 @@
  */
 package application;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.TreeMap;
 import java.util.zip.DataFormatException;
@@ -186,9 +187,29 @@ public class FarmLand implements FarmLandADT {
 	}
 
 	@Override
-	public void processFile(String fileName) throws FileNotFoundException, DataFormatException {
-		// TODO
+	public String processDirectory(File dir) throws FileNotFoundException, DataFormatException {
+		File[] files = dir.listFiles();
+		if (files != null) {
+			for (File csvFile: files) {
+				String message = processFile(csvFile);
+				if (message != "Success") {
+					return (csvFile.getName() + ": " + message);
+				}
+			}
+			
+			return (dir.getName() + ":Success");
+			
+			
+		} else {
+			//display error message
+			return "Failure to read directory";
+		}
 
+	}
+	
+	private String processFile(File file) {
+		
+		return "Fail";
 	}
 
 	
