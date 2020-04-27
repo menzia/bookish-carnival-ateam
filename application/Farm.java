@@ -37,8 +37,8 @@ import javafx.scene.control.TableView;
  */
 public class Farm implements FarmADT {
 	
-	String farmId;//String uniquely representing this farm
-	TreeMap<Integer, Year> years;//Tree map storing the years associated to this farm
+	private String farmId;//String uniquely representing this farm
+	private TreeMap<Integer, Year> years;//Tree map storing the years associated to this farm
 
 	/**
 	 * Construct a new Farm with the given Id and an empty TreeMap of years.
@@ -73,7 +73,7 @@ public class Farm implements FarmADT {
 		} else {
 			// may want to change to return null
 			// if this construction is too problematic
-			return new Year(yearNum);
+			return null;
 		}
 	}
 
@@ -88,7 +88,7 @@ public class Farm implements FarmADT {
 		if (years.containsKey(yearNum)) {
 			return years.get(yearNum).getMonth(monthNum);
 		} else {
-			return new Month(yearNum, monthNum);
+			return null;
 		}
 	}
 
@@ -217,6 +217,15 @@ public class Farm implements FarmADT {
 			return 0;
 		}
 	}
+	
+	@Override
+	public int getDailyWeight(int yearNum, int monthNum, int dayNum) {
+		if (!years.containsKey(yearNum)) {
+			return 0;
+		} else {
+			return years.get(yearNum).getMonth(monthNum).get(dayNum);
+		}
+	}
 
 	@Override
 	/**
@@ -252,6 +261,21 @@ public class Farm implements FarmADT {
 	public int clearDailyWeight(int yearNum, int monthNum, int dayNum) {
 		return setDailyWeight(0,yearNum,monthNum,dayNum);
 	}
+	
+	@Override
+	public void addToDailyWeight(int weight, int yearNum, int monthNum, int dayNum) {
+		int prevWeight = getDailyWeight(yearNum,monthNum,dayNum);
+		int newWeight = prevWeight + weight;
+		
+		if (newWeight < 0) {
+			throw new IllegalArgumentException("Cannot have a negative final weight");
+		}
+		
+		setDailyWeight(newWeight,yearNum,monthNum,dayNum);
+		
+		
+		
+	}
 
 	@Override
 	/**
@@ -268,5 +292,9 @@ public class Farm implements FarmADT {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
+
+	
 
 }

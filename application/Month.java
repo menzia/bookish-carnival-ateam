@@ -24,8 +24,8 @@ package application;
  */
 public class Month implements MonthADT {
 	
-	int totalWeight;//sum of all weights from this month
-	int[] dailyWeights;//array of weights for each day of this month
+	private int totalWeight;//sum of all weights from this month
+	private int[] dailyWeights;//array of weights for each day of this month
 	
 	/**
 	 * Constructs a month with the given year number and month

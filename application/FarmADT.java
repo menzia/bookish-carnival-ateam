@@ -80,6 +80,16 @@ public interface FarmADT {
 			int endYear, int endMonth, int endDay);
 	
 	/**
+	 * Returns the daily weight for this farm and the given date
+	 * 
+	 * @param yearNum of date to reset
+	 * @param monthNum of date to reset
+	 * @param dayNum of date to reset
+	 * @return the weight of this farm for the given date
+	 */
+	public int getDailyWeight(int yearNum, int monthNum, int dayNum);
+	
+	/**
 	 * Set the daily weight for this farm and the given date to the given weight
 	 * @param weight to set the daily weight to
 	 * @param yearNum of date to reset
@@ -88,6 +98,17 @@ public interface FarmADT {
 	 * @return the previous weight stored at that date
 	 */
 	public int setDailyWeight(int weight, int yearNum, int monthNum, int dayNum);
+	
+	/**
+	 * Adds to the daily weight for this farm and the given date by the given weight
+	 * @param weight to add to the daily weight
+	 * @param yearNum of date to reset
+	 * @param monthNum of date to reset
+	 * @param dayNum of date to reset
+	 */
+	public void addToDailyWeight(int weight, int yearNum, int monthNum, int dayNum);
+	
+	
 	
 	/**
 	 * Set the daily weight for this farm and the given weight to zero

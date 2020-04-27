@@ -61,6 +61,17 @@ public interface FarmLandADT {
 	public void addFarm(String farmID);
 	
 	/**
+	 * Set the daily weight for the given farm and the given date to the given weight.
+	 * If the given ID is not in the structure, adds it to structure first.
+	 * @param farmID of farm to set weight of
+	 * @param weight to set the daily weight to
+	 * @param yearNum of date to reset
+	 * @param monthNum of date to reset
+	 * @param dayNum of date to reset
+	 */
+	public void setDailyWeight(String farmID, int weight, int yearNum, int monthNum, int dayNum); 
+	
+	/**
 	 * Returns a Farm Report in the form of the table for the given farm
 	 * and the given year.
 	 * 

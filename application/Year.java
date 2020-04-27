@@ -20,8 +20,8 @@ package application;
  *
  */
 public class Year implements YearADT {
-	Month[] months;// array which stores each month object
-	int totalWeight;// stores total weight across entire year
+	private Month[] months;// array which stores each month object
+	private int totalWeight;// stores total weight across entire year
 
 	/**
 	 * Construct a new year with zero weight for each day and zero total weight.
