@@ -119,15 +119,4 @@ public interface FarmADT {
 	 */
 	public int clearDailyWeight(int yearNum, int monthNum, int dayNum);
 	
-	/**
-	 * Returns a Farm Report in the form of the table for this farm
-	 * and the given year.
-	 * 
-	 * TODO:May change TableView to something else depending on what 
-	 * is desired for GUI
-	 * 
-	 * @param yearNum to get report on
-	 * @return table of the desired report
-	 */
-	public TableView getFarmReport(int yearNum);
 }

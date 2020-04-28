@@ -30,8 +30,6 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.TreeMap;
 
-import javafx.scene.control.TableView;
-
 /**
  * Farm - TODO Describe the purpose of this user-defined type
  * 
@@ -314,26 +312,6 @@ public class Farm implements FarmADT {
 		
 		return dataLine;
 		
-	}
-
-	@Override
-	/**
-	 * Returns a Farm Report in the form of the table for this farm
-	 * and the given year.
-	 * 
-	 * TODO:May change TableView to something else depending on what 
-	 * is desired for GUI.
-	 * 
-	 * @param yearNum to get report on
-	 * @return table of the desired report
-	 */
-	public TableView getFarmReport(int yearNum) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-
-	
+	}	
 
 }

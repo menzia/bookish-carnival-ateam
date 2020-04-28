@@ -18,7 +18,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.zip.DataFormatException;
-import javafx.scene.control.TableView;
 
 /**
  * FarmLandADT - Stores and allows access to the weight data
@@ -71,53 +70,7 @@ public interface FarmLandADT {
 	 * @param monthNum of date to reset
 	 * @param dayNum of date to reset
 	 */
-	public void setDailyWeight(String farmID, int weight, int yearNum, int monthNum, int dayNum); 
-	
-	/**
-	 * Returns a Farm Report in the form of the table for the given farm
-	 * and the given year.
-	 * 
-	 * TODO:May change TableView to something else depending on what 
-	 * is desired for GUI
-	 * 
-	 * @param farmID of farm to get report on
-	 * @param yearNum to get report on
-	 * @return table of the desired report
-	 */
-	public TableView getFarmReport(String farmID, int yearNum);
-	
-	/**
-	 * Returns an Annual Report on this collection of farms for the
-	 * given year
-	 * 
-	 * @param yearNum of year to return report on
-	 * @return table of the desired report
-	 */
-	public TableView getAnnualReport(int yearNum);
-	
-	/**
-	 * Returns a Monthly Report on this collection of farms for the
-	 * given month
-	 * 
-	 * @param yearNum of month to get report on
-	 * @param monthNum of month to get report on
-	 * @return table of the desired report
-	 */
-	public TableView getMonthlyReport(int yearNum,int monthNum);
-	
-	/**
-	 * Returns a Range Report on this collection of farms for the
-	 * given range, inclusive on both ends
-	 * @param yearNum of both dates in range
-	 * @param startMonthNum month number of start date
-	 * @param startDayNum day number of start date
-	 * @param endMonthNum month number of end date
-	 * @param endDayNum month number of start date
-	 * @return table of desired report
-	 */
-	public TableView getRangeReport(int yearNum, int startMonthNum, int startDayNum,
-										int endMonthNum, int endDayNum);
-	
+	public void setDailyWeight(String farmID, int weight, int yearNum, int monthNum, int dayNum);	
 	
 	public void processDirectory(File dir) throws FileNotFoundException, DataFormatException;
 	

@@ -30,13 +30,10 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.zip.DataFormatException;
-
-import javafx.scene.control.TableView;
 
 /**
  * FarmLand - Stores and allows access to the weight data for a collection of
@@ -153,65 +150,6 @@ public class FarmLand implements FarmLandADT {
 		// account for weight change in allFarms
 		allFarms.addToDailyWeight(weightChange, yearNum, monthNum, dayNum);
 		years.add(yearNum);
-	}
-
-	@Override
-	/**
-	 * Returns a Farm Report in the form of the table for the given farm and the
-	 * given year.
-	 * 
-	 * TODO:May change TableView to something else depending on what is desired for
-	 * GUI
-	 * 
-	 * @param farmID  of farm to get report on
-	 * @param yearNum to get report on
-	 * @return table of the desired report
-	 */
-	public TableView getFarmReport(String farmID, int yearNum) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	/**
-	 * Returns an Annual Report on this collection of farms for the given year
-	 * 
-	 * @param yearNum of year to return report on
-	 * @return table of the desired report
-	 */
-	public TableView getAnnualReport(int yearNum) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	/**
-	 * Returns a Monthly Report on this collection of farms for the given month
-	 * 
-	 * @param yearNum  of month to get report on
-	 * @param monthNum of month to get report on
-	 * @return table of the desired report
-	 */
-	public TableView getMonthlyReport(int yearNum, int monthNum) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	/**
-	 * Returns a Range Report on this collection of farms for the given range,
-	 * inclusive on both ends
-	 * 
-	 * @param yearNum       of both dates in range
-	 * @param startMonthNum month number of start date
-	 * @param startDayNum   day number of start date
-	 * @param endMonthNum   month number of end date
-	 * @param endDayNum     month number of start date
-	 * @return table of desired report
-	 */
-	public TableView getRangeReport(int yearNum, int startMonthNum, int startDayNum, int endMonthNum, int endDayNum) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
