@@ -27,6 +27,7 @@ package application;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Set;
 import java.util.TreeMap;
 
 import javafx.scene.control.TableView;
@@ -51,6 +52,11 @@ public class Farm implements FarmADT {
 		this.farmId = farmId;
 		this.years = new TreeMap<Integer, Year>();
 	}
+	
+	public Set<Integer> getYears(){
+		return years.keySet();
+	}
+	
 
 	@Override
 	/**

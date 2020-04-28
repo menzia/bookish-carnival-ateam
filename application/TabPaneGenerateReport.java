@@ -95,11 +95,11 @@ public class TabPaneGenerateReport {
 		farmRep.setSpacing(30);
 
 		//ComboBox gets a String from the user for the farm Id
-		ComboBox<String> idBox = new ComboBox<String>(FXCollections.observableArrayList(farms));
+		ComboBox<String> idBox = new ComboBox<String>(FXCollections.observableArrayList(farmLand.getFarms()));
 		VBox farmId = new VBox(new Label("Select Farm ID:"), idBox);
 
 		//ComboBox gets an Integer from the user for the year number
-		ComboBox<Integer> yearBox = new ComboBox<Integer>(FXCollections.observableArrayList(years));
+		ComboBox<Integer> yearBox = new ComboBox<Integer>(FXCollections.observableArrayList(farmLand.getYears()));
 		VBox year = new VBox(new Label("Select Year:"), yearBox);
 
 		// Sub vertical box containg all user selections
@@ -129,7 +129,7 @@ public class TabPaneGenerateReport {
 		yearRep.setSpacing(30);
 
 		//ComboBox gets Integer from user for the year selection
-		ComboBox<Integer> yearBox = new ComboBox<Integer>(FXCollections.observableArrayList(years));
+		ComboBox<Integer> yearBox = new ComboBox<Integer>(FXCollections.observableArrayList(farmLand.getYears()));
 		VBox year = new VBox(new Label("Select Year:"), yearBox);
 
 		// Button which is pressed to generate report
@@ -156,12 +156,12 @@ public class TabPaneGenerateReport {
 		VBox monthRep = new VBox();
 		monthRep.setSpacing(30);
 
-		//Box containing all selctions
+		//Box containing all selections
 		VBox selections = new VBox();
 		selections.setSpacing(30);
 
 		//Used to get an Integer representing the selected year
-		ComboBox<Integer> yearBox = new ComboBox<Integer>(FXCollections.observableArrayList(years));
+		ComboBox<Integer> yearBox = new ComboBox<Integer>(FXCollections.observableArrayList(farmLand.getYears()));
 		VBox year = new VBox(new Label("Select Year:"), yearBox);
 
 		//Used to get an Integer representing the selected month
@@ -227,7 +227,7 @@ public class TabPaneGenerateReport {
 	 */
 	static public void farmReportAction(FarmLand farmLand, String farmId, Integer year) {
 		// TODO:Implement non-hardcoded version
-		FarmReport fm = new FarmReport();
+		FarmReport fm = new FarmReport(farmLand, farmId, year);
 		fm.centerOnScreen();
 	}
 

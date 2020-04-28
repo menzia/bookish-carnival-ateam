@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.zip.DataFormatException;
 
@@ -61,6 +62,13 @@ public class FarmLand implements FarmLandADT {
 		years = new HashSet<Integer>();
 	}
 	
+	public Set<String> getFarms(){
+		return farms.keySet();
+	}
+	
+	public Set<Integer> getYears(){
+		return allFarms.getYears();
+	}
 
 	@Override
 	/**
