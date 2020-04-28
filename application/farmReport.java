@@ -50,18 +50,18 @@ import javafx.stage.Stage;
  * 
  *
  */
-public class farmReport extends Stage {
+public class FarmReport extends Stage {
 	
 	//Hardcoded parts below would be obtained from the FarmLand class
-	Integer year = 2018;
-	
-	String farmId = "Farm 6";
 	
 	Scene scene;
 	// ScrollPane sp = new ScrollPane();
 	BorderPane pane = new BorderPane();
 	private TableView<Month> table = new TableView<Month>();
-	private final ObservableList<Month> data = FXCollections.observableArrayList(
+	private static String farmId = "Test Id";
+	private static Integer yearNum = 2020;
+	
+	private final static ObservableList<Month> data = FXCollections.observableArrayList(
 			new Month("01 Jan", "100", "05.00"),
 			new Month("02 Feb", "100", "05.00"),
 			new Month("03 Mar", "200", "10.00"),
@@ -83,9 +83,11 @@ public class farmReport extends Stage {
 	/**
 	 * Displays an example farm report to the screen
 	 */
-	farmReport() {
+	FarmReport() {
+		
 		scene = new Scene(new Group());
 		table.setEditable(true);
+		
 		// month column
 		monthCol.setMinWidth(100);
 		monthCol.setCellValueFactory(new PropertyValueFactory<Month, String>("month"));
@@ -93,15 +95,16 @@ public class farmReport extends Stage {
 		// total weights column
 		totalWeights.setMinWidth(140);
 		totalWeights.setCellValueFactory(new PropertyValueFactory<Month, String>("weights"));
+		
 		// percentage column
 		percent.setMinWidth(140);
 		percent.setCellValueFactory(new PropertyValueFactory<Month, String>("percent"));
 
 		//
-		table.setItems(data);
+		table.setItems(getData(farmId, yearNum));
 		table.getColumns().addAll(monthCol, totalWeights, percent);
 
-		final Label label = new Label(farmId + " Report " + year);
+		final Label label = new Label(farmId + " Report " + yearNum);
 		label.setFont(new Font("Arial", 20));
 		
 		vbox.setSpacing(5);
@@ -125,12 +128,12 @@ public class farmReport extends Stage {
 	public static class Month {
 		private final SimpleStringProperty month;
 		private final SimpleStringProperty weights;
-		private final SimpleStringProperty percentag;
+		private final SimpleStringProperty percentage;
 
-		private Month(String month, String weights, String percentag) {
+		private Month(String month, String weights, String percentage) {
 			this.month = new SimpleStringProperty(month);
 			this.weights = new SimpleStringProperty(weights);
-			this.percentag = new SimpleStringProperty(percentag);
+			this.percentage = new SimpleStringProperty(percentage);
 
 		}
 
@@ -151,12 +154,18 @@ public class farmReport extends Stage {
 		}
 
 		public String getPercent() {
-			return percentag.get();
+			return percentage.get();
 		}
 
 		public void setPercent(String percentage) {
-			this.percentag.set(percentage);
+			this.percentage.set(percentage);
 		}
 
+	}
+	
+	private static ObservableList<Month> getData( String farmId, Integer yearNum){
+		
+		return data;
+		
 	}
 }

@@ -141,7 +141,7 @@ public class Main extends Application {
 		report.setToggleGroup(group);
 		report.setPrefSize(150, 20);
 		report.setOnAction(e ->{
-			bd.setCenter(TabPaneGenerateReport.tabPane());
+			bd.setCenter(TabPaneGenerateReport.tabPane(farmLand));
 		});
 		
 		// Button taking user to screen where they can

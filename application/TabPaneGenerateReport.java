@@ -50,7 +50,7 @@ public class TabPaneGenerateReport {
 	// farms and years are hard-coded in here, but in actual
 	// implementation will be calculated from the FarmLand
 	// object given
-	static String[] farms = { "Farm A", "Farm B", "Farm C" };
+	static String[] farms = { "Farm 0", "Farm B", "Farm C" };
 	static Integer[] years = { 2017, 2018, 2019, 2020 };
 
 	/**
@@ -60,16 +60,16 @@ public class TabPaneGenerateReport {
 	 * 
 	 * @return vertical box containing UI controls for report generation
 	 */
-	static public VBox tabPane() {
+	static public VBox tabPane(FarmLand farmLand) {
 
 		TabPane tabPane = new TabPane();
 		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
 		//Have one tab for each type of report
-		Tab tab1 = new Tab("Farm Report", farmRep());
-		Tab tab2 = new Tab("Annual Report", annualRep());
-		Tab tab3 = new Tab("Monthly Report", monthRep());
-		Tab tab4 = new Tab("Range Report", rangeRep());
+		Tab tab1 = new Tab("Farm Report", farmRep(farmLand));
+		Tab tab2 = new Tab("Annual Report", annualRep(farmLand));
+		Tab tab3 = new Tab("Monthly Report", monthRep(farmLand));
+		Tab tab4 = new Tab("Range Report", rangeRep(farmLand));
 
 		tabPane.getTabs().add(tab1);
 		tabPane.getTabs().add(tab2);
@@ -89,7 +89,7 @@ public class TabPaneGenerateReport {
 	 * 
 	 * @return VBox containing UI controls for Farm Report
 	 */
-	static public VBox farmRep() {
+	static public VBox farmRep(FarmLand farmLand) {
 		//Vertical box containing everything below
 		VBox farmRep = new VBox();
 		farmRep.setSpacing(30);
@@ -107,7 +107,7 @@ public class TabPaneGenerateReport {
 
 		//Button which is pressed to actually make the report
 		Button gButton = new Button("Generate");
-		gButton.setOnAction(e -> farmReportAction(idBox.getValue(), yearBox.getValue()));
+		gButton.setOnAction(e -> farmReportAction(farmLand,idBox.getValue(), yearBox.getValue()));
 
 		// Add all above nodes, plus an explanatory message
 		farmRep.getChildren().addAll(selections, gButton,
@@ -124,7 +124,7 @@ public class TabPaneGenerateReport {
 	 * 
 	 * @return VBox containing the UI controls for the Annual Report tab
 	 */
-	static public VBox annualRep() {
+	static public VBox annualRep(FarmLand farmLand) {
 		VBox yearRep = new VBox();
 		yearRep.setSpacing(30);
 
@@ -134,7 +134,7 @@ public class TabPaneGenerateReport {
 
 		// Button which is pressed to generate report
 		Button gButton = new Button("Generate");
-		gButton.setOnAction(e -> annualReportAction(yearBox.getValue()));
+		gButton.setOnAction(e -> annualReportAction(farmLand, yearBox.getValue()));
 
 		//Add all above nodes to main box, along with explanatory message
 		yearRep.getChildren().addAll(year, gButton,
@@ -152,7 +152,7 @@ public class TabPaneGenerateReport {
 	 * 
 	 * @return a VBox containing all UI controls for the Month Report tab
 	 */
-	static public VBox monthRep() {
+	static public VBox monthRep(FarmLand farmLand) {
 		VBox monthRep = new VBox();
 		monthRep.setSpacing(30);
 
@@ -172,7 +172,7 @@ public class TabPaneGenerateReport {
 
 		// Button which is pressed to actually make the report
 		Button gButton = new Button("Generate");
-		gButton.setOnAction(e -> monthlyReportAction(yearBox.getValue(), monthBox.getValue()));
+		gButton.setOnAction(e -> monthlyReportAction(farmLand, yearBox.getValue(), monthBox.getValue()));
 
 		// Add all above nodes along with an explanatory message
 		monthRep.getChildren().addAll(selections, gButton,
@@ -188,7 +188,7 @@ public class TabPaneGenerateReport {
 	 *  
 	 * @return VBox containing UI controls for Range Report tab
 	 */
-	static public VBox rangeRep() {
+	static public VBox rangeRep(FarmLand farmLand) {
 		VBox rangeRep = new VBox();
 		rangeRep.setSpacing(30);
 
@@ -208,7 +208,7 @@ public class TabPaneGenerateReport {
 
 		// Button which is pressed to actually make report
 		Button gButton = new Button("Generate");
-		gButton.setOnAction(e -> rangeReportAction(startBox.getValue(), endBox.getValue()));
+		gButton.setOnAction(e -> rangeReportAction(farmLand,startBox.getValue(), endBox.getValue()));
 
 		// Add all nodes to main VBox
 		rangeRep.getChildren().addAll(selections, gButton);
@@ -225,10 +225,9 @@ public class TabPaneGenerateReport {
 	 * @param farmId to make report on
 	 * @param year to make report on
 	 */
-	static public void farmReportAction(String farmId, Integer year) {
+	static public void farmReportAction(FarmLand farmLand, String farmId, Integer year) {
 		// TODO:Implement non-hardcoded version
-		System.out.println("Farm Report: " + farmId + " " + year);
-		farmReport fm = new farmReport();
+		FarmReport fm = new FarmReport();
 		fm.centerOnScreen();
 	}
 
@@ -238,7 +237,7 @@ public class TabPaneGenerateReport {
 	 * TODO: Finish once data structure complete
 	 * @param year to make report on
 	 */
-	static public void annualReportAction(Integer year) {
+	static public void annualReportAction(FarmLand farmLand, Integer year) {
 		// TODO: Implement using FarmLand
 		System.out.println("Annual Report: " + year);
 
@@ -253,9 +252,8 @@ public class TabPaneGenerateReport {
 	 * @param year to make report on
 	 * @param month to make report on
 	 */
-	static public void monthlyReportAction(Integer year, Integer month) {
+	static public void monthlyReportAction(FarmLand farmLand, Integer year, Integer month) {
 		// TODO: Implement
-		System.out.println("Month Report: " + year + "/" + month);
 	}
 
 	/**
@@ -267,7 +265,7 @@ public class TabPaneGenerateReport {
 	 * @param start date to begin range on
 	 * @param end date to end range on
 	 */
-	static public void rangeReportAction(LocalDate start, LocalDate end) {
+	static public void rangeReportAction(FarmLand farmLand, LocalDate start, LocalDate end) {
 		// TODO: Implement
 		System.out.println("Range Report: " + start + " to " + end);
 	}

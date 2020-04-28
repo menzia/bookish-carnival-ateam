@@ -69,7 +69,7 @@ public class Farm implements FarmADT {
 	 * 
 	 * @return YearADT object corresponding to the given year number.
 	 */
-	public YearADT getYear(int yearNum) {
+	public Year getYear(int yearNum) {
 		if (years.containsKey(yearNum)) {
 			return years.get(yearNum);
 		} else {
@@ -86,7 +86,7 @@ public class Farm implements FarmADT {
 	 * @param monthNum of month object to return
 	 * @return MonthADT object corresponding to the desired month
 	 */
-	public MonthADT getMonth(int yearNum, int monthNum) {
+	public Month getMonth(int yearNum, int monthNum) {
 		if (years.containsKey(yearNum)) {
 			return years.get(yearNum).getMonth(monthNum);
 		} else {

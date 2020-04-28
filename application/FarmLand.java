@@ -50,7 +50,7 @@ public class FarmLand implements FarmLandADT {
 	private Farm allFarms;// where data on the combined weight of all farms is stored
 	private HashSet<Integer> years;
 
-	private static final String OPENING_LINE = "date,farm_id,weight\n";//first line for .csv files
+	private static final String OPENING_LINE = "date,farm_id,weight\n";// first line for .csv files
 
 	/**
 	 * Constructs a new, empty, FarmLand object
@@ -60,6 +60,7 @@ public class FarmLand implements FarmLandADT {
 		allFarms = new Farm("Stores Weight of All Farms in System");
 		years = new HashSet<Integer>();
 	}
+	
 
 	@Override
 	/**
@@ -71,6 +72,16 @@ public class FarmLand implements FarmLandADT {
 	 */
 	public Farm getFarm(String farmID) {
 		return farms.get(farmID);
+	}
+	
+	//TODO:Add comment
+	public int getAllFarmMonthTotal(int yearNum, int monthNum) {
+		return allFarms.getMonthTotal(yearNum, monthNum);
+	}
+	
+	//TODO:Add comment
+	public int getAllFarmsYearTotal(int yearNum) {
+		return allFarms.getYearTotal(yearNum);
 	}
 
 	@Override
@@ -313,44 +324,45 @@ public class FarmLand implements FarmLandADT {
 
 	@Override
 	/**
-	 * Writes all of the data currently contained within the structure to csv files in the
-	 * directory given, in the same format that the usual import csv files are written.
+	 * Writes all of the data currently contained within the structure to csv files
+	 * in the directory given, in the same format that the usual import csv files
+	 * are written.
 	 * 
 	 * @param File dir directory to write data into
 	 * @throws FileNotFoundException if the director is not found
-	 * @throws IOException if something goes wrong trying to write the files
+	 * @throws IOException           if something goes wrong trying to write the
+	 *                               files
 	 */
 	public void exportToDirectory(File dir) throws FileNotFoundException, IOException {
-		
-		//Absolute path of directory to write into
+
+		// Absolute path of directory to write into
 		String origDirName = dir.getAbsolutePath();
 
-		
 		for (Integer yearNum : years) {
-			
+
 			// Make new directory inside the original directory for each year which
 			// we have data on.
 			File newDir = new File(origDirName + "\\csvFarmData" + yearNum);
 			newDir.mkdir();
 
 			for (int monthNum = 1; monthNum <= 12; ++monthNum) {
-				
-				//For each month of this year, create a corresponding .csv file
+
+				// For each month of this year, create a corresponding .csv file
 				FileWriter wrter = new FileWriter(newDir.getAbsolutePath() + "\\" + yearNum + "-" + monthNum + ".csv");
 				try {
-				wrter.write(OPENING_LINE);
-				for(String farmID:farms.keySet()) {
-					farms.get(farmID).exportData(wrter, yearNum, monthNum);
-					
-				}
+					wrter.write(OPENING_LINE);
+					for (String farmID : farms.keySet()) {
+						farms.get(farmID).exportData(wrter, yearNum, monthNum);
 
-				// TODO:Add lines for all of the data in each farm to the file
-				}finally {
-				// Finally, close the FileWriter
-				wrter.close();
+					}
+
+					// TODO:Add lines for all of the data in each farm to the file
+				} finally {
+					// Finally, close the FileWriter
+					wrter.close();
 				}
 			}
-			
+
 		}
 
 	}
