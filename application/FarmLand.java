@@ -274,7 +274,7 @@ public class FarmLand implements FarmLandADT {
 				// each line should be three tokens separated by the regex ","
 				if (tokens.length != 3) {
 					sc.close();
-					throw new DataFormatException("Wrong number of tokens on line " + lineNum);
+					throw new DataFormatException("Wrong number of tokens on line " + lineNum + " in the file " + file.getPath());
 				}
 
 				// first token contains date information separated by the regex "/"
@@ -286,7 +286,7 @@ public class FarmLand implements FarmLandADT {
 					if (date.length != 3) {
 						sc.close();
 						System.out.print(date);
-						throw new DataFormatException("Cannot read date on line " + lineNum);
+						throw new DataFormatException("Cannot read date on line " + lineNum + "in the file " + file.getPath());
 					}
 
 					// try to parse integers for each part of date format
@@ -303,7 +303,7 @@ public class FarmLand implements FarmLandADT {
 					// negative weights cause exception
 					if (weight < 0) {
 						sc.close();
-						throw new DataFormatException("Invalid negative weight on line " + lineNum);
+						throw new DataFormatException("Invalid negative weight on line " + lineNum + " in the file " + file.getPath());
 					}
 
 					// try to set corresponding daily weight
@@ -316,7 +316,7 @@ public class FarmLand implements FarmLandADT {
 
 				} catch (NumberFormatException e) {
 					sc.close();
-					throw new DataFormatException("Cannot parse numbers on line " + lineNum);
+					throw new DataFormatException("Cannot parse numbers on line " + lineNum + " in the file " + file.getPath());
 
 				} catch (IllegalArgumentException f) {
 					sc.close();
