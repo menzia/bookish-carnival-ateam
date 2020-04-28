@@ -326,23 +326,29 @@ public class FarmLand implements FarmLandADT {
 		String origDirName = dir.getAbsolutePath();
 
 		
-		for (Integer year : years) {
+		for (Integer yearNum : years) {
 			
 			// Make new directory inside the original directory for each year which
 			// we have data on.
-			File newDir = new File(origDirName + "\\csvFarmData" + year);
+			File newDir = new File(origDirName + "\\csvFarmData" + yearNum);
 			newDir.mkdir();
 
-			for (int i = 1; i <= 12; ++i) {
+			for (int monthNum = 1; monthNum <= 12; ++monthNum) {
+				
 				//For each month of this year, create a corresponding .csv file
-				FileWriter wrter = new FileWriter(newDir.getAbsolutePath() + "\\" + year + "-" + i + ".csv");
+				FileWriter wrter = new FileWriter(newDir.getAbsolutePath() + "\\" + yearNum + "-" + monthNum + ".csv");
+				try {
 				wrter.write(OPENING_LINE);
-				wrter.write(Integer.toString(farms.get("Farm 0").getDailyWeight(2019, 1, 1)));
+				for(String farmID:farms.keySet()) {
+					farms.get(farmID).exportData(wrter, yearNum, monthNum);
+					
+				}
 
 				// TODO:Add lines for all of the data in each farm to the file
-
+				}finally {
 				// Finally, close the FileWriter
 				wrter.close();
+				}
 			}
 			
 		}

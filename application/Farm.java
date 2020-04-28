@@ -25,6 +25,8 @@
  */
 package application;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.TreeMap;
 
 import javafx.scene.control.TableView;
@@ -278,6 +280,35 @@ public class Farm implements FarmADT {
 		
 	}
 	
+	public void exportData(FileWriter wrter, int yearNum, int monthNum) throws IOException {
+		if (years.get(yearNum) != null) {
+			Year year = years.get(yearNum);
+			Month month = year.getMonth(monthNum);
+			
+			for (int dayNum = 1; dayNum <= month.size(); ++dayNum) {
+				int weight = month.get(dayNum);
+				if (weight > 0) {
+					wrter.write(dataLine(yearNum,monthNum,dayNum, weight));
+					
+				}
+			}
+			
+			
+			
+			
+		}
+	}
+	
+	private String dataLine(int yearNum, int monthNum, int dayNum, int weight) {
+		String date = yearNum + "-" + monthNum + "-" + dayNum;
+		String id = getId();
+		String weightString = Integer.toString(weight);
+		
+		String dataLine = date + "," + id + "," + weightString + "\n";
+		
+		return dataLine;
+		
+	}
 
 	@Override
 	/**
