@@ -235,8 +235,9 @@ public class Farm implements FarmADT {
 	 * @param monthNum of date to reset
 	 * @param dayNum of date to reset
 	 * @return the previous weight stored at that date
+	 * @throws IllegalArgumentException if weight is negative or date is invalid
 	 */
-	public int setDailyWeight(int weight, int yearNum, int monthNum, int dayNum) {
+	public int setDailyWeight(int weight, int yearNum, int monthNum, int dayNum) throws IllegalArgumentException {
 		if (weight < 0) {
 			throw new IllegalArgumentException("Weight cannot be negative");
 		}
@@ -276,6 +277,7 @@ public class Farm implements FarmADT {
 		
 		
 	}
+	
 
 	@Override
 	/**

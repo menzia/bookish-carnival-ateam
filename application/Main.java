@@ -69,6 +69,8 @@ public class Main extends Application {
 	private static final int WINDOW_WIDTH = 600;
 	private static final int WINDOW_HEIGHT = 400;
 	private static final String APP_TITLE = "Milk Weight System";
+	
+	private FarmLand farmLand;
 
 
 	/**
@@ -85,6 +87,8 @@ public class Main extends Application {
 	 */
 	public void start(Stage primaryStage) throws Exception {
 
+		farmLand = new FarmLand();
+		
 		// Border Pane which will contain main selections in the
 		// left panel and specific selections in the center panel
 		BorderPane bd = new BorderPane();
@@ -125,7 +129,7 @@ public class Main extends Application {
 		// Button taking user to Import/Export screen
 		// Will be taken here by default on start up
 		RadioButton impExp = new RadioButton("Import/Export Data");
-		impExp.setOnAction(e ->bd.setCenter(ChooseFile.chooseFileDialogue(primaryStage)));
+		impExp.setOnAction(e ->bd.setCenter(ChooseFile.chooseFileDialogue(primaryStage,farmLand)));
 		impExp.setPrefSize(150, 20);
 		impExp.setToggleGroup(group);
 		impExp.setSelected(true);
@@ -160,7 +164,7 @@ public class Main extends Application {
 		
 		//Start off in the import/export dialogue box since the user
 		//Will need to do this before generating reports
-		bd.setCenter(ChooseFile.chooseFileDialogue(primaryStage));
+		bd.setCenter(ChooseFile.chooseFileDialogue(primaryStage,farmLand));
 
 		return leftvb;
 	}

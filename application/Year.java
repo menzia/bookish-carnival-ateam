@@ -153,6 +153,7 @@ public class Year implements YearADT {
 	 * @param monthNum of date to reset
 	 * @param dayNum of date to reset
 	 * @return the previous weight stored at that date
+	 * 
 	 * @throws IllegalArgumentException if weight is negative or date is out of range
 	 */
 	public int setDailyWeight(int weight, int monthNum, int dayNum) throws IllegalArgumentException {
