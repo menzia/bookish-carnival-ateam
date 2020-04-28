@@ -25,9 +25,6 @@
 package application;
 
 import java.util.ArrayList;
-import java.util.zip.Adler32;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,11 +32,9 @@ import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -96,9 +91,7 @@ public class FarmReport extends Stage {
 		} else {
 			table.getColumns().addAll(monthCol, totalWeights, percent);
 			table.setItems(getData(farmLand, farmId, yearNum));
-			title.setText(farmId + " Report: " + yearNum);
-			
-			System.out.println(Integer.MAX_VALUE);
+			title.setText("\"" + farmId + "\" Farm Report: " + yearNum);
 		}
 
 		title.setFont(new Font("Arial", 20));
@@ -193,7 +186,8 @@ public class FarmReport extends Stage {
 				String percentageString = Double.toString(percentage);
 				
 				// Take four significant figures of percentage(plus the decimal point)
-				percentageString = percentageString.substring(0, 4);
+				int endIndex = Math.min(4, percentageString.length());
+				percentageString = percentageString.substring(0, endIndex);
 
 				// Row of table with data for this month
 				MonthRow newMonthRow = new MonthRow(monthString, weightString, percentageString);
