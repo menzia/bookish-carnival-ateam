@@ -134,7 +134,7 @@ public class ChooseFile {
 					// Print success message
 				} catch (Exception f) {
 
-					Scene scene = new Scene(new Label("Directory not read: " + f.getMessage() + f.getClass()));
+					Scene scene = new Scene(new Label("Directory not fully read: " + f.getMessage()));
 
 					Stage failStage = new Stage();
 
@@ -164,7 +164,7 @@ public class ChooseFile {
 					// Print success message
 				} catch (Exception f) {
 
-					Scene scene = new Scene(new Label("Directory not exported: " + f.getMessage() + f.getClass()));
+					Scene scene = new Scene(new Label("Directory not fully exported: " + f.getMessage()));
 
 					Stage failStage = new Stage();
 
