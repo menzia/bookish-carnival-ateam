@@ -35,7 +35,7 @@ public interface MonthADT {
 	 * Returns the sum of all the daily weights in this month
 	 * @return sum of all weights
 	 */
-	public int totalWeight();
+	public long totalWeight();
 	
 	/**
 	 * Sets the weight for the given day of the month to the given weight,
@@ -61,7 +61,7 @@ public interface MonthADT {
 	 * @param dayNumEnd day to end count of milk weight
 	 * @return total amount of milk from start date to end date
 	 */
-	public int getRange(int dayNumStart, int dayNumEnd);
+	public long getRange(int dayNumStart, int dayNumEnd);
 	
 	/**
 	 * Returns the total amount of weight from the start day given
@@ -69,7 +69,7 @@ public interface MonthADT {
 	 * @param dayNumStart day to start count of milk weight
 	 * @return total amount of milk from start date to end of the month
 	 */
-	public int getUpperRange(int dayNumStart);
+	public long getUpperRange(int dayNumStart);
 	
 	/**
 	 * Returns the total amount of weight from the beginning of the month
@@ -77,7 +77,7 @@ public interface MonthADT {
 	 * @param dayNumEnd day to end summation on
 	 * @return total amount of milk from start of month to the end date
 	 */
-	public int getLowerRange(int dayNumEnd);
+	public long getLowerRange(int dayNumEnd);
 	
 	/**
 	 * Sets the weight for the given day to 0 and returns

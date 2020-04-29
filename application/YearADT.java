@@ -29,7 +29,7 @@ public interface YearADT {
 	 * Returns the total weight of milk across the entire year
 	 * @return total milk weight
 	 */
-	public int totalWeight();
+	public long totalWeight();
 	
 	/**
 	 * Returns the MonthADT object with the given month number
@@ -42,13 +42,13 @@ public interface YearADT {
 	 * Returns the maximum weight of a month within this year
 	 * @return max total weight of a month in this year
 	 */
-	public int maxMonthlyWeight();
+	public long maxMonthlyWeight();
 	
 	/**
 	 * Returns the minimum weight of a month within this year
 	 * @return max total weight of a month in this year
 	 */
-	public int minMonthlyWeight();
+	public long minMonthlyWeight();
 	
 	/**
 	 * Returns the average monthly weight for this year
@@ -65,7 +65,7 @@ public interface YearADT {
 	 * @param endDay day number of end date
 	 * @return total milk weight within the given range
 	 */
-	public int getRange(int startMonth,int startDay, int endMonth, int endDay);
+	public long getRange(int startMonth,int startDay, int endMonth, int endDay);
 	
 	/**
 	 * Set the daily weight for this year and the given date to the given weight

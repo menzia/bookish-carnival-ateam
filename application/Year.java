@@ -1,5 +1,6 @@
 /**
- * Author: Alex Menzia, Linyi Lyu, Ethan Huang
+ * Year.java
+ * Author: Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu) Alex Menzia(menzia@wisc.edu)
  * Date: 4/20/2020
  * 
  * Course: CS400
@@ -21,7 +22,7 @@ package application;
  */
 public class Year implements YearADT {
 	private Month[] months;// array which stores each month object
-	private int totalWeight;// stores total weight across entire year
+	private long totalWeight;// stores total weight across entire year
 
 	/**
 	 * Construct a new year with zero weight for each day and zero total weight.
@@ -40,8 +41,12 @@ public class Year implements YearADT {
 	}
 
 	@Override
-
-	public int totalWeight() {
+	/**
+	 * Return the total weight stored in this year
+	 * 
+	 * @return total weight for this year
+	 */
+	public long totalWeight() {
 		return totalWeight;
 	}
 
@@ -69,8 +74,8 @@ public class Year implements YearADT {
 	 * 
 	 * @return max total weight of a month in this year
 	 */
-	public int maxMonthlyWeight() {
-		int max = getMonth(1).totalWeight();
+	public long maxMonthlyWeight() {
+		long max = getMonth(1).totalWeight();
 
 		for (int i = 1; i <= 12; ++i) {
 			if (getMonth(i).totalWeight() > max) {
@@ -87,8 +92,8 @@ public class Year implements YearADT {
 	 * 
 	 * @return max total weight of a month in this year
 	 */
-	public int minMonthlyWeight() {
-		int min = getMonth(1).totalWeight();
+	public long minMonthlyWeight() {
+		long min = getMonth(1).totalWeight();
 
 		for (int i = 1; i <= 12; ++i) {
 			if (getMonth(i).totalWeight() < min) {
@@ -122,7 +127,7 @@ public class Year implements YearADT {
 	 * 
 	 * @throws IllegalArgumentException if dates are out of valid range
 	 */
-	public int getRange(int startMonth, int startDay, int endMonth, int endDay) throws IllegalArgumentException {
+	public long getRange(int startMonth, int startDay, int endMonth, int endDay) throws IllegalArgumentException {
 
 		Month start = getMonth(startMonth);
 		Month end = getMonth(endMonth);
@@ -134,7 +139,7 @@ public class Year implements YearADT {
 			return start.getRange(startDay, endDay);
 
 		} else {
-			int sum = start.getUpperRange(startDay);
+			long sum = start.getUpperRange(startDay);
 
 			for (int i = startMonth + 1; i < endMonth; ++i) {
 				sum += getMonth(i).totalWeight();

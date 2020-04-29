@@ -24,7 +24,7 @@ package application;
  */
 public class Month implements MonthADT {
 	
-	private int totalWeight;//sum of all weights from this month
+	private long totalWeight;//sum of all weights from this month
 	private int[] dailyWeights;//array of weights for each day of this month
 	
 	/**
@@ -110,7 +110,7 @@ public class Month implements MonthADT {
 	 * 
 	 * @return total weight across this month
 	 */
-	public int totalWeight() {
+	public long totalWeight() {
 		return totalWeight;
 	}
 
@@ -178,7 +178,7 @@ public class Month implements MonthADT {
 	 * @return total amount of milk from start date to end date
 	 * @throws IllegalArgumentException if days out of range
 	 */
-	public int getRange(int dayNumStart, int dayNumEnd) throws IllegalArgumentException {
+	public long getRange(int dayNumStart, int dayNumEnd) throws IllegalArgumentException {
 		int index1 = dayNumStart - 1;
 		int index2 = dayNumEnd - 1;
 		
@@ -204,7 +204,7 @@ public class Month implements MonthADT {
 	 * @return total amount of milk from start date to end of the month
 	 * @throws IllegalArgumentException if day number out of range
 	 */
-	public int getUpperRange(int dayNumStart) throws IllegalArgumentException {
+	public long getUpperRange(int dayNumStart) throws IllegalArgumentException {
 		
 		return getRange(dayNumStart, dailyWeights.length);
 	}
@@ -217,7 +217,7 @@ public class Month implements MonthADT {
 	 * @param dayNumStart day to end count of milk weight
 	 * @return total amount of milk from start of month to day given
 	 */
-	public int getLowerRange(int dayNumEnd) throws IllegalArgumentException {
+	public long getLowerRange(int dayNumEnd) throws IllegalArgumentException {
 		
 		return getRange(1, dayNumEnd);
 	}
