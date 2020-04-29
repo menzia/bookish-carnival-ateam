@@ -46,7 +46,7 @@ import javafx.stage.Stage;
  * FarmReport - Generates a farm report for use in A2 GUI.
  *
  */
-public class FarmReport extends Stage {
+public class farmReport extends Stage {
 
 	private Scene scene;
 	private TableView<MonthRow> table;
@@ -66,7 +66,7 @@ public class FarmReport extends Stage {
 	/**
 	 * Displays an example farm report to the screen
 	 */
-	FarmReport(FarmLand farmLand, String farmId, Integer yearNum) {
+	farmReport(FarmLand farmLand, String farmId, Integer yearNum) {
 		table = new TableView<MonthRow>();
 		vbox = new VBox();
 
