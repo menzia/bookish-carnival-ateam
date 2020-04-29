@@ -5,11 +5,11 @@
  * 
  * Course: CS400
  * Semester: Spring 2020
- * Lecture: 001/001/002
+ * Lecture: 001/002/001
  *
- * Other Credits: n/a
+ * Other Credits: 
  *
- * Known Bugs: n/a
+ * Known Bugs: 
  */
 package application;
 

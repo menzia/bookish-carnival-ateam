@@ -5,7 +5,7 @@
  * 
  * Course:   CS400
  * Semester: Spring 2020 
- * Lecture:  001
+ * Lecture:  001/002/001
  *
  * List Collaborators: n/a
  * 

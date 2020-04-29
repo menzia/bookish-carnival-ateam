@@ -1,26 +1,17 @@
 /**
  * TabPaneMinMax.java
  * Author:   Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu) Alex Menzia(menzia@wisc.edu)
- * Date:     @date
+ * Date:     4/29/2020
  * 
  * Course:   CS400
  * Semester: Spring 2020 
- * Lecture:  001
- * 
- * IDE:      Eclipse IDE for Java Developers
- * Version:  2019-12
- * Build id:
- * 
- * Device:
- * OS:
- * Version:
- * OS Build:
+ * Lecture:  001/002/001
  *
- * List Collaborators: n/a
+ * List Collaborators: 
  * 
- * Other Credits: n/a
+ * Other Credits: 
  *
- * Know Bugs: n/a
+ * Know Bugs: 
  */
 package application;
 

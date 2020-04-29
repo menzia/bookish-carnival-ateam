@@ -1,12 +1,11 @@
 /**
  * Farm.java
- *
  * Author: Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu) Alex Menzia(menzia@wisc.edu)
  * Date: 4/29/2020
  * 
  * Course: CS400
  * Semester: Spring 2020
- * Lecture: 001
+ * Lecture: 001/002/001
  *
  * List Collaborators: 
  *

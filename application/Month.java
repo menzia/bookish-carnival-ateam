@@ -1,16 +1,16 @@
 /**
  * Month.java
  * 
- * Author: Alex Menzia,Linyi Lyu, Ethan Huang
+ * Author: Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu) Alex Menzia(menzia@wisc.edu)
  * Date: 4/20/2020
  * 
  * Course: CS400
  * Semester: Spring 2020
- * Lecture: 001/001/002
+ * Lecture: 001/002/001
  * 
- * Other Credits: n/a
+ * Other Credits: 
  *
- * Known Bugs: n/a
+ * Known Bugs: 
  */
 package application;
 

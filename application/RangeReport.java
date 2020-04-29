@@ -1,12 +1,11 @@
 /**
  * RangeReport.java 
- *
  * Author: Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu) Alex Menzia(menzia@wisc.edu)
  * Date: 4/29/2020
  * 
  * Course: CS400
  * Semester: Spring 2020
- * Lecture: 001
+ * Lecture: 001/002/001
  *
  * List Collaborators: n/a
  * 
@@ -18,7 +17,6 @@ package application;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;

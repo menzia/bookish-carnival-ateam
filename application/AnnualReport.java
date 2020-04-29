@@ -1,31 +1,21 @@
 /**
- *
- * Author: Alex Menzia
- * Date: @date
+ * AnnualReport.java
+ * Author: Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu) Alex Menzia(menzia@wisc.edu)
+ * Date: 4/29/2020
  * 
  * Course: CS400
  * Semester: Spring 2020
- * Lecture: 001
+ * Lecture: 001/002/001
  *
- * IDE: Eclipse IDE for Java Developers
- * Version: 2019-12 (4.14.0)
- * Build id: 20191212-1212
+ * List Collaborators: 
  *
- * Device: MENZIA-DELLINSPIRON
- * OS: Windows 10 Home
- * Version: 1903
- * OS Build: 18362.592
+ * Other Credits: 
  *
- * List Collaborators: Name, email@wisc.edu, lecture number
- *
- * Other Credits: describe other sources(websites or people)
- *
- * Known Bugs: describe known unsolved bugs
+ * Known Bugs: 
  */
 package application;
 
 import java.util.ArrayList;
-
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
