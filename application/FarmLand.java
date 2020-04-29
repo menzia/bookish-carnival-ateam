@@ -235,24 +235,17 @@ public class FarmLand implements FarmLandADT {
 
 			} else {
 
-				//String[] tokens = nextLine.split(",");
-				LinkedList<String> tokens;
-				try {
-					tokens = csvParse(nextLine);
-				} catch (ParseException e) {
-					sc.close();
-					throw new DataFormatException("Unclosed quotes on line " + lineNum + " in the file " + file.getPath());
-				}
+				String[] tokens = nextLine.split(",");
 
 				// each line should be three tokens separated by the regex ","
-				if (tokens.size() != 3) {
+				if (tokens.length != 3) {
 					sc.close();
 					throw new DataFormatException(
 							"Wrong number of tokens on line " + lineNum + " in the file " + file.getPath());
 				}
 
 				// first token contains date information separated by the regex "/"
-				String[] date = tokens.get(0).split("-");
+				String[] date = tokens[0].split("-");
 
 				try {
 
@@ -270,10 +263,10 @@ public class FarmLand implements FarmLandADT {
 					int dayNum = Integer.parseInt(date[2]);
 
 					// farmID is second token
-					String farmID = tokens.get(1);
+					String farmID = tokens[1];
 
 					// try to parse weight from last token
-					int weight = Integer.parseInt(tokens.get(2));
+					int weight = Integer.parseInt(tokens[2]);
 
 					// negative weights cause exception
 					if (weight < 0) {
@@ -297,7 +290,7 @@ public class FarmLand implements FarmLandADT {
 
 				} catch (IllegalArgumentException f) {
 					sc.close();
-					throw new DataFormatException("Line " + lineNum + ": " + f.getMessage());
+					throw new DataFormatException("Error on Line " + lineNum + ": " + f.getMessage());
 				}
 
 			}
@@ -351,70 +344,5 @@ public class FarmLand implements FarmLandADT {
 
 	}
 	
-	/**
-	 * Returns a list of the tokens in the given String considered as a line
-	 * of a csv file.
-	 * 
-	 * TODO: Test, double check, possibly replace
-	 * 
-	 * @param line to return tokens of
-	 * @return LinkedList containing the tokens in the given line.
-	 * @throws ParseException if quotes are not closed
-	 */
-	private LinkedList<String> csvParse(String line) throws ParseException {
-		LinkedList<String> list = new LinkedList<String>();//stores list of all tokens
-		String curString = "";//will have characters added on until end of token reached
-		boolean inQuote = false;//keep track of if we are inside double quotes
-		
-		for (int i = 0; i < line.length(); ++i) {
-			char curChar = line.charAt(i);
-			
-			if (curChar == '"') {
-				
-				//if last character is an unclosed quote, exception is thrown
-				if (i+1 == line.length() && !inQuote) {
-					
-					throw new ParseException("Quotes not closed", i);
-					
-				//if last character is closing quote, simply continue out of loop
-				} else if (i+1 == line.length() && inQuote){
-					
-					inQuote = false;
-				
-			    // if there are two double quotes, treat like one double quote character
-				}else if (i+1 < line.length() && line.charAt(i+1) == '"') {
-					
-					curString = curString + curChar;
-					++i;
-				
-				// otherwise, flip inQuote value
-				} else if (inQuote) {
-					inQuote = false;
-					
-				} else {
-					inQuote = true;
-					
-				}
-				
-			// if not inQuote, commas mean to add this token and start on next one
-			} else if (curChar == ',' && !inQuote) {
-				
-				list.add(curString);
-				curString = "";
-				
-			// if inQuote or not a comma, add current char to end of current string
-			} else{
-				curString = curString + curChar;
-			}
-			
-			
-			
-		}
-		
-		//add last token and return list of all tokens
-		list.add(curString);
-		
-		return list;
-	}
 
 }
