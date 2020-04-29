@@ -13,7 +13,6 @@
  * Known Bugs: n/a
  */
 package application;
-import javafx.scene.control.TableView;
 
 /**
  * FarmADT - Stores milk data for a given farm across an arbitrary number of years and

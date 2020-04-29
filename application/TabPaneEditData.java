@@ -55,7 +55,7 @@ public class TabPaneEditData {
 	 * 
 	 * @return VBox containing UI for data edit section
 	 */
-	static public VBox tabPane() {
+	static public VBox tabPane(FarmLand farmLand) {
 
 		TabPane tabPane = new TabPane();
 		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);

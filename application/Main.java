@@ -124,7 +124,7 @@ public class Main extends Application {
 		// Button taking user to screen where they can
 		// edit the milk weight data.
 		RadioButton edit = new RadioButton("Edit Data");
-		edit.setOnAction(e -> bd.setCenter(TabPaneEditData.tabPane()));
+		edit.setOnAction(e -> bd.setCenter(TabPaneEditData.tabPane(farmLand)));
 		edit.setToggleGroup(group);
 		edit.setPrefSize(150, 20);
 
