@@ -37,9 +37,9 @@ import java.util.TreeMap;
  *
  */
 public class Farm implements FarmADT {
-	
-	private String farmId;//String uniquely representing this farm
-	private TreeMap<Integer, Year> years;//Tree map storing the years associated to this farm
+
+	private String farmId;// String uniquely representing this farm
+	private TreeMap<Integer, Year> years;// Tree map storing the years associated to this farm
 
 	/**
 	 * Construct a new Farm with the given Id and an empty TreeMap of years.
@@ -50,11 +50,10 @@ public class Farm implements FarmADT {
 		this.farmId = farmId;
 		this.years = new TreeMap<Integer, Year>();
 	}
-	
-	public Set<Integer> getYears(){
+
+	public Set<Integer> getYears() {
 		return years.keySet();
 	}
-	
 
 	@Override
 	/**
@@ -68,8 +67,8 @@ public class Farm implements FarmADT {
 
 	@Override
 	/**
-	 * Return the YearADT object corresponding to the given year number at this farm.
-	 * If no data is stored for that year, returns null
+	 * Return the YearADT object corresponding to the given year number at this
+	 * farm. If no data is stored for that year, returns null
 	 * 
 	 * @return YearADT object corresponding to the given year number.
 	 */
@@ -84,9 +83,11 @@ public class Farm implements FarmADT {
 	}
 
 	@Override
-	/** Returns the MonthADT object corresponding to the given year number and month
+	/**
+	 * Returns the MonthADT object corresponding to the given year number and month
 	 * number at this farm. If no data is stored for this month, returns null
-	 * @param yearNum of month object to return
+	 * 
+	 * @param yearNum  of month object to return
 	 * @param monthNum of month object to return
 	 * @return MonthADT object corresponding to the desired month
 	 */
@@ -101,7 +102,7 @@ public class Farm implements FarmADT {
 	@Override
 	/**
 	 * Returns the total weight associated to this farm in the given year
-	 *  
+	 * 
 	 * @param yearNum of year to return total weight of
 	 * @return total weight stored in the given year
 	 */
@@ -117,7 +118,7 @@ public class Farm implements FarmADT {
 	/**
 	 * Returns the total weight associated to this farm in the given month
 	 * 
-	 * @param yearNum of month to return total weight of
+	 * @param yearNum  of month to return total weight of
 	 * @param monthNum of month to return total weight of
 	 * @return total weight stored in the given month
 	 */
@@ -132,24 +133,25 @@ public class Farm implements FarmADT {
 
 	@Override
 	/**
-	 * Returns the total weight associated to this farm in the range
-	 * starting at the YYYY/MM/DD given by the first three parameters
-	 * to the YYYY/MM/DD given by the last three.
-	 * This range is inclusive at both ends.
+	 * Returns the total weight associated to this farm in the range starting at the
+	 * YYYY/MM/DD given by the first three parameters to the YYYY/MM/DD given by the
+	 * last three. This range is inclusive at both ends.
 	 * 
-	 * @param startYear number of year
+	 * @param startYear  number of year
 	 * @param startMonth month number for start date
-	 * @param startDay day number for start date
-	 * @param endMonth month number for end date
-	 * @param endDay day number for end date
+	 * @param startDay   day number for start date
+	 * @param endMonth   month number for end date
+	 * @param endDay     day number for end date
 	 * @return total weight stored in this range
+	 * @throws IllegalArgumentException if dates are not valid
 	 */
 	public int getRange(int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay) {
-		//if the start year is after the end year, return 0
+		// if the start year is after the end year, return 0
 		if (startYear > endYear) {
 			return 0;
 
-			//if the start year and end year are the same, use the range method in Year class
+			// if the start year and end year are the same, use the range method in Year
+			// class
 		} else if (startYear == endYear) {
 
 			if (years.containsKey(startYear)) {
@@ -158,32 +160,33 @@ public class Farm implements FarmADT {
 				return 0;
 			}
 
-			//otherwise, add up the weight in the first year, the weight between the two years,
-			//and the weight in the last year
+			// otherwise, add up the weight in the first year, the weight between the two
+			// years,
+			// and the weight in the last year
 		} else {
-			int startWeight = getWeightAfter(startYear,startMonth,startDay);
+			int startWeight = getWeightAfter(startYear, startMonth, startDay);
 			int betweenWeight = getWeightBetween(startYear, endYear);
-			int endWeight = getWeightBefore(endYear,endMonth,endDay);
-			
-			return (startWeight + betweenWeight + endWeight);			
-			
+			int endWeight = getWeightBefore(endYear, endMonth, endDay);
+
+			return (startWeight + betweenWeight + endWeight);
+
 		}
 	}
 
 	/**
-	 * Returns the total amount of weight between the starting year and the ending year,
-	 * not including either of the endpoints.
+	 * Returns the total amount of weight between the starting year and the ending
+	 * year, not including either of the endpoints.
 	 * 
 	 * @param startYear year at left endpoint of interval
-	 * @param endYear year at right endpoint of interval
+	 * @param endYear   year at right endpoint of interval
 	 * @return total weight between the start year and end year, non-inclusive
 	 */
-	private int getWeightBetween(int startYear,int endYear) {
+	private int getWeightBetween(int startYear, int endYear) {
 		int rangeWeight = 0;
-		for (int i = startYear+1; i < endYear; ++i) {
+		for (int i = startYear + 1; i < endYear; ++i) {
 			rangeWeight += getYearTotal(i);
 		}
-		
+
 		return rangeWeight;
 	}
 
@@ -191,9 +194,9 @@ public class Farm implements FarmADT {
 	 * Returns the total weight from the date given to the end of that year,
 	 * including the given date.
 	 * 
-	 * @param yearNum of date to start at
+	 * @param yearNum  of date to start at
 	 * @param monthNum of date to start at
-	 * @param dayNum of date to start at
+	 * @param dayNum   of date to start at
 	 * @return total weight from starting date to end of year
 	 */
 	private int getWeightAfter(int yearNum, int monthNum, int dayNum) {
@@ -210,9 +213,9 @@ public class Farm implements FarmADT {
 	 * Returns the total weight from the beginning of the year to the date given,
 	 * including the given date.
 	 * 
-	 * @param yearNum of date to end at
+	 * @param yearNum  of date to end at
 	 * @param monthNum of date to end at
-	 * @param dayNum of date to end at
+	 * @param dayNum   of date to end at
 	 * @return total weight from beginning of year to end date
 	 */
 	private int getWeightBefore(int yearNum, int monthNum, int dayNum) {
@@ -223,7 +226,7 @@ public class Farm implements FarmADT {
 			return 0;
 		}
 	}
-	
+
 	@Override
 	public int getDailyWeight(int yearNum, int monthNum, int dayNum) {
 		if (!years.containsKey(yearNum)) {
@@ -236,10 +239,11 @@ public class Farm implements FarmADT {
 	@Override
 	/**
 	 * Set the daily weight for this farm and the given date to the given weight
-	 * @param weight to set the daily weight to
-	 * @param yearNum of date to reset
+	 * 
+	 * @param weight   to set the daily weight to
+	 * @param yearNum  of date to reset
 	 * @param monthNum of date to reset
-	 * @param dayNum of date to reset
+	 * @param dayNum   of date to reset
 	 * @return the previous weight stored at that date
 	 * @throws IllegalArgumentException if weight is negative or date is invalid
 	 */
@@ -247,71 +251,67 @@ public class Farm implements FarmADT {
 		if (weight < 0) {
 			throw new IllegalArgumentException("Weight cannot be negative");
 		}
-		
+
 		if (!years.containsKey(yearNum)) {
 			years.put(yearNum, new Year(yearNum));
 		}
-		
+
 		int prevWeight = years.get(yearNum).setDailyWeight(weight, monthNum, dayNum);
-		
+
 		return prevWeight;
 	}
 
 	@Override
 	/**
 	 * Set the daily weight for this farm and the given weight to zero
-	 * @param yearNum of date to reset
+	 * 
+	 * @param yearNum  of date to reset
 	 * @param monthNum of date to reset
-	 * @param dayNum of date to reset
+	 * @param dayNum   of date to reset
 	 * @return the previous weight stored at that date
 	 */
 	public int clearDailyWeight(int yearNum, int monthNum, int dayNum) {
-		return setDailyWeight(0,yearNum,monthNum,dayNum);
+		return setDailyWeight(0, yearNum, monthNum, dayNum);
 	}
-	
+
 	@Override
 	public void addToDailyWeight(int weight, int yearNum, int monthNum, int dayNum) {
-		int prevWeight = getDailyWeight(yearNum,monthNum,dayNum);
+		int prevWeight = getDailyWeight(yearNum, monthNum, dayNum);
 		int newWeight = prevWeight + weight;
-		
+
 		if (newWeight < 0) {
 			throw new IllegalArgumentException("Cannot have a negative final weight");
 		}
-		
-		setDailyWeight(newWeight,yearNum,monthNum,dayNum);
-		
-		
-		
+
+		setDailyWeight(newWeight, yearNum, monthNum, dayNum);
+
 	}
-	
+
 	public void exportData(FileWriter wrter, int yearNum, int monthNum) throws IOException {
 		if (years.get(yearNum) != null) {
 			Year year = years.get(yearNum);
 			Month month = year.getMonth(monthNum);
-			
+
 			for (int dayNum = 1; dayNum <= month.size(); ++dayNum) {
 				int weight = month.get(dayNum);
 				if (weight > 0) {
-					wrter.write(dataLine(yearNum,monthNum,dayNum, weight));
-					
+					wrter.write(dataLine(yearNum, monthNum, dayNum, weight));
+
 				}
 			}
-			
-			
-			
-			
+
 		}
 	}
-	
+
 	private String dataLine(int yearNum, int monthNum, int dayNum, int weight) {
 		String date = yearNum + "-" + monthNum + "-" + dayNum;
 		String id = getId();
 		String weightString = Integer.toString(weight);
-		
+
 		String dataLine = date + "," + id + "," + weightString + "\n";
-		
+
 		return dataLine;
-		
-	}	
+
+	}
 
 }

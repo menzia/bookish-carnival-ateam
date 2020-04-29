@@ -58,12 +58,12 @@ public class FarmLand implements FarmLandADT {
 		allFarms = new Farm("Stores Weight of All Farms in System");
 		years = new HashSet<Integer>();
 	}
-	
-	public Set<String> getFarms(){
+
+	public Set<String> getFarms() {
 		return farms.keySet();
 	}
-	
-	public Set<Integer> getYears(){
+
+	public Set<Integer> getYears() {
 		return allFarms.getYears();
 	}
 
@@ -78,15 +78,28 @@ public class FarmLand implements FarmLandADT {
 	public Farm getFarm(String farmID) {
 		return farms.get(farmID);
 	}
-	
-	//TODO:Add comment
+
+	// TODO:Add comment
 	public int getAllFarmMonthTotal(int yearNum, int monthNum) {
 		return allFarms.getMonthTotal(yearNum, monthNum);
 	}
-	
-	//TODO:Add comment
+
+	// TODO:Add comment
 	public int getAllFarmsYearTotal(int yearNum) {
 		return allFarms.getYearTotal(yearNum);
+	}
+
+	/**
+	 * @param startYear
+	 * @param startMonth
+	 * @param startDay
+	 * @param endYear
+	 * @param endMonth
+	 * @param endDay
+	 * @return
+	 */
+	public int getAllFarmRange(int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay) {
+		return allFarms.getRange(startYear, startMonth, startDay, endYear, endMonth, endDay);
 	}
 
 	@Override
@@ -212,7 +225,8 @@ public class FarmLand implements FarmLandADT {
 				// each line should be three tokens separated by the regex ","
 				if (tokens.length != 3) {
 					sc.close();
-					throw new DataFormatException("Wrong number of tokens on line " + lineNum + " in the file " + file.getPath());
+					throw new DataFormatException(
+							"Wrong number of tokens on line " + lineNum + " in the file " + file.getPath());
 				}
 
 				// first token contains date information separated by the regex "/"
@@ -224,7 +238,8 @@ public class FarmLand implements FarmLandADT {
 					if (date.length != 3) {
 						sc.close();
 						System.out.print(date);
-						throw new DataFormatException("Cannot read date on line " + lineNum + "in the file " + file.getPath());
+						throw new DataFormatException(
+								"Cannot read date on line " + lineNum + "in the file " + file.getPath());
 					}
 
 					// try to parse integers for each part of date format
@@ -241,7 +256,8 @@ public class FarmLand implements FarmLandADT {
 					// negative weights cause exception
 					if (weight < 0) {
 						sc.close();
-						throw new DataFormatException("Invalid negative weight on line " + lineNum + " in the file " + file.getPath());
+						throw new DataFormatException(
+								"Invalid negative weight on line " + lineNum + " in the file " + file.getPath());
 					}
 
 					// try to set corresponding daily weight
@@ -254,7 +270,8 @@ public class FarmLand implements FarmLandADT {
 
 				} catch (NumberFormatException e) {
 					sc.close();
-					throw new DataFormatException("Cannot parse numbers on line " + lineNum + " in the file " + file.getPath());
+					throw new DataFormatException(
+							"Cannot parse numbers on line " + lineNum + " in the file " + file.getPath());
 
 				} catch (IllegalArgumentException f) {
 					sc.close();

@@ -1,4 +1,5 @@
 /**
+ * MonthlyReport.java created by alexm on Dell Inspiron in ATeam.
  *
  * Author: Alex Menzia
  * Date: @date
@@ -42,11 +43,12 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
+ * MonthlyReport - TODO Describe the purpose of this user-defined type
  * 
- * FarmReport - Generates a farm report for use in A2 GUI.
+ * @author menzia (2020)
  *
  */
-public class AnnualReport extends Stage {
+public class MonthlyReport extends Stage {
 
 	private Scene scene;
 	private TableView<FarmRow> table;
@@ -62,7 +64,7 @@ public class AnnualReport extends Stage {
 	/**
 	 * Displays an example farm report to the screen
 	 */
-	AnnualReport(FarmLand farmLand, Integer yearNum) {
+	MonthlyReport(FarmLand farmLand, Integer yearNum, Integer monthNum) {
 		table = new TableView<FarmRow>();
 		vbox = new VBox();
 
@@ -83,13 +85,13 @@ public class AnnualReport extends Stage {
 
 		Label title = new Label();
 
-		if (farmLand == null || yearNum == null) {
-			title.setText("Error: Must choose year");
+		if (farmLand == null || yearNum == null || monthNum == null) {
+			title.setText("Error: Must choose Year and Month");
 
 		} else {
 			table.getColumns().addAll(farmCol, totalWeights, percent);
-			table.setItems(getData(farmLand, yearNum));
-			title.setText("Annual Report: " + yearNum);
+			table.setItems(getData(farmLand, yearNum, monthNum));
+			title.setText("Annual Report: " + yearNum + "/" + monthNum);
 
 		}
 
@@ -101,8 +103,8 @@ public class AnnualReport extends Stage {
 
 		((Group) scene.getRoot()).getChildren().addAll(vbox);
 
-		table.setEditable(true);
-		this.setTitle("Annual Report");
+		table.setEditable(false);
+		this.setTitle("Monthly Report");
 		this.setWidth(450);
 		this.setHeight(500);
 
@@ -165,17 +167,17 @@ public class AnnualReport extends Stage {
 	 * @param yearNum  of year to make annual table on
 	 * @return ObservableList with data for Annual Report
 	 */
-	private static ObservableList<FarmRow> getData(FarmLand farmLand, Integer yearNum) {
+	private static ObservableList<FarmRow> getData(FarmLand farmLand, Integer yearNum, Integer monthNum) {
 		ArrayList<FarmRow> farmList = new ArrayList<FarmRow>();
 
-		int totalWeight = farmLand.getAllFarmsYearTotal(yearNum);
+		int totalWeight = farmLand.getAllFarmMonthTotal(yearNum, monthNum);
 
 		for (String farm : farmLand.getFarms()) {
 
 			// Calculate monthly weight and percentage of annual weight for this
 			// month. The Double.MIN_NORMAL is added to the denominator to avoid
 			// divide by zero errors.
-			int weight = farmLand.getFarm(farm).getYearTotal(yearNum);
+			int weight = farmLand.getFarm(farm).getMonthTotal(yearNum, monthNum);
 			double percentage = 100 * weight / (totalWeight + Double.MIN_NORMAL);
 
 			// Convert the month, weight, and percentage to strings for display

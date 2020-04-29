@@ -119,6 +119,7 @@ public class Year implements YearADT {
 	 * @param endMonth   month number of end date
 	 * @param endDay     day number of end date
 	 * @return total milk weight within the given range
+	 * 
 	 * @throws IllegalArgumentException if dates are out of valid range
 	 */
 	public int getRange(int startMonth, int startDay, int endMonth, int endDay) throws IllegalArgumentException {
@@ -126,7 +127,7 @@ public class Year implements YearADT {
 		Month start = getMonth(startMonth);
 		Month end = getMonth(endMonth);
 
-		if (startMonth < endMonth) {
+		if (startMonth > endMonth) {
 			return 0;
 
 		} else if (startMonth == endMonth) {
@@ -149,12 +150,13 @@ public class Year implements YearADT {
 	/**
 	 * Set the daily weight for this year and the given date to the given weight.
 	 * 
-	 * @param weight to set the daily weight to
+	 * @param weight   to set the daily weight to
 	 * @param monthNum of date to reset
-	 * @param dayNum of date to reset
+	 * @param dayNum   of date to reset
 	 * @return the previous weight stored at that date
 	 * 
-	 * @throws IllegalArgumentException if weight is negative or date is out of range
+	 * @throws IllegalArgumentException if weight is negative or date is out of
+	 *                                  range
 	 */
 	public int setDailyWeight(int weight, int monthNum, int dayNum) throws IllegalArgumentException {
 
@@ -171,7 +173,7 @@ public class Year implements YearADT {
 	 * Set the daily weight for this year and the given weight to zero.
 	 * 
 	 * @param monthNum of date to reset
-	 * @param dayNum of date to reset
+	 * @param dayNum   of date to reset
 	 * @return the previous weight stored at that date
 	 * @throws IllegalArgumentException if date is out of range
 	 */

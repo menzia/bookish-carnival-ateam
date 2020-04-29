@@ -25,6 +25,8 @@
 package application;
 
 import java.util.ArrayList;
+
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,7 +43,7 @@ import javafx.stage.Stage;
 
 /**
  * 
- * FarmReport - Generates a farm report for use in A2 GUI. 
+ * FarmReport - Generates a farm report for use in A2 GUI.
  *
  */
 public class FarmReport extends Stage {
@@ -52,13 +54,14 @@ public class FarmReport extends Stage {
 
 	// May want to move these into the constructor method instead of as
 	// static fields, but not sure.
-	private static TableColumn<MonthRow,String> monthCol = new TableColumn<MonthRow, String>("Month");
-	private static TableColumn<MonthRow,String> totalWeights = new TableColumn<MonthRow, String>("Total Milk Weight(lbs)");
-	private static TableColumn<MonthRow,String> percent = new TableColumn<MonthRow,String>("Percentage of Total(%)");
-	
+	private static TableColumn<MonthRow, String> monthCol = new TableColumn<MonthRow, String>("Month");
+	private static TableColumn<MonthRow, String> totalWeights = new TableColumn<MonthRow, String>(
+			"Total Milk Weight(lbs)");
+	private static TableColumn<MonthRow, String> percent = new TableColumn<MonthRow, String>("Percentage of Total(%)");
+
 	// Strings which will show up on left column for each month of year
-	private static String[] monthStrings = { "01-Jan", "02-Feb", "03-Mar", "04-Apr", "05-May", "06-Jun", "07-Jul", "08-Aug",
-			"09-Sep", "10-Oct", "11-Nov", "12-Dec" };
+	private static String[] monthStrings = { "01-Jan", "02-Feb", "03-Mar", "04-Apr", "05-May", "06-Jun", "07-Jul",
+			"08-Aug", "09-Sep", "10-Oct", "11-Nov", "12-Dec" };
 
 	/**
 	 * Displays an example farm report to the screen
@@ -66,7 +69,6 @@ public class FarmReport extends Stage {
 	FarmReport(FarmLand farmLand, String farmId, Integer yearNum) {
 		table = new TableView<MonthRow>();
 		vbox = new VBox();
-		
 
 		scene = new Scene(new Group());
 		table.setEditable(true);
@@ -116,17 +118,18 @@ public class FarmReport extends Stage {
 	/**
 	 * 
 	 * MonthRow - TODO Describe the purpose of this user-defined type
+	 * 
 	 * @author menzia (2020)
 	 *
 	 */
 	public static class MonthRow {
 		private SimpleStringProperty month;
-		private SimpleStringProperty weights;
+		private SimpleIntegerProperty weights;
 		private SimpleStringProperty percentage;
 
-		private MonthRow(String month, String weights, String percentage) {
+		private MonthRow(String month, Integer weights, String percentage) {
 			this.month = new SimpleStringProperty(month);
-			this.weights = new SimpleStringProperty(weights);
+			this.weights = new SimpleIntegerProperty(weights);
 			this.percentage = new SimpleStringProperty(percentage);
 
 		}
@@ -139,11 +142,11 @@ public class FarmReport extends Stage {
 			this.month.set(month);
 		}
 
-		public String getWeights() {
+		public Integer getWeights() {
 			return weights.get();
 		}
 
-		public void setWeights(String w) {
+		public void setWeights(Integer w) {
 			weights.set(w);
 		}
 
@@ -158,12 +161,12 @@ public class FarmReport extends Stage {
 	}
 
 	/**
-	 * Creates an ObservableList of MonthRows with the data corresponding to the given farmId
-	 * in the given year, and returns it.
+	 * Creates an ObservableList of MonthRows with the data corresponding to the
+	 * given farmId in the given year, and returns it.
 	 * 
 	 * @param farmLand to obtain farm from
-	 * @param farmId of farm to  make table on
-	 * @param yearNum of year to make table on
+	 * @param farmId   of farm to make table on
+	 * @param yearNum  of year to make table on
 	 * @return
 	 */
 	private static ObservableList<MonthRow> getData(FarmLand farmLand, String farmId, Integer yearNum) {
@@ -178,19 +181,18 @@ public class FarmReport extends Stage {
 				// month. The Double.MIN_NORMAL is added to the denominator to avoid
 				// divide by zero errors.
 				int weight = farmLand.getFarm(farmId).getMonthTotal(yearNum, monthNum);
-				double percentage = 100.0 * weight / (totalWeight + Double.MIN_NORMAL);
+				double percentage = 100 * weight / (totalWeight + Double.MIN_NORMAL);
 
 				// Convert the month, weight, and percentage to strings for display
-				String monthString = monthStrings[monthNum-1];
-				String weightString = Integer.toString(weight);
+				String monthString = monthStrings[monthNum - 1];
 				String percentageString = Double.toString(percentage);
-				
+
 				// Take four significant figures of percentage(plus the decimal point)
 				int endIndex = Math.min(4, percentageString.length());
 				percentageString = percentageString.substring(0, endIndex);
 
 				// Row of table with data for this month
-				MonthRow newMonthRow = new MonthRow(monthString, weightString, percentageString);
+				MonthRow newMonthRow = new MonthRow(monthString, weight, percentageString);
 
 				monthList.add(newMonthRow);
 

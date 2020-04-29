@@ -59,7 +59,7 @@ public class TabPaneGenerateReport {
 		TabPane tabPane = new TabPane();
 		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
-		//Have one tab for each type of report
+		// Have one tab for each type of report
 		Tab tab1 = new Tab("Farm Report", farmRep(farmLand));
 		Tab tab2 = new Tab("Annual Report", annualRep(farmLand));
 		Tab tab3 = new Tab("Monthly Report", monthRep(farmLand));
@@ -76,32 +76,31 @@ public class TabPaneGenerateReport {
 	}
 
 	/**
-	 * Defines the UI controls under the Farm Report tab.
-	 * Will prompt user for a farm Id and a year, and when
-	 * the generate button is pressed will display the corresponding
-	 * report.
+	 * Defines the UI controls under the Farm Report tab. Will prompt user for a
+	 * farm Id and a year, and when the generate button is pressed will display the
+	 * corresponding report.
 	 * 
 	 * @return VBox containing UI controls for Farm Report
 	 */
 	static public VBox farmRep(FarmLand farmLand) {
-		//Vertical box containing everything below
+		// Vertical box containing everything below
 		VBox farmRep = new VBox();
 		farmRep.setSpacing(30);
 
-		//ComboBox gets a String from the user for the farm Id
+		// ComboBox gets a String from the user for the farm Id
 		ComboBox<String> idBox = new ComboBox<String>(FXCollections.observableArrayList(farmLand.getFarms()));
 		VBox farmId = new VBox(new Label("Select Farm ID:"), idBox);
 
-		//ComboBox gets an Integer from the user for the year number
+		// ComboBox gets an Integer from the user for the year number
 		ComboBox<Integer> yearBox = new ComboBox<Integer>(FXCollections.observableArrayList(farmLand.getYears()));
 		VBox year = new VBox(new Label("Select Year:"), yearBox);
 
 		// Sub vertical box containg all user selections
 		VBox selections = new VBox(30, farmId, year);
 
-		//Button which is pressed to actually make the report
+		// Button which is pressed to actually make the report
 		Button gButton = new Button("Generate");
-		gButton.setOnAction(e -> farmReportAction(farmLand,idBox.getValue(), yearBox.getValue()));
+		gButton.setOnAction(e -> farmReportAction(farmLand, idBox.getValue(), yearBox.getValue()));
 
 		// Add all above nodes, plus an explanatory message
 		farmRep.getChildren().addAll(selections, gButton,
@@ -112,9 +111,9 @@ public class TabPaneGenerateReport {
 	}
 
 	/**
-	 * Defines the UI controls under the Farm Report tab.
-	 * Will prompt user for a year, and when the generate button
-	 * is pressed will display the corresponding report.
+	 * Defines the UI controls under the Farm Report tab. Will prompt user for a
+	 * year, and when the generate button is pressed will display the corresponding
+	 * report.
 	 * 
 	 * @return VBox containing the UI controls for the Annual Report tab
 	 */
@@ -122,7 +121,7 @@ public class TabPaneGenerateReport {
 		VBox yearRep = new VBox();
 		yearRep.setSpacing(30);
 
-		//ComboBox gets Integer from user for the year selection
+		// ComboBox gets Integer from user for the year selection
 		ComboBox<Integer> yearBox = new ComboBox<Integer>(FXCollections.observableArrayList(farmLand.getYears()));
 		VBox year = new VBox(new Label("Select Year:"), yearBox);
 
@@ -130,7 +129,7 @@ public class TabPaneGenerateReport {
 		Button gButton = new Button("Generate");
 		gButton.setOnAction(e -> annualReportAction(farmLand, yearBox.getValue()));
 
-		//Add all above nodes to main box, along with explanatory message
+		// Add all above nodes to main box, along with explanatory message
 		yearRep.getChildren().addAll(year, gButton,
 				new Label("Note: If year is not selectable, there is no data on it"));
 
@@ -139,10 +138,9 @@ public class TabPaneGenerateReport {
 	}
 
 	/**
-	 * Defines the UI controls under the Month Report tab.
-	 * Will prompt user for a year and month, and when
-	 * the generate button is pressed will display the corresponding
-	 * report.
+	 * Defines the UI controls under the Month Report tab. Will prompt user for a
+	 * year and month, and when the generate button is pressed will display the
+	 * corresponding report.
 	 * 
 	 * @return a VBox containing all UI controls for the Month Report tab
 	 */
@@ -150,15 +148,15 @@ public class TabPaneGenerateReport {
 		VBox monthRep = new VBox();
 		monthRep.setSpacing(30);
 
-		//Box containing all selections
+		// Box containing all selections
 		VBox selections = new VBox();
 		selections.setSpacing(30);
 
-		//Used to get an Integer representing the selected year
+		// Used to get an Integer representing the selected year
 		ComboBox<Integer> yearBox = new ComboBox<Integer>(FXCollections.observableArrayList(farmLand.getYears()));
 		VBox year = new VBox(new Label("Select Year:"), yearBox);
 
-		//Used to get an Integer representing the selected month
+		// Used to get an Integer representing the selected month
 		ComboBox<Integer> monthBox = new ComboBox<Integer>(FXCollections.observableArrayList(months));
 		VBox month = new VBox(new Label("Select Month:"), monthBox);
 
@@ -176,10 +174,10 @@ public class TabPaneGenerateReport {
 	}
 
 	/**
-	 * Defines the UI controls under the Range Report tab.
-	 * Will prompt user for two dates, and when the generate button 
-	 * is pressed will display the corresponding report.
-	 *  
+	 * Defines the UI controls under the Range Report tab. Will prompt user for two
+	 * dates, and when the generate button is pressed will display the corresponding
+	 * report.
+	 * 
 	 * @return VBox containing UI controls for Range Report tab
 	 */
 	static public VBox rangeRep(FarmLand farmLand) {
@@ -202,7 +200,7 @@ public class TabPaneGenerateReport {
 
 		// Button which is pressed to actually make report
 		Button gButton = new Button("Generate");
-		gButton.setOnAction(e -> rangeReportAction(farmLand,startBox.getValue(), endBox.getValue()));
+		gButton.setOnAction(e -> rangeReportAction(farmLand, startBox.getValue(), endBox.getValue()));
 
 		// Add all nodes to main VBox
 		rangeRep.getChildren().addAll(selections, gButton);
@@ -211,13 +209,12 @@ public class TabPaneGenerateReport {
 	}
 
 	/**
-	 * Generates and displays a farm report for the given farmId and
-	 * the given year.
+	 * Generates and displays a farm report for the given farmId and the given year.
 	 * 
 	 * TODO: Finish once data structure complete
 	 * 
 	 * @param farmId to make report on
-	 * @param year to make report on
+	 * @param year   to make report on
 	 */
 	static public void farmReportAction(FarmLand farmLand, String farmId, Integer year) {
 		// TODO:Implement non-hardcoded version
@@ -229,40 +226,41 @@ public class TabPaneGenerateReport {
 	 * Generates and displays an annual report for the given year.
 	 * 
 	 * TODO: Finish once data structure complete
+	 * 
 	 * @param year to make report on
 	 */
 	static public void annualReportAction(FarmLand farmLand, Integer year) {
 		// TODO: Implement using FarmLand
-		AnnualReport annRep = new AnnualReport(farmLand,year);
+		AnnualReport annRep = new AnnualReport(farmLand, year);
 		annRep.centerOnScreen();
 
 	}
 
 	/**
-	 * Generates and displays a month report for the given year
-	 * and month.
+	 * Generates and displays a month report for the given year and month.
 	 * 
 	 * TODO: Finish once data structure complete
 	 * 
-	 * @param year to make report on
+	 * @param year  to make report on
 	 * @param month to make report on
 	 */
 	static public void monthlyReportAction(FarmLand farmLand, Integer year, Integer month) {
-		// TODO: Implement
+		MonthlyReport monthRep = new MonthlyReport(farmLand, year, month);
+		monthRep.centerOnScreen();
 	}
 
 	/**
-	 * Generates and displays a range report from the given start
-	 * date to the given end date.
+	 * Generates and displays a range report from the given start date to the given
+	 * end date.
 	 * 
 	 * TODO: Finish once data structure complete
 	 * 
 	 * @param start date to begin range on
-	 * @param end date to end range on
+	 * @param end   date to end range on
 	 */
 	static public void rangeReportAction(FarmLand farmLand, LocalDate start, LocalDate end) {
-		// TODO: Implement
-		System.out.println("Range Report: " + start + " to " + end);
+		RangeReport rangeRep = new RangeReport(farmLand, start, end);
+		rangeRep.centerOnScreen();
 	}
 
 }
