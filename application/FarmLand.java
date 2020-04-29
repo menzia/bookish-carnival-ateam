@@ -19,8 +19,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
@@ -320,7 +318,7 @@ public class FarmLand implements FarmLandADT {
 
 			// Make new directory inside the original directory for each year which
 			// we have data on.
-			File newDir = new File(origDirName + "\\csvFarmData" + yearNum);
+			File newDir = new File(origDirName + "\\FarmData-" + yearNum);
 			newDir.mkdir();
 
 			for (int monthNum = 1; monthNum <= 12; ++monthNum) {

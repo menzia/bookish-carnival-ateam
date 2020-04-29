@@ -114,12 +114,13 @@ public class ChooseFile {
 			}
 		});
 
-		// When pressed, will actually execute the users selected
+		// When confirm button pressed, will actually execute the users selected
 		// import/export if possible.
 		confirmButton.setOnAction(e -> {
 			String directoryPath = confirmLabel.getText();//directory chosen by user
 			
 			if (directoryPath.equals(DEFAULT_LABEL)) {
+				//If no directory selected, display corresponding error message
 				Scene scene = new Scene(new Label(DEFAULT_LABEL),WINDOW_WIDTH,WINDOW_HEIGHT);
 				
 				Stage unchosenStage = new Stage();
