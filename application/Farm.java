@@ -303,15 +303,36 @@ public class Farm implements FarmADT {
 		}
 	}
 
+	/**
+	 * Helper method which returns a string which represents a line of the
+	 * csv files used to import data.
+	 * 
+	 * @param yearNum to store data of
+	 * @param monthNum to store data of
+	 * @param dayNum to store data of
+	 * @param weight to store data of
+	 * @return String representing a line of a .csv file with the above data
+	 */
 	private String dataLine(int yearNum, int monthNum, int dayNum, int weight) {
 		String date = yearNum + "-" + monthNum + "-" + dayNum;
 		String id = getId();
 		String weightString = Integer.toString(weight);
 
-		String dataLine = date + "," + id + "," + weightString + "\n";
+		String dataLine = date + "," + toCSVToken(id) + "," + weightString + "\n";
 
 		return dataLine;
 
+	}
+	
+	/**
+	 * Encapsulates any commas in the string in a pair of double quotes so that
+	 * it will be included verbatim in a csv file.
+	 * 
+	 * @param string to convert
+	 * @return string with commas surrounded by double quotes
+	 */
+	private String toCSVToken(String string) {
+		 return string.replace(",", "\",\"");
 	}
 
 }

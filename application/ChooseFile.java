@@ -108,21 +108,12 @@ public class ChooseFile {
 				// try to import the directory selected
 				try {
 					File dir = chooser.showDialog(stage);
-					farmLand.processDirectory(dir);
-
-					Scene scene = new Scene(new Label(dir.getAbsolutePath() + " Successfully Read"), WINDOW_WIDTH,
-							WINDOW_HEIGHT);
-
-					Stage successStage = new Stage();
-
-					successStage.setTitle("Success");
-					successStage.setScene(scene);
-					successStage.show();
+					confirmLabel.setText(dir.getPath());
 
 					// Print success message
 				} catch (Exception f) {
 
-					Scene scene = new Scene(new Label("Directory not fully read: " + f.getMessage()));
+					Scene scene = new Scene(new Label("Problem choosing directory: " + f.getMessage()));
 
 					Stage failStage = new Stage();
 
@@ -138,18 +129,8 @@ public class ChooseFile {
 				// try to export the directory selected
 				try {
 					File dir = chooser.showDialog(stage);
-					farmLand.exportToDirectory(dir);
+					confirmLabel.setText(dir.getPath());
 
-					Scene scene = new Scene(new Label("Successfully Exported to " + dir.getAbsolutePath()), WINDOW_WIDTH,
-							WINDOW_HEIGHT);
-
-					Stage successStage = new Stage();
-
-					successStage.setTitle("Success");
-					successStage.setScene(scene);
-					successStage.show();
-
-					// Print success message
 				} catch (Exception f) {
 
 					Scene scene = new Scene(new Label("Directory not fully exported: " + f.getMessage()));
@@ -171,10 +152,53 @@ public class ChooseFile {
 		// is selected
 		confirmButton.setOnAction(e -> {
 			if (importButton.isSelected()) {
-				// TODO: try to import from selected file
+				try {
+					
+					String directoryPath = confirmLabel.getText();
+					File dir = new File(directoryPath);
+					farmLand.processDirectory(dir);
+
+					Scene scene = new Scene(new Label(directoryPath + " Successfully Read"), WINDOW_WIDTH,
+						WINDOW_HEIGHT);
+
+					Stage successStage = new Stage();
+
+					successStage.setTitle("Success");
+					successStage.setScene(scene);
+					successStage.show();
+				} catch (Exception f) {
+					Scene scene = new Scene(new Label("Directory not fully read: " + f.getMessage()));
+
+					Stage failStage = new Stage();
+
+					failStage.setTitle("Failure");
+					failStage.setScene(scene);
+					failStage.show();
+				}
 
 			} else {
-				// TODO:try to export to selected file
+				try {
+					String dirPath = confirmLabel.getText();
+					File dir = new File(dirPath);
+					farmLand.exportToDirectory(dir);
+
+					Scene scene = new Scene(new Label("Successfully Exported to " + dir.getAbsolutePath()), WINDOW_WIDTH,
+						WINDOW_HEIGHT);
+
+					Stage successStage = new Stage();
+
+					successStage.setTitle("Success");
+					successStage.setScene(scene);
+					successStage.show();
+				} catch (Exception f) {
+					Scene scene = new Scene(new Label("Directory not fully exported: " + f.getMessage()));
+
+					Stage failStage = new Stage();
+
+					failStage.setTitle("Failure");
+					failStage.setScene(scene);
+					failStage.show();
+				}
 			}
 		});
 

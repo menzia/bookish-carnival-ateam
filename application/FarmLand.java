@@ -29,7 +29,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
@@ -220,17 +222,24 @@ public class FarmLand implements FarmLandADT {
 
 			} else {
 
-				String[] tokens = nextLine.split(",");
+				//String[] tokens = nextLine.split(",");
+				LinkedList<String> tokens;
+				try {
+					tokens = csvParse(nextLine);
+				} catch (ParseException e) {
+					sc.close();
+					throw new DataFormatException("Unclosed quotes on line " + lineNum + " in the file " + file.getPath());
+				}
 
 				// each line should be three tokens separated by the regex ","
-				if (tokens.length != 3) {
+				if (tokens.size() != 3) {
 					sc.close();
 					throw new DataFormatException(
 							"Wrong number of tokens on line " + lineNum + " in the file " + file.getPath());
 				}
 
 				// first token contains date information separated by the regex "/"
-				String[] date = tokens[0].split("-");
+				String[] date = tokens.get(0).split("-");
 
 				try {
 
@@ -248,10 +257,10 @@ public class FarmLand implements FarmLandADT {
 					int dayNum = Integer.parseInt(date[2]);
 
 					// farmID is second token
-					String farmID = tokens[1];
+					String farmID = tokens.get(1);
 
 					// try to parse weight from last token
-					int weight = Integer.parseInt(tokens[2]);
+					int weight = Integer.parseInt(tokens.get(2));
 
 					// negative weights cause exception
 					if (weight < 0) {
@@ -328,6 +337,62 @@ public class FarmLand implements FarmLandADT {
 
 		}
 
+	}
+	
+	/**
+	 * Returns a list of the tokens in the given String considered as a line
+	 * of a csv file.
+	 * 
+	 * TODO: Test, double check, possibly replace
+	 * 
+	 * @param line to return tokens of
+	 * @return LinkedList containing the tokens in the given line.
+	 * @throws ParseException if quotes are not closed
+	 */
+	private LinkedList<String> csvParse(String line) throws ParseException {
+		LinkedList<String> list = new LinkedList<String>();
+		String curString = "";
+		boolean inQuote = false;
+		
+		for (int i = 0; i < line.length(); ++i) {
+			char curChar = line.charAt(i);
+			
+			if (curChar == '"') {
+				
+				if (i+1 == line.length()) {
+					
+					throw new ParseException("Quotes not closed", i);
+					
+				} else if (i+1 < line.length() && line.charAt(i+1) == '"') {
+					
+					curString = curString + curChar;
+					++i;
+					
+				} else if (inQuote) {
+					inQuote = false;
+					
+				} else {
+					inQuote = true;
+					
+				}
+				
+			} else if (curChar == ',' && !inQuote) {
+				
+				list.add(curString);
+				curString = "";
+				
+				
+			} else{
+				curString = curString + curChar;
+			}
+			
+			
+			
+		}
+		
+		list.add(curString);
+		
+		return list;
 	}
 
 }
