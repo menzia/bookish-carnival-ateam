@@ -1,5 +1,5 @@
 /**
- * TabPaneEditData.java
+ * ChooseEditData.java
  * Author:   Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu) Alex Menzia(menzia@wisc.edu)
  * Date:     4/29/2020
  * 
@@ -28,7 +28,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.VBox;
 
-public class TabPaneEditData {
+public class ChooseEditData {
 
 	// All valid integer values for a month
 	final static Integer[] months = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };

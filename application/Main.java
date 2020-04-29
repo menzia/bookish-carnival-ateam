@@ -109,13 +109,13 @@ public class Main extends Application {
 		report.setToggleGroup(group);
 		report.setPrefSize(150, 20);
 		report.setOnAction(e ->{
-			bd.setCenter(TabPaneGenerateReport.tabPane(farmLand));
+			bd.setCenter(ChooseGenerateReport.tabPane(farmLand));
 		});
 		
 		// Button taking user to screen where they can
 		// edit the milk weight data.
 		RadioButton edit = new RadioButton("Edit Data");
-		edit.setOnAction(e -> bd.setCenter(TabPaneEditData.tabPane(farmLand)));
+		edit.setOnAction(e -> bd.setCenter(ChooseEditData.tabPane(farmLand)));
 		edit.setToggleGroup(group);
 		edit.setPrefSize(150, 20);
 
@@ -123,7 +123,7 @@ public class Main extends Application {
 		// generate tables displaying minimum, maximum,
 		// and average milk weights in several categories
 		RadioButton minmax = new RadioButton("Display Max/Min/Avg");
-		minmax.setOnAction(e -> bd.setCenter(TabPaneMinMax.tabPane()));
+		minmax.setOnAction(e -> bd.setCenter(ChooseMinMax.tabPane()));
 		minmax.setToggleGroup(group);
 		minmax.setPrefSize(150, 20);
 
