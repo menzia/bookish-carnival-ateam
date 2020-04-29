@@ -1,5 +1,5 @@
 /**
- * AnnualReport.java
+ * ReportAnnual.java
  * Author: Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu) Alex Menzia(menzia@wisc.edu)
  * Date: 4/29/2020
  * 
@@ -36,7 +36,7 @@ import javafx.stage.Stage;
  * FarmReport - Generates a farm report for use in A2 GUI.
  *
  */
-public class AnnualReport extends Stage {
+public class ReportAnnual extends Stage {
 
 	private Scene scene;
 	private TableView<FarmRow> table;
@@ -52,7 +52,7 @@ public class AnnualReport extends Stage {
 	/**
 	 * Displays an example farm report to the screen
 	 */
-	AnnualReport(FarmLand farmLand, Integer yearNum) {
+	ReportAnnual(FarmLand farmLand, Integer yearNum) {
 		table = new TableView<FarmRow>();
 		vbox = new VBox();
 

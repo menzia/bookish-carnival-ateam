@@ -201,27 +201,21 @@ public class TabPaneGenerateReport {
 	/**
 	 * Generates and displays a farm report for the given farmId and the given year.
 	 * 
-	 * TODO: Finish once data structure complete
-	 * 
 	 * @param farmId to make report on
 	 * @param year   to make report on
 	 */
 	static public void farmReportAction(FarmLand farmLand, String farmId, Integer year) {
-		// TODO:Implement non-hardcoded version
-		FarmReport fm = new FarmReport(farmLand, farmId, year);
+		ReportFarm fm = new ReportFarm(farmLand, farmId, year);
 		fm.centerOnScreen();
 	}
 
 	/**
 	 * Generates and displays an annual report for the given year.
 	 * 
-	 * TODO: Finish once data structure complete
-	 * 
 	 * @param year to make report on
 	 */
 	static public void annualReportAction(FarmLand farmLand, Integer year) {
-		// TODO: Implement using FarmLand
-		AnnualReport annRep = new AnnualReport(farmLand, year);
+		ReportAnnual annRep = new ReportAnnual(farmLand, year);
 		annRep.centerOnScreen();
 
 	}
@@ -229,13 +223,11 @@ public class TabPaneGenerateReport {
 	/**
 	 * Generates and displays a month report for the given year and month.
 	 * 
-	 * TODO: Finish once data structure complete
-	 * 
 	 * @param year  to make report on
 	 * @param month to make report on
 	 */
 	static public void monthlyReportAction(FarmLand farmLand, Integer year, Integer month) {
-		MonthlyReport monthRep = new MonthlyReport(farmLand, year, month);
+		ReportMonthly monthRep = new ReportMonthly(farmLand, year, month);
 		monthRep.centerOnScreen();
 	}
 
@@ -243,13 +235,11 @@ public class TabPaneGenerateReport {
 	 * Generates and displays a range report from the given start date to the given
 	 * end date.
 	 * 
-	 * TODO: Finish once data structure complete
-	 * 
 	 * @param start date to begin range on
 	 * @param end   date to end range on
 	 */
 	static public void rangeReportAction(FarmLand farmLand, LocalDate start, LocalDate end) {
-		RangeReport rangeRep = new RangeReport(farmLand, start, end);
+		ReportRange rangeRep = new ReportRange(farmLand, start, end);
 		rangeRep.centerOnScreen();
 	}
 

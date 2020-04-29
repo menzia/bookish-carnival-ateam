@@ -1,5 +1,5 @@
 /**
- * MonthlyReport.java 
+ * ReportMonthly.java 
  * Author: Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu) Alex Menzia(menzia@wisc.edu)
  * Date: 4/29/2020
  * 
@@ -32,12 +32,12 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
- * MonthlyReport - TODO Describe the purpose of this user-defined type
+ * ReportMonthly - TODO Describe the purpose of this user-defined type
  * 
  * @author menzia (2020)
  *
  */
-public class MonthlyReport extends Stage {
+public class ReportMonthly extends Stage {
 
 	private Scene scene;
 	private TableView<FarmRow> table;
@@ -53,7 +53,7 @@ public class MonthlyReport extends Stage {
 	/**
 	 * Displays an example farm report to the screen
 	 */
-	MonthlyReport(FarmLand farmLand, Integer yearNum, Integer monthNum) {
+	ReportMonthly(FarmLand farmLand, Integer yearNum, Integer monthNum) {
 		table = new TableView<FarmRow>();
 		vbox = new VBox();
 

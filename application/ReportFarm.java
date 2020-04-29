@@ -1,5 +1,5 @@
 /**
- * FarmReport.java 
+ * ReportFarm.java 
  * Author:   Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu) Alex Menzia(menzia@wisc.edu)
  * Date:     4/29/2020
  * 
@@ -33,10 +33,10 @@ import javafx.stage.Stage;
 
 /**
  * 
- * FarmReport - Generates a farm report for use in A2 GUI.
+ * ReportFarm - Generates a farm report for use in A2 GUI.
  *
  */
-public class FarmReport extends Stage {
+public class ReportFarm extends Stage {
 
 	private Scene scene;
 	private TableView<MonthRow> table;
@@ -56,7 +56,7 @@ public class FarmReport extends Stage {
 	/**
 	 * Displays an example farm report to the screen
 	 */
-	FarmReport(FarmLand farmLand, String farmId, Integer yearNum) {
+	ReportFarm(FarmLand farmLand, String farmId, Integer yearNum) {
 		table = new TableView<MonthRow>();
 		vbox = new VBox();
 

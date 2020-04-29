@@ -1,5 +1,5 @@
 /**
- * RangeReport.java 
+ * ReportRange.java 
  * Author: Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu) Alex Menzia(menzia@wisc.edu)
  * Date: 4/29/2020
  * 
@@ -33,12 +33,12 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
- * RangeReport - Creates the display for a ranged report. For use in TabPaneGenerateReport.java
+ * ReportRange - Creates the display for a ranged report. For use in TabPaneGenerateReport.java
  * 
  * @author menzia (2020)
  *
  */
-public class RangeReport extends Stage {
+public class ReportRange extends Stage {
 
 	private Scene scene; //encapsulates display
 	private TableView<FarmRow> table; //where rows of data are stored
@@ -53,7 +53,7 @@ public class RangeReport extends Stage {
 	 * Creates a Range Report display for the given FarmLand object and given
 	 * start and end dates
 	 */
-	RangeReport(FarmLand farmLand, LocalDate start, LocalDate end) {
+	ReportRange(FarmLand farmLand, LocalDate start, LocalDate end) {
 		table = new TableView<FarmRow>();
 		vbox = new VBox();
 
