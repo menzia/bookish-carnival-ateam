@@ -299,13 +299,13 @@ public class Farm implements FarmADT {
 	 * @param dayNum of date
 	 * @throws IllegalArgumentException if weight given is negative
 	 */
-	public void addToDailyWeight(int weight, int yearNum, int monthNum, int dayNum) throws IllegalArgumentException {
-		if (weight < 0) {
-			throw new IllegalArgumentException("Cannot have a negative final weight");
-		}
-		
+	public void addToDailyWeight(int weight, int yearNum, int monthNum, int dayNum) throws IllegalArgumentException {		
 		int prevWeight = getDailyWeight(yearNum, monthNum, dayNum);
 		int newWeight = prevWeight + weight;
+		
+		if (newWeight < 0) {
+			throw new IllegalArgumentException("Cannot have negative final weight");
+		}
 
 		
 

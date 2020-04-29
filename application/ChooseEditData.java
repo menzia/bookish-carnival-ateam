@@ -18,26 +18,36 @@ package application;
 import java.time.LocalDate;
 import javafx.collections.FXCollections;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.Tab;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
+/**
+ * 
+ * ChooseEditData - TODO Describe the purpose of this user-defined type
+ * @author menzia (2020)
+ *
+ */
 public class ChooseEditData {
 
-	// All valid integer values for a month
-	final static Integer[] months = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-
-	// farms are hard-coded in here, but in actual
-	// implementation will be calculated from the FarmLand
-	// object given
-	static String[] farms = { "Farm A", "Farm B", "Farm C" };
-
+	private final static int WINDOW_WIDTH = 350;
+	private final static int WINDOW_HEIGHT = 200;
+	
+	// Keep track of the farmLand and of each box 
+	// in the tab pane
+	private FarmLand farmLand;
+	
+	public ChooseEditData(FarmLand farmLand) {
+		this.farmLand = farmLand;
+	}
+	
 	/**
 	 * Creates the center dialogue box which allows the user to select the report
 	 * they would like to create. In actual implementation will need to pass in
@@ -45,15 +55,15 @@ public class ChooseEditData {
 	 * 
 	 * @return VBox containing UI for data edit section
 	 */
-	static public VBox tabPane(FarmLand farmLand) {
+	public VBox tabPane() {
 
 		TabPane tabPane = new TabPane();
 		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
 		//Make one tab for each type of edit
-		Tab tab1 = new Tab("Add Farm", addFarm());
-		Tab tab2 = new Tab("Edit Weight", editWeight());
-		Tab tab3 = new Tab("Add Weight", addWeight());
+		Tab tab1 = new Tab("Edit Weight", editWeight());
+		Tab tab2 = new Tab("Add Weight", addWeight());
+		Tab tab3 = new Tab("View Weight", viewWeight());
 
 		tabPane.getTabs().add(tab1);
 		tabPane.getTabs().add(tab2);
@@ -64,29 +74,7 @@ public class ChooseEditData {
 		return vBox;
 	}
 
-	/**
-	 * Returns a Box containing the UI controls for adding
-	 * a farm with a given farm ID to the data structure.
-	 * 
-	 * @return VBox with UI controls for adding a farm
-	 */
-	static public VBox addFarm() {
-		VBox addFarm = new VBox();
-		addFarm.setSpacing(30);
-
-		// Gets text from user for the new farm Id
-		TextField farmIdField = new TextField();
-		VBox farmId = new VBox(new Label("Enter Farm ID to add:"), farmIdField);
-
-		// Button which is pressed to actually create new farm
-		Button gButton = new Button("Submit");
-		gButton.setOnAction(e -> addFarmAction(farmIdField.getText()));
-
-		addFarm.getChildren().addAll(farmId, gButton);
-
-		return addFarm;
-
-	}
+	
 
 	/**
 	 *  Returns a VBox which contains the UI controls
@@ -95,21 +83,21 @@ public class ChooseEditData {
 	 *  
 	 *  @return VBox with UI controls for editing weight
 	 */
-	static public VBox editWeight() {
+	public VBox editWeight() {
 		VBox editWeight = new VBox();
 		editWeight.setSpacing(30);
 
 		// Gets farm Id from user
-		ComboBox<String> idBox = new ComboBox<String>(FXCollections.observableArrayList(farms));
-		VBox farmId = new VBox(new Label("Select Farm:"), idBox);
+		ComboBox<String> idBox = new ComboBox<String>(FXCollections.observableArrayList(farmLand.getFarms()));
+		VBox farmId = new VBox(new Label(" Select Farm:"), idBox);
 
 		// Gets date from user
 		DatePicker dateBox = new DatePicker();
-		VBox date = new VBox(new Label("Select Date:"), dateBox);
+		VBox date = new VBox(new Label(" Select Date:"), dateBox);
 
 		// Gets weight from user
 		Spinner<Integer> weightBox = new Spinner<Integer>(0, Integer.MAX_VALUE, 0);
-		VBox weight = new VBox(new Label("Select Weight to Set(lbs)"), weightBox);
+		VBox weight = new VBox(new Label(" Select Weight to Set(lbs)"), weightBox);
 
 		// Box containing all selection controls
 		VBox selections = new VBox(farmId, date, weight);
@@ -121,7 +109,7 @@ public class ChooseEditData {
 
 		// Include all above nodes plus an explanatory label
 		editWeight.getChildren().addAll(selections, gButton,
-				new Label("Note: Must first add the farm if not already included."));
+				new Label(" Note: Must first add the farm if not already included."));
 
 		return editWeight;
 
@@ -134,22 +122,23 @@ public class ChooseEditData {
 	 *  
 	 *  @return VBox with UI controls for adding weight
 	 */
-	static public VBox addWeight() {
+	public VBox addWeight() {
 		VBox addWeight = new VBox();
 		addWeight.setSpacing(30);
 
 		// Gets farm Id from user
-		ComboBox<String> idBox = new ComboBox<String>(FXCollections.observableArrayList(farms));
-		VBox farmId = new VBox(new Label("Select Farm:"), idBox);
+		ComboBox<String> idBox = new ComboBox<String>(FXCollections.observableArrayList(farmLand.getFarms()));
+		VBox farmId = new VBox(new Label(" Select Farm:"), idBox);
+		
 
 		// Gets date from user
 		DatePicker dateBox = new DatePicker();
-		VBox date = new VBox(new Label("Select Date:"), dateBox);
+		VBox date = new VBox(new Label(" Select Date:"), dateBox);
 
 		//Gets the weight to add from user
 		Spinner<Integer> weightBox = new Spinner<Integer>(0, Integer.MAX_VALUE, 0);
 		weightBox.setEditable(true);
-		VBox weight = new VBox(new Label("Select Weight to Add(lbs)"), weightBox);
+		VBox weight = new VBox(new Label(" Select Weight to Add(lbs)"), weightBox);
 
 		// Box containing all selection controls
 		VBox selections = new VBox(farmId, date, weight);
@@ -157,41 +146,89 @@ public class ChooseEditData {
 
 		// Button pressed to actually implement changes
 		Button gButton = new Button("Submit");
-		gButton.setOnAction(e -> editWeightAction(idBox.getValue(), dateBox.getValue(), weightBox.getValue()));
+		gButton.setOnAction(e -> addWeightAction(idBox.getValue(), dateBox.getValue(), weightBox.getValue()));
 
 		// Include all above nodes plus an explanatory label
 		addWeight.getChildren().addAll(selections, gButton,
-				new Label("Note: Must first add the farm if not already included."));
+				new Label(" Note: Must first add the farm if not already included."));
 
 		return addWeight;
 
 	}
 
 	/**
-	 * Adds a farm with the given ID to the collection of farms
+	 * Box containing UI controls for the user to view the weight of a
+	 * given farm on a given day
 	 * 
-	 * TODO: implement once data structure finished
-	 * 
-	 * @param farmId to add to structure
+	 * @return VBox containing UI controls for viewing daily weights
 	 */
-	static public void addFarmAction(String farmId) {
-		// TODO: Implement
-		System.out.println("Add Farm: " + farmId);
+	private VBox viewWeight() {
+		VBox viewWeight = new VBox();
+		viewWeight.setSpacing(30);
+
+		// Gets farm Id from user
+		ComboBox<String> idBox = new ComboBox<String>(FXCollections.observableArrayList(farmLand.getFarms()));
+		VBox farmId = new VBox(new Label(" Select Farm:"), idBox);
+		
+
+		// Gets date from user
+		DatePicker dateBox = new DatePicker();
+		VBox date = new VBox(new Label(" Select Date:"), dateBox);
+
+		// Box containing all selection controls
+		VBox selections = new VBox(farmId, date);
+		selections.setSpacing(30);
+
+		// Button pressed to actually implement changes
+		Button gButton = new Button("Submit");
+		gButton.setOnAction(e -> viewWeightAction(idBox.getValue(), dateBox.getValue()));
+
+		// Include all above nodes plus an explanatory label
+		viewWeight.getChildren().addAll(selections, gButton,
+				new Label(" Note: Must first add the farm if not already included."));
+
+		return viewWeight;
 	}
+	
 
 	/**
 	 * Changes the weight associated to the given farm
 	 * on the given date to the given number.
 	 * 
-	 * TODO: implement once data structure finished
+	 * Also displays a stage which displays a descriptive success or failure
+	 * message.
 	 * 
 	 * @param farmId to change weight of
 	 * @param date to change weight on
 	 * @param weight to change to
 	 */
-	static public void editWeightAction(String farmId, LocalDate date, Integer weight) {
-		// TODO: Implement using FarmLand
-		System.out.println("Edit Weight: " + farmId + ", " + date + ", " + weight + "lbs");
+	public void editWeightAction(String farmId, LocalDate date, Integer weight) {
+		Stage responseStage = new Stage();
+		responseStage.setTitle("Edit Weight");
+		String response;
+		
+		if (farmId == null || date == null || weight == null) {
+			response = " Must select ID, date, and weight";
+			
+		} else if (!farmLand.contains(farmId)) {
+			response = " Farm ID is not contained in data structure";
+			
+		} else {
+			try {
+				
+				farmLand.setDailyWeight(farmId, weight, date.getYear(), date.getMonthValue(),date.getDayOfMonth());
+				
+				response = " Successfully set weight of " + farmId + " on " + date + " to " + weight + " lbs";
+				
+			} catch (Exception e) {
+				response = " Error setting weight: " + e.getMessage();
+			}
+			
+		}
+		
+		Scene responseScene = new Scene(new Label(response), WINDOW_WIDTH, WINDOW_HEIGHT);
+		responseStage.setScene(responseScene);
+		responseStage.show();
 
 	}
 
@@ -199,15 +236,76 @@ public class ChooseEditData {
 	 * Adds the given amount of weight to the given farm
 	 * on the given date.
 	 * 
-	 * TODO: implement once data structure finished
+	 * Also displays stage with a descriptive success or failure message 
 	 * 
 	 * @param farmId to change weight of
 	 * @param date to change weight on
 	 * @param weight to add to previous weight
 	 */
-	static public void addWeightAction(String farmId, LocalDate date, Integer weight) {
-		// TODO: Implement
-		System.out.println("Add Weight: " + farmId + ", " + date + ", " + weight + "lbs");
+	public void addWeightAction(String farmId, LocalDate date, Integer weight) {
+		Stage responseStage = new Stage();
+		responseStage.setTitle("Add Weight");
+		String response;
+		
+		if (farmId == null || date == null || weight == null) {
+			response = " Must select ID, date, and weight";
+			
+		} else if (!farmLand.contains(farmId)) {
+			response = " Farm ID is not contained in data structure";
+			
+		} else {
+			try {
+				
+				farmLand.addToDailyWeight(farmId, weight, date.getYear(), date.getMonthValue(),date.getDayOfMonth());
+				
+				response = " Successfully added " + weight + " lbs to " + farmId + " on " + date;
+				
+			} catch (Exception e) {
+				response = " Error adding weight: " + e.getMessage();
+			}
+			
+		}
+		
+		Scene responseScene = new Scene(new Label(response), WINDOW_WIDTH, WINDOW_HEIGHT);
+		responseStage.setScene(responseScene);
+		responseStage.show();
+	}
+	
+	/**
+	 * Displays a stage which shows the weight stored in the
+	 * given farm on the given date. If an error occurs, the stage
+	 * will instead contain a descriptive error message.
+	 * 
+	 * @param farmId to view weight of
+	 * @param date to view weight on
+	 */
+	private void viewWeightAction(String farmId, LocalDate date) {
+		Stage responseStage = new Stage();
+		responseStage.setTitle("View Weight");
+		String response;
+		
+		if (farmId == null || date == null ) {
+			response = " Must select ID and date";
+			
+		} else if (!farmLand.contains(farmId)) {
+			response = " Farm ID is not contained in data structure";
+			
+		} else {
+			try {
+				
+				long weight = farmLand.getFarm(farmId).getDailyWeight(date.getYear(), date.getMonthValue(),date.getDayOfMonth());
+				
+				response = " Farm ID: " + farmId + "\n Date: " + date + "\n Weight : " + weight + " lbs";
+				
+			} catch (Exception e) {
+				response = " Error accessing weight: " + e.getMessage();
+			}
+			
+		}
+		
+		Scene responseScene = new Scene(new Label(response), WINDOW_WIDTH, WINDOW_HEIGHT);
+		responseStage.setScene(responseScene);
+		responseStage.show();
 	}
 
 }

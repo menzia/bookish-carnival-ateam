@@ -87,7 +87,7 @@ public class Main extends Application {
 		
 		// Box which will contain all menu options
 		VBox leftvb = new VBox();
-		leftvb.setSpacing(80);
+		leftvb.setSpacing(60);
 		leftvb.setStyle("-fx-background-color: #6699FF;");
 		leftvb.setAlignment(Pos.CENTER);
 
@@ -115,10 +115,23 @@ public class Main extends Application {
 		// Button taking user to screen where they can
 		// edit the milk weight data.
 		RadioButton edit = new RadioButton("Edit Data");
-		edit.setOnAction(e -> bd.setCenter(ChooseEditData.tabPane(farmLand)));
+		edit.setOnAction(e -> {
+			ChooseEditData editData = new ChooseEditData(farmLand);
+			bd.setCenter(editData.tabPane());
+		});
 		edit.setToggleGroup(group);
 		edit.setPrefSize(150, 20);
 
+		// Button taking user to screen where they can enter
+		// a farm id to add to their structure.
+		RadioButton add = new RadioButton("Add Farm");
+		add.setOnAction(e -> {
+			ChooseAddFarm addFarm = new ChooseAddFarm(farmLand);
+			bd.setCenter(addFarm.addFarmBox());
+		});
+		add.setToggleGroup(group);
+		add.setPrefSize(150, 20);
+		
 		// Button taking user to screen where they can
 		// generate tables displaying minimum, maximum,
 		// and average milk weights in several categories
@@ -128,7 +141,7 @@ public class Main extends Application {
 		minmax.setPrefSize(150, 20);
 
 		//Add all four buttons to the vertical box
-		leftvb.getChildren().addAll(impExp, report, edit, minmax);
+		leftvb.getChildren().addAll(impExp, report, edit, add, minmax);
 		
 		//Start off in the import/export dialogue box since the user
 		//Will need to do this before generating reports

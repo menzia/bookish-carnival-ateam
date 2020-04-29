@@ -33,9 +33,15 @@ import javafx.stage.DirectoryChooser;
 public class ChooseFile {
 	private static final int WINDOW_WIDTH = 600;
 	private static final int WINDOW_HEIGHT = 200;
-	private static final String IMPORT_PROMPT = "Choose a Directory to Import To";
-	private static final String EXPORT_PROMPT = "Choose a Directory to Export To";
-	private static final String DEFAULT_LABEL = "No Directory Selected";
+	private static final String IMPORT_PROMPT = " Choose a Directory to Import From";
+	private static final String EXPORT_PROMPT = " Choose a Directory to Export To";
+	private static final String DEFAULT_LABEL = " No Directory Selected";
+	
+	private static final Label IMPORT_WARNING = 
+			new Label(" Note: Chosen directory must only contain .csv files\n\n"
+					+ " Warning: Importing will overwrite data with matching Farm ID and date");
+	
+	private static final Label EXPORT_WARNING = new Label("Warning: Exporting will overwrite previously exported files in same directory.");
 
 	/**
 	 * Creates a stage in which the user can choose either to import data to their
@@ -102,7 +108,7 @@ public class ChooseFile {
 
 			} catch (Exception f) {
 
-				Scene scene = new Scene(new Label("Problem choosing directory: " + f.getMessage()));
+				Scene scene = new Scene(new Label(" Problem choosing directory: " + f.getMessage()));
 
 				Stage failStage = new Stage();
 
@@ -117,18 +123,18 @@ public class ChooseFile {
 		// When confirm button pressed, will actually execute the users selected
 		// import/export if possible.
 		confirmButton.setOnAction(e -> {
-			String directoryPath = confirmLabel.getText();//directory chosen by user
-			
+			String directoryPath = confirmLabel.getText();// directory chosen by user
+
 			if (directoryPath.equals(DEFAULT_LABEL)) {
-				//If no directory selected, display corresponding error message
-				Scene scene = new Scene(new Label(DEFAULT_LABEL),WINDOW_WIDTH,WINDOW_HEIGHT);
-				
+				// If no directory selected, display corresponding error message
+				Scene scene = new Scene(new Label(DEFAULT_LABEL), WINDOW_WIDTH, WINDOW_HEIGHT);
+
 				Stage unchosenStage = new Stage();
-				
-				unchosenStage.setTitle("Error: No Selection");
+
+				unchosenStage.setTitle(" Error: No Selection");
 				unchosenStage.setScene(scene);
 				unchosenStage.show();
-				
+
 			} else if (importButton.isSelected()) {
 				// if import is selected
 				try {
@@ -142,13 +148,14 @@ public class ChooseFile {
 
 					Stage successStage = new Stage();
 
-					successStage.setTitle("Success");
+					successStage.setTitle(" Success");
 					successStage.setScene(scene);
 					successStage.show();
 
 				} catch (Exception f) {
 					// if exception occurs, display descriptive error message
-					Scene scene = new Scene(new Label("Directory not fully read: " + f.getMessage()));
+					Scene scene = new Scene(
+							new Label(" Directory not fully read: " + f.getMessage() + "\n Fix file and try again."));
 
 					Stage failStage = new Stage();
 
@@ -165,7 +172,7 @@ public class ChooseFile {
 					farmLand.exportToDirectory(dir);
 
 					// if above does not throw exception, display success message
-					Scene scene = new Scene(new Label("Successfully Exported to " + dir.getAbsolutePath()),
+					Scene scene = new Scene(new Label(" Successfully Exported to " + dir.getAbsolutePath()),
 							WINDOW_WIDTH, WINDOW_HEIGHT);
 
 					Stage successStage = new Stage();
@@ -176,7 +183,7 @@ public class ChooseFile {
 
 				} catch (Exception f) {
 					// if exception is thrown above, display descriptive error message
-					Scene scene = new Scene(new Label("Directory not fully exported: " + f.getMessage()));
+					Scene scene = new Scene(new Label(" Directory not fully exported: " + f.getMessage()));
 
 					Stage failStage = new Stage();
 
@@ -191,7 +198,7 @@ public class ChooseFile {
 		});
 
 		// create a VBox containing all above parts
-		VBox vbox = new VBox(30, topSelection, confirmBar, fileButton);
+		VBox vbox = new VBox(30, topSelection, confirmBar, fileButton, IMPORT_WARNING);
 		vbox.setAlignment(Pos.CENTER);
 
 		return vbox;

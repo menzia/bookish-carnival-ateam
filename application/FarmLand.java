@@ -169,13 +169,37 @@ public class FarmLand implements FarmLandADT {
 		addFarm(farmID);// make sure farmID is in dataStructure
 
 		// set daily weight to the desired weight for that farm
-		int prevWeight = farms.get(farmID).setDailyWeight(weight, yearNum, monthNum, dayNum);
+		int prevWeight = farms.get(farmID).getDailyWeight(yearNum, monthNum, dayNum);
+		System.out.println("PrevWeight Farm: " + prevWeight);
+		farms.get(farmID).setDailyWeight(weight, yearNum, monthNum, dayNum);
+		
+		System.out.println(farms.get(farmID).getDailyWeight(yearNum, monthNum, dayNum));
 
 		// calculate amount that the weight has changed
 		int weightChange = weight - prevWeight;
+		System.out.println("Weight change: " + weightChange);
 
 		// account for weight change in allFarms
+		System.out.println("All Farms Daily " + allFarms.getDailyWeight(yearNum, monthNum, dayNum));
 		allFarms.addToDailyWeight(weightChange, yearNum, monthNum, dayNum);
+	}
+	
+	/**
+	 * Adds to the daily weight for the given farm and the given date by the given
+	 * weight. If the given ID is not in the structure, adds it to structure first.
+	 * 
+	 * @param farmID   of farm to set weight of
+	 * @param weight   to set the daily weight to
+	 * @param yearNum  of date to reset
+	 * @param monthNum of date to reset
+	 * @param dayNum   of date to reset
+	 */
+	public void addToDailyWeight(String farmID, int weight, int yearNum, int monthNum, int dayNum) {
+		addFarm(farmID);// make sure farmID is in dataStructure
+
+		// adds the desired weight to the daily weight for the given farm and for all farms
+		farms.get(farmID).addToDailyWeight(weight, yearNum, monthNum, dayNum);
+		allFarms.addToDailyWeight(weight, yearNum, monthNum, dayNum);
 	}
 
 	@Override

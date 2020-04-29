@@ -31,12 +31,6 @@ public class ChooseGenerateReport {
 	// All valid integer month values
 	final static Integer[] months = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 
-	// farms and years are hard-coded in here, but in actual
-	// implementation will be calculated from the FarmLand
-	// object given
-	static String[] farms = { "Farm 0", "Farm B", "Farm C" };
-	static Integer[] years = { 2017, 2018, 2019, 2020 };
-
 	/**
 	 * Creates the center dialogue box which allows the user to select the report
 	 * they would like to create. In actual implementation will need to pass in
