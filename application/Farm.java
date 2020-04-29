@@ -1,7 +1,7 @@
 /**
  * Farm.java
  *
- * Author: Alex Menzia,Linyi Lyu, Ethan Huang
+ * Author: Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu) Alex Menzia(menzia@wisc.edu)
  * Date: 4/29/2020
  * 
  * Course: CS400
@@ -111,7 +111,7 @@ public class Farm implements FarmADT {
 	 * @param yearNum of year to return total weight of
 	 * @return total weight stored in the given year
 	 */
-	public int getYearTotal(int yearNum) {
+	public long getYearTotal(int yearNum) {
 		if (years.containsKey(yearNum)) {
 			return years.get(yearNum).totalWeight();
 		} else {
@@ -128,7 +128,7 @@ public class Farm implements FarmADT {
 	 * @return total weight stored in the given month
 	 * @throws IllegalArgumentException if monthNum is not valid
 	 */
-	public int getMonthTotal(int yearNum, int monthNum) throws IllegalArgumentException {
+	public long getMonthTotal(int yearNum, int monthNum) throws IllegalArgumentException {
 		if (years.containsKey(yearNum)) {
 			return years.get(yearNum).getMonth(monthNum).totalWeight();
 
@@ -151,7 +151,7 @@ public class Farm implements FarmADT {
 	 * @return total weight stored in this range
 	 * @throws IllegalArgumentException if dates are not valid
 	 */
-	public int getRange(int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay) {
+	public long getRange(int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay) {
 		// if the start year is after the end year, return 0
 		if (startYear > endYear) {
 			return 0;
@@ -170,9 +170,9 @@ public class Farm implements FarmADT {
 			// years,
 			// and the weight in the last year
 		} else {
-			int startWeight = getWeightAfter(startYear, startMonth, startDay);
-			int betweenWeight = getWeightBetween(startYear, endYear);
-			int endWeight = getWeightBefore(endYear, endMonth, endDay);
+			long startWeight = getWeightAfter(startYear, startMonth, startDay);
+			long betweenWeight = getWeightBetween(startYear, endYear);
+			long endWeight = getWeightBefore(endYear, endMonth, endDay);
 
 			return (startWeight + betweenWeight + endWeight);
 
@@ -187,7 +187,7 @@ public class Farm implements FarmADT {
 	 * @param endYear   year at right endpoint of interval
 	 * @return total weight between the start year and end year, non-inclusive
 	 */
-	private int getWeightBetween(int startYear, int endYear) {
+	private long getWeightBetween(int startYear, int endYear) {
 		int rangeWeight = 0;
 		for (int i = startYear + 1; i < endYear; ++i) {
 			rangeWeight += getYearTotal(i);
@@ -205,7 +205,7 @@ public class Farm implements FarmADT {
 	 * @param dayNum   of date to start at
 	 * @return total weight from starting date to end of year
 	 */
-	private int getWeightAfter(int yearNum, int monthNum, int dayNum) {
+	private long getWeightAfter(int yearNum, int monthNum, int dayNum) {
 		if (years.containsKey(yearNum)) {
 			
 			return years.get(yearNum).getRange(monthNum, dayNum, 12, 31);
@@ -224,7 +224,7 @@ public class Farm implements FarmADT {
 	 * @param dayNum   of date to end at
 	 * @return total weight from beginning of year to end date
 	 */
-	private int getWeightBefore(int yearNum, int monthNum, int dayNum) {
+	private long getWeightBefore(int yearNum, int monthNum, int dayNum) {
 		if (years.containsKey(yearNum)) {
 			
 			return years.get(yearNum).getRange(1, 1, monthNum, dayNum);

@@ -1,5 +1,5 @@
 /**
- * farmReport.java 
+ * FarmReport.java 
  * Author:   Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu)
  * Date:     @date
  * 
@@ -27,6 +27,7 @@ package application;
 import java.util.ArrayList;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,7 +47,7 @@ import javafx.stage.Stage;
  * FarmReport - Generates a farm report for use in A2 GUI.
  *
  */
-public class farmReport extends Stage {
+public class FarmReport extends Stage {
 
 	private Scene scene;
 	private TableView<MonthRow> table;
@@ -66,7 +67,7 @@ public class farmReport extends Stage {
 	/**
 	 * Displays an example farm report to the screen
 	 */
-	farmReport(FarmLand farmLand, String farmId, Integer yearNum) {
+	FarmReport(FarmLand farmLand, String farmId, Integer yearNum) {
 		table = new TableView<MonthRow>();
 		vbox = new VBox();
 
@@ -124,12 +125,12 @@ public class farmReport extends Stage {
 	 */
 	public static class MonthRow {
 		private SimpleStringProperty month;
-		private SimpleIntegerProperty weights;
+		private SimpleLongProperty weights;
 		private SimpleStringProperty percentage;
 
-		private MonthRow(String month, Integer weights, String percentage) {
+		private MonthRow(String month, Long weights, String percentage) {
 			this.month = new SimpleStringProperty(month);
-			this.weights = new SimpleIntegerProperty(weights);
+			this.weights = new SimpleLongProperty(weights);
 			this.percentage = new SimpleStringProperty(percentage);
 
 		}
@@ -142,7 +143,7 @@ public class farmReport extends Stage {
 			this.month.set(month);
 		}
 
-		public Integer getWeights() {
+		public Long getWeights() {
 			return weights.get();
 		}
 
@@ -173,14 +174,14 @@ public class farmReport extends Stage {
 		ArrayList<MonthRow> monthList = new ArrayList<MonthRow>();
 
 		if (farmLand.contains(farmId)) {
-			int totalWeight = farmLand.getFarm(farmId).getYearTotal(yearNum);
+			long totalWeight = farmLand.getFarm(farmId).getYearTotal(yearNum);
 
 			for (int monthNum = 1; monthNum <= 12; ++monthNum) {
 
 				// Calculate monthly weight and percentage of annual weight for this
 				// month. The Double.MIN_NORMAL is added to the denominator to avoid
 				// divide by zero errors.
-				int weight = farmLand.getFarm(farmId).getMonthTotal(yearNum, monthNum);
+				long weight = farmLand.getFarm(farmId).getMonthTotal(yearNum, monthNum);
 				double percentage = 100 * weight / (totalWeight + Double.MIN_NORMAL);
 
 				// Convert the month, weight, and percentage to strings for display

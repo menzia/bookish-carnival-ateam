@@ -28,6 +28,7 @@ package application;
 import java.util.ArrayList;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -123,12 +124,12 @@ public class MonthlyReport extends Stage {
 	 */
 	public static class FarmRow {
 		private SimpleStringProperty farm;
-		private SimpleIntegerProperty weights;
+		private SimpleLongProperty weights;
 		private SimpleStringProperty percentage;
 
-		private FarmRow(String farm, Integer weights, String percentage) {
+		private FarmRow(String farm, Long weights, String percentage) {
 			this.farm = new SimpleStringProperty(farm);
-			this.weights = new SimpleIntegerProperty(weights);
+			this.weights = new SimpleLongProperty(weights);
 			this.percentage = new SimpleStringProperty(percentage);
 
 		}
@@ -141,7 +142,7 @@ public class MonthlyReport extends Stage {
 			this.farm.set(farm);
 		}
 
-		public Integer getWeights() {
+		public Long getWeights() {
 			return weights.get();
 		}
 
@@ -170,14 +171,14 @@ public class MonthlyReport extends Stage {
 	private static ObservableList<FarmRow> getData(FarmLand farmLand, Integer yearNum, Integer monthNum) {
 		ArrayList<FarmRow> farmList = new ArrayList<FarmRow>();
 
-		int totalWeight = farmLand.getAllFarmMonthTotal(yearNum, monthNum);
+		long totalWeight = farmLand.getAllFarmMonthTotal(yearNum, monthNum);
 
 		for (String farm : farmLand.getFarms()) {
 
 			// Calculate monthly weight and percentage of annual weight for this
 			// month. The Double.MIN_NORMAL is added to the denominator to avoid
 			// divide by zero errors.
-			int weight = farmLand.getFarm(farm).getMonthTotal(yearNum, monthNum);
+			long weight = farmLand.getFarm(farm).getMonthTotal(yearNum, monthNum);
 			double percentage = 100 * weight / (totalWeight + Double.MIN_NORMAL);
 
 			// Convert the month, weight, and percentage to strings for display

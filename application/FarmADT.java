@@ -51,7 +51,7 @@ public interface FarmADT {
 	 * @param yearNum of year to return total weight of
 	 * @return total weight stored in the given year
 	 */
-	public int getYearTotal(int yearNum);
+	public long getYearTotal(int yearNum);
 	
 	/**
 	 * Returns the total weight associated to this farm in the given month
@@ -60,7 +60,7 @@ public interface FarmADT {
 	 * @param monthNum of month to return total weight of
 	 * @return total weight stored in the given month
 	 */
-	public int getMonthTotal(int yearNum, int monthNum);
+	public long getMonthTotal(int yearNum, int monthNum);
 	
 	/**
 	 * Returns the total weight associated to this farm in the range
@@ -75,7 +75,7 @@ public interface FarmADT {
 	 * @param endDay day number for end date
 	 * @return total weight stored in this range
 	 */
-	public int getRange(int startYear,int startMonth,int startDay,
+	public long getRange(int startYear,int startMonth,int startDay,
 			int endYear, int endMonth, int endDay);
 	
 	/**

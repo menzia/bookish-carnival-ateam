@@ -218,7 +218,7 @@ public class TabPaneGenerateReport {
 	 */
 	static public void farmReportAction(FarmLand farmLand, String farmId, Integer year) {
 		// TODO:Implement non-hardcoded version
-		farmReport fm = new farmReport(farmLand, farmId, year);
+		FarmReport fm = new FarmReport(farmLand, farmId, year);
 		fm.centerOnScreen();
 	}
 

@@ -1,27 +1,18 @@
 /**
- * FarmLand.java created by alexm on Dell Inspiron in ATeam.
+ * FarmLand.java
  *
- * Author: Alex Menzia
- * Date: @date
+ * Author: Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu) Alex Menzia(menzia@wisc.edu)
+ * Date: 4/29/2020
  * 
  * Course: CS400
  * Semester: Spring 2020
  * Lecture: 001
  *
- * IDE: Eclipse IDE for Java Developers
- * Version: 2019-12 (4.14.0)
- * Build id: 20191212-1212
+ * List Collaborators: n/a
  *
- * Device: MENZIA-DELLINSPIRON
- * OS: Windows 10 Home
- * Version: 1903
- * OS Build: 18362.592
+ * Other Credits: n/a
  *
- * List Collaborators: Name, email@wisc.edu, lecture number
- *
- * Other Credits: describe other sources(websites or people)
- *
- * Known Bugs: describe known unsolved bugs
+ * Known Bugs: n/a
  */
 package application;
 
@@ -30,7 +21,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Set;
@@ -46,9 +36,9 @@ import java.util.zip.DataFormatException;
  *
  */
 public class FarmLand implements FarmLandADT {
+	
 	private TreeMap<String, Farm> farms;// where data on individual farms is stored
 	private Farm allFarms;// where data on the combined weight of all farms is stored
-	private HashSet<Integer> years;
 
 	private static final String OPENING_LINE = "date,farm_id,weight\n";// first line for .csv files
 
@@ -58,13 +48,23 @@ public class FarmLand implements FarmLandADT {
 	public FarmLand() {
 		farms = new TreeMap<String, Farm>();
 		allFarms = new Farm("Stores Weight of All Farms in System");
-		years = new HashSet<Integer>();
 	}
 
+	/**
+	 * Returns the set of all farm id's in this data structure
+	 * 
+	 * @return set of farmIds
+	 */
 	public Set<String> getFarms() {
 		return farms.keySet();
 	}
 
+	/**
+	 * Returns the set of all years numbers that have data
+	 * stored on them.
+	 * 
+	 * @return set of all years with data
+	 */
 	public Set<Integer> getYears() {
 		return allFarms.getYears();
 	}
@@ -81,26 +81,41 @@ public class FarmLand implements FarmLandADT {
 		return farms.get(farmID);
 	}
 
-	// TODO:Add comment
-	public int getAllFarmMonthTotal(int yearNum, int monthNum) {
+	/**
+	 * Return the total weight across all farms in the given month
+	 * 
+	 * @param yearNum of month to get weight for
+	 * @param monthNum of month to get weight for
+	 * @return total weight of all farms in given month
+	 * @throws IllegalArgumentException if monthNum is invalid
+	 */
+	public long getAllFarmMonthTotal(int yearNum, int monthNum) {
 		return allFarms.getMonthTotal(yearNum, monthNum);
 	}
 
-	// TODO:Add comment
-	public int getAllFarmsYearTotal(int yearNum) {
+	/**
+	 * Return the total weight across all farms in the given year
+	 * 
+	 * @param yearNum of year to get total weight of
+	 * @return total weight of all farms in this year
+	 */
+	public long getAllFarmsYearTotal(int yearNum) {
 		return allFarms.getYearTotal(yearNum);
 	}
 
 	/**
-	 * @param startYear
-	 * @param startMonth
-	 * @param startDay
-	 * @param endYear
-	 * @param endMonth
-	 * @param endDay
-	 * @return
+	 * Return the total weight across all farms for the given range of dates.
+	 * 
+	 * @param startYear year number of start date
+	 * @param startMonth month number of start date
+	 * @param startDay day number of start date
+	 * @param endYear year number of end date
+	 * @param endMonth month number of end date
+	 * @param endDay day number of end date
+	 * @return total weight across all farms in the given range
+	 * @throws IllegalArgumentException if the dates are invalid
 	 */
-	public int getAllFarmRange(int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay) {
+	public long getAllFarmRange(int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay) {
 		return allFarms.getRange(startYear, startMonth, startDay, endYear, endMonth, endDay);
 	}
 
@@ -164,7 +179,6 @@ public class FarmLand implements FarmLandADT {
 
 		// account for weight change in allFarms
 		allFarms.addToDailyWeight(weightChange, yearNum, monthNum, dayNum);
-		years.add(yearNum);
 	}
 
 	@Override
@@ -310,7 +324,7 @@ public class FarmLand implements FarmLandADT {
 		// Absolute path of directory to write into
 		String origDirName = dir.getAbsolutePath();
 
-		for (Integer yearNum : years) {
+		for (Integer yearNum : allFarms.getYears()) {
 
 			// Make new directory inside the original directory for each year which
 			// we have data on.
@@ -328,7 +342,6 @@ public class FarmLand implements FarmLandADT {
 
 					}
 
-					// TODO:Add lines for all of the data in each farm to the file
 				} finally {
 					// Finally, close the FileWriter
 					wrter.close();
@@ -350,24 +363,32 @@ public class FarmLand implements FarmLandADT {
 	 * @throws ParseException if quotes are not closed
 	 */
 	private LinkedList<String> csvParse(String line) throws ParseException {
-		LinkedList<String> list = new LinkedList<String>();
-		String curString = "";
-		boolean inQuote = false;
+		LinkedList<String> list = new LinkedList<String>();//stores list of all tokens
+		String curString = "";//will have characters added on until end of token reached
+		boolean inQuote = false;//keep track of if we are inside double quotes
 		
 		for (int i = 0; i < line.length(); ++i) {
 			char curChar = line.charAt(i);
 			
 			if (curChar == '"') {
 				
-				if (i+1 == line.length()) {
+				//if last character is an unclosed quote, exception is thrown
+				if (i+1 == line.length() && !inQuote) {
 					
 					throw new ParseException("Quotes not closed", i);
 					
-				} else if (i+1 < line.length() && line.charAt(i+1) == '"') {
+				//if last character is closing quote, simply continue out of loop
+				} else if (i+1 == line.length() && inQuote){
+					
+					inQuote = false;
+				
+			    // if there are two double quotes, treat like one double quote character
+				}else if (i+1 < line.length() && line.charAt(i+1) == '"') {
 					
 					curString = curString + curChar;
 					++i;
-					
+				
+				// otherwise, flip inQuote value
 				} else if (inQuote) {
 					inQuote = false;
 					
@@ -376,12 +397,13 @@ public class FarmLand implements FarmLandADT {
 					
 				}
 				
+			// if not inQuote, commas mean to add this token and start on next one
 			} else if (curChar == ',' && !inQuote) {
 				
 				list.add(curString);
 				curString = "";
 				
-				
+			// if inQuote or not a comma, add current char to end of current string
 			} else{
 				curString = curString + curChar;
 			}
@@ -390,6 +412,7 @@ public class FarmLand implements FarmLandADT {
 			
 		}
 		
+		//add last token and return list of all tokens
 		list.add(curString);
 		
 		return list;

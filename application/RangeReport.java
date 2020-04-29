@@ -29,6 +29,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -124,12 +125,12 @@ public class RangeReport extends Stage {
 	 */
 	public static class FarmRow {
 		private SimpleStringProperty farm;
-		private SimpleIntegerProperty weights;
+		private SimpleLongProperty weights;
 		private SimpleStringProperty percentage;
 
-		private FarmRow(String farm, Integer weights, String percentage) {
+		private FarmRow(String farm, Long weights, String percentage) {
 			this.farm = new SimpleStringProperty(farm);
-			this.weights = new SimpleIntegerProperty(weights);
+			this.weights = new SimpleLongProperty(weights);
 			this.percentage = new SimpleStringProperty(percentage);
 
 		}
@@ -142,7 +143,7 @@ public class RangeReport extends Stage {
 			this.farm.set(farm);
 		}
 
-		public Integer getWeights() {
+		public Long getWeights() {
 			return weights.get();
 		}
 
@@ -180,14 +181,14 @@ public class RangeReport extends Stage {
 		int endMonth = end.getMonthValue();
 		int endDay = end.getDayOfMonth();
 
-		int totalWeight = farmLand.getAllFarmRange(startYear, startMonth, startDay, endYear, endMonth, endDay);
+		long totalWeight = farmLand.getAllFarmRange(startYear, startMonth, startDay, endYear, endMonth, endDay);
 
 		for (String farm : farmLand.getFarms()) {
 
 			// Calculate weight for this farm and percentage of total weight for the range
 			// The Double.MIN_NORMAL is added to the denominator to avoid
 			// divide by zero errors.
-			int weight = farmLand.getFarm(farm).getRange(startYear, startMonth, startDay, endYear, endMonth, endDay);
+			long weight = farmLand.getFarm(farm).getRange(startYear, startMonth, startDay, endYear, endMonth, endDay);
 			double percentage = 100 * weight / (totalWeight + Double.MIN_NORMAL);
 
 			// Convert the month, weight, and percentage to strings for display
