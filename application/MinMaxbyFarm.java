@@ -106,7 +106,7 @@ public class MinMaxByFarm extends Stage {
 		table.setEditable(false);
 		this.setTitle("Min/Max/Avg by all Farms Report");
 		this.setWidth(600);
-		this.setHeight(400);
+		this.setHeight(500);
 
 		this.setScene(scene);
 		this.show();
