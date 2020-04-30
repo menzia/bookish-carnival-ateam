@@ -33,28 +33,30 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
- * ReportRange - Creates the display for a ranged report. For use in TabPaneGenerateReport.java
+ * ReportRange - Generates a Stage displaying a Range Report for the given
+ * FarmLand object and the given range of dates
  * 
- * @author menzia (2020)
+ * If data is invalid, displays an error message
  *
  */
 public class ReportRange extends Stage {
 
-	private Scene scene; //encapsulates display
-	private TableView<FarmRow> table; //where rows of data are stored
-	private VBox vbox = new VBox(); //stores table and title
-
-	private static TableColumn<FarmRow, String> farmCol = new TableColumn<FarmRow, String>("Farm ID");
-	private static TableColumn<FarmRow, String> totalWeights = new TableColumn<FarmRow, String>(
-			"Total Milk Weight(lbs)");
-	private static TableColumn<FarmRow, String> percent = new TableColumn<FarmRow, String>("Percentage of Total(%)");
-
 	/**
-	 * Creates a Range Report display for the given FarmLand object and given
-	 * start and end dates
+	 * Creates a Range Report display for the given FarmLand object and given start
+	 * and end dates
 	 */
 	ReportRange(FarmLand farmLand, LocalDate start, LocalDate end) {
-		table = new TableView<FarmRow>();
+		// Table and it's containers
+		Scene scene;
+		TableView<RangeRow> table;
+		VBox vbox = new VBox();
+
+		// The columns used in the table
+		TableColumn<RangeRow, String> farmCol = new TableColumn<RangeRow, String>("Farm ID");
+		TableColumn<RangeRow, String> weightCol = new TableColumn<RangeRow, String>("Total Milk Weight(lbs)");
+		TableColumn<RangeRow, String> percentCol = new TableColumn<RangeRow, String>("Percentage of Total(%)");
+
+		table = new TableView<RangeRow>();
 		vbox = new VBox();
 
 		scene = new Scene(new Group());
@@ -62,15 +64,15 @@ public class ReportRange extends Stage {
 
 		// month column
 		farmCol.setMinWidth(100);
-		farmCol.setCellValueFactory(new PropertyValueFactory<FarmRow, String>("farm"));
+		farmCol.setCellValueFactory(new PropertyValueFactory<RangeRow, String>("farm"));
 
-		// total weights column
-		totalWeights.setMinWidth(140);
-		totalWeights.setCellValueFactory(new PropertyValueFactory<FarmRow, String>("weight"));
+		// weight column
+		weightCol.setMinWidth(140);
+		weightCol.setCellValueFactory(new PropertyValueFactory<RangeRow, String>("weight"));
 
 		// percentage column
-		percent.setMinWidth(140);
-		percent.setCellValueFactory(new PropertyValueFactory<FarmRow, String>("percentage"));
+		percentCol.setMinWidth(140);
+		percentCol.setCellValueFactory(new PropertyValueFactory<RangeRow, String>("percentage"));
 
 		// Title placed above table in scene
 		Label title = new Label();
@@ -81,13 +83,14 @@ public class ReportRange extends Stage {
 			title.setText("Error: Must choose start and end dates");
 
 		} else {
-			//otherwise, add data to table and give corresponding title
-			table.getColumns().addAll(farmCol, totalWeights, percent);
+			// otherwise, add data to table and give corresponding title
+			table.getColumns().addAll(farmCol, weightCol, percentCol);
 			table.setItems(getData(farmLand, start, end));
 			title.setText("Range Report: " + start + " until " + end);
 
 		}
 
+		// Format table and display it
 		title.setFont(new Font("Arial", 20));
 
 		vbox.setSpacing(5);
@@ -109,24 +112,22 @@ public class ReportRange extends Stage {
 
 	/**
 	 * 
-	 * FarmRow - Stores a row of data for a range report. First row is farm id,
-	 * second row is weight, last row is percentage
+	 * RangeRow - Stores a row of data for a range report
 	 * 
-	 * @author menzia (2020)
-	 *
 	 */
-	public static class FarmRow {
-		private SimpleStringProperty farm;
-		private SimpleLongProperty weight;
-		private SimpleStringProperty percentage;
+	public static class RangeRow {
+		private SimpleStringProperty farm;// id of farm
+		private SimpleLongProperty weight;// total weight of farm in range
+		private SimpleStringProperty percentage;// percentage among all farms
 
 		/**
-		 * Create FarmRow with the given properties
-		 * @param farm id of row
-		 * @param weights weight num in row
+		 * Create RangeRow with the given values
+		 * 
+		 * @param farm       id of row
+		 * @param weights    weight num in row
 		 * @param percentage in row
 		 */
-		private FarmRow(String farm, Long weight, String percentage) {
+		private RangeRow(String farm, Long weight, String percentage) {
 			this.farm = new SimpleStringProperty(farm);
 			this.weight = new SimpleLongProperty(weight);
 			this.percentage = new SimpleStringProperty(percentage);
@@ -135,6 +136,7 @@ public class ReportRange extends Stage {
 
 		/**
 		 * Returns the farm id for this row
+		 * 
 		 * @return farm id
 		 */
 		public String getFarm() {
@@ -161,6 +163,7 @@ public class ReportRange extends Stage {
 
 		/**
 		 * Sets the weight value for this row to the given value
+		 * 
 		 * @param w weight to set
 		 */
 		public void setWeights(Long weight) {
@@ -188,7 +191,7 @@ public class ReportRange extends Stage {
 	}
 
 	/**
-	 * Creates an ObservableList of FarmRows with the data corresponding to the
+	 * Creates an ObservableList of RangeRows with the data corresponding to the
 	 * given range and returns it
 	 * 
 	 * @param FarmLand  farmLand to obtain data from
@@ -196,49 +199,71 @@ public class ReportRange extends Stage {
 	 * @param LocalDate end of range
 	 * @return an ObservableList with data for Annual Report
 	 */
-	private static ObservableList<FarmRow> getData(FarmLand farmLand, LocalDate start, LocalDate end) {
-		ArrayList<FarmRow> farmList = new ArrayList<FarmRow>();
+	private static ObservableList<RangeRow> getData(FarmLand farmLand, LocalDate start, LocalDate end) {
+		try {
 
-		// values for the start date
-		int startYear = start.getYear();
-		int startMonth = start.getMonthValue();
-		int startDay = start.getDayOfMonth();
+			// stores rows in order
+			ArrayList<RangeRow> farmList = new ArrayList<RangeRow>();
 
-		// values for the end date
-		int endYear = end.getYear();
-		int endMonth = end.getMonthValue();
-		int endDay = end.getDayOfMonth();
+			// values for the start date
+			int startYear = start.getYear();
+			int startMonth = start.getMonthValue();
+			int startDay = start.getDayOfMonth();
 
-		// total weight for all farms in this range
-		long totalWeight = farmLand.getAllFarmRange(startYear, startMonth, startDay, endYear, endMonth, endDay);
+			// values for the end date
+			int endYear = end.getYear();
+			int endMonth = end.getMonthValue();
+			int endDay = end.getDayOfMonth();
 
-		for (String farm : farmLand.getFarms()) {
+			// total weight for all farms in this range
+			long totalWeight = farmLand.getAllFarmRange(startYear, startMonth, startDay, endYear, endMonth, endDay);
 
-			// Calculate weight for this farm and percentage of total weight for the range
-			// The Double.MIN_NORMAL is added to the denominator to avoid
-			// divide by zero errors.
-			long weight = farmLand.getFarm(farm).getRange(startYear, startMonth, startDay, endYear, endMonth, endDay);
-			double percentage = 100 * weight / (totalWeight + Double.MIN_NORMAL);
+			for (String farm : farmLand.getFarms()) {
 
-			// Convert the month, weight, and percentage to strings for display
-			String farmString = farm;
-			String percentageString = Double.toString(percentage);
+				// Calculate weight for this farm and percentage of total weight for the range
+				// The Double.MIN_NORMAL is added to the denominator to avoid
+				// divide by zero errors.
+				long weight = farmLand.getFarm(farm).getRange(startYear, startMonth, startDay, endYear, endMonth,
+						endDay);
+				double percentage = 100 * weight / (totalWeight + Double.MIN_NORMAL);
 
-			// Take four significant figures of percentage(plus the decimal point)
-			int endIndex = Math.min(4, percentageString.length());
-			percentageString = percentageString.substring(0, endIndex);
+				// Convert the month, weight, and percentage to strings for display
+				String farmString = farm;
+				String percentageString = Double.toString(percentage);
 
-			// Row of table with data for this farm
-			FarmRow newFarmRow = new FarmRow(farmString, weight, percentageString);
+				// Take four significant figures of percentage(plus the decimal point)
+				int endIndex = Math.min(4, percentageString.length());
+				percentageString = percentageString.substring(0, endIndex);
 
-			farmList.add(newFarmRow);
+				// Some formatting for special cases
+				if (percentageString.equals("100.")) {
+					percentageString = "100";
+				} else if (percentageString.equals("0.0")) {
+					percentageString = "0";
+				}
+				
+				// Row of table with data for this farm
+				RangeRow newRangeRow = new RangeRow(farmString, weight, percentageString);
 
+				farmList.add(newRangeRow);
+
+			}
+
+			// list containing all data in the table
+			ObservableList<RangeRow> data = FXCollections.observableArrayList(farmList);
+
+			return data;
+
+		} catch (Exception e) {
+			
+			// In case unexpected exception occurs, return empty data set
+			// This should never occur because the values inputed are checked
+			// for validity before being entered here, but just in case
+			ArrayList<RangeRow> farmList = new ArrayList<RangeRow>();
+			RangeRow newMonthRow = new RangeRow("Error Making Table", 0L, e.getMessage());
+			farmList.add(newMonthRow);
+
+			return FXCollections.observableArrayList(farmList);
 		}
-
-		// list containg all data in the table
-		ObservableList<FarmRow> data = FXCollections.observableArrayList(farmList);
-
-		return data;
-
 	}
 }

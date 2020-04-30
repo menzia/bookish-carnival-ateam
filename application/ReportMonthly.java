@@ -32,45 +32,50 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
- * ReportMonthly - TODO Describe the purpose of this user-defined type
+ * ReportMonthly - Generates a Stage displaying a Monthly Report for the given
+ * FarmLand object and given month.
  * 
- * @author menzia (2020)
+ * If data is invalid, displays an error message.
  *
  */
 public class ReportMonthly extends Stage {
 
-	private Scene scene;
-	private TableView<FarmRow> table;
-	private VBox vbox = new VBox();
-
-	// May want to move these into the constructor method instead of as
-	// static fields, but not sure.
-	private static TableColumn<FarmRow, String> farmCol = new TableColumn<FarmRow, String>("Farm ID");
-	private static TableColumn<FarmRow, String> totalWeights = new TableColumn<FarmRow, String>(
-			"Total Milk Weight(lbs)");
-	private static TableColumn<FarmRow, String> percent = new TableColumn<FarmRow, String>("Percentage of Total(%)");
-
 	/**
-	 * Displays an example farm report to the screen
+	 * Displays a monthly report to the screen using the given FarmLand object and
+	 * the given month.
+	 * 
+	 * @param farmLand to get data from
+	 * @param yearNum  of month to make table of
+	 * @param monthNum of month to make table of
 	 */
 	ReportMonthly(FarmLand farmLand, Integer yearNum, Integer monthNum) {
-		table = new TableView<FarmRow>();
+		// Table and its containers
+		Scene scene;
+		TableView<MonthRow> table;
+		VBox vbox = new VBox();
+
+		// Columns used in the report
+		TableColumn<MonthRow, String> farmCol = new TableColumn<MonthRow, String>("Farm ID");
+		TableColumn<MonthRow, String> weightCol = new TableColumn<MonthRow, String>("Total Milk Weight(lbs)");
+		TableColumn<MonthRow, String> percentCol = new TableColumn<MonthRow, String>("Percentage of Total(%)");
+
+		table = new TableView<MonthRow>();
 		vbox = new VBox();
 
 		scene = new Scene(new Group());
 		table.setEditable(true);
 
-		// month column
+		// farm column
 		farmCol.setMinWidth(100);
-		farmCol.setCellValueFactory(new PropertyValueFactory<FarmRow, String>("farm"));
+		farmCol.setCellValueFactory(new PropertyValueFactory<MonthRow, String>("farm"));
 
-		// total weights column
-		totalWeights.setMinWidth(140);
-		totalWeights.setCellValueFactory(new PropertyValueFactory<FarmRow, String>("weights"));
+		// weight column
+		weightCol.setMinWidth(140);
+		weightCol.setCellValueFactory(new PropertyValueFactory<MonthRow, String>("weight"));
 
 		// percentage column
-		percent.setMinWidth(140);
-		percent.setCellValueFactory(new PropertyValueFactory<FarmRow, String>("percentage"));
+		percentCol.setMinWidth(140);
+		percentCol.setCellValueFactory(new PropertyValueFactory<MonthRow, String>("percentage"));
 
 		Label title = new Label();
 
@@ -78,12 +83,14 @@ public class ReportMonthly extends Stage {
 			title.setText("Error: Must choose Year and Month");
 
 		} else {
-			table.getColumns().addAll(farmCol, totalWeights, percent);
+			// if data given is valid, construct a table
+			table.getColumns().addAll(farmCol, weightCol, percentCol);
 			table.setItems(getData(farmLand, yearNum, monthNum));
-			title.setText("Annual Report: " + yearNum + "/" + monthNum);
+			title.setText("Monthly Report: " + yearNum + "/" + monthNum);
 
 		}
 
+		// Format table and display it
 		title.setFont(new Font("Arial", 20));
 
 		vbox.setSpacing(5);
@@ -105,19 +112,25 @@ public class ReportMonthly extends Stage {
 
 	/**
 	 * 
-	 * FarmRow - TODO Describe the purpose of this user-defined type
+	 * MonthRow - Stores data for a single row of the montly report
 	 * 
-	 * @author menzia (2020)
 	 *
 	 */
-	public static class FarmRow {
-		private SimpleStringProperty farm;
-		private SimpleLongProperty weights;
-		private SimpleStringProperty percentage;
+	public static class MonthRow {
+		private SimpleStringProperty farm;// id of farm
+		private SimpleLongProperty weight;// monthly weight of farm
+		private SimpleStringProperty percentage;// percentage among all farms
 
-		private FarmRow(String farm, Long weights, String percentage) {
+		/**
+		 * Constructs a row with the given data
+		 * 
+		 * @param farm       ID of farm to make row of
+		 * @param weight     monthly weight of farm
+		 * @param percentage of monthly weight among all farms
+		 */
+		private MonthRow(String farm, Long weight, String percentage) {
 			this.farm = new SimpleStringProperty(farm);
-			this.weights = new SimpleLongProperty(weights);
+			this.weight = new SimpleLongProperty(weight);
 			this.percentage = new SimpleStringProperty(percentage);
 
 		}
@@ -130,12 +143,12 @@ public class ReportMonthly extends Stage {
 			this.farm.set(farm);
 		}
 
-		public Long getWeights() {
-			return weights.get();
+		public Long getWeight() {
+			return weight.get();
 		}
 
 		public void setWeights(Integer w) {
-			weights.set(w);
+			weight.set(w);
 		}
 
 		public String getPercentage() {
@@ -149,44 +162,66 @@ public class ReportMonthly extends Stage {
 	}
 
 	/**
-	 * Creates an ObservableList of FarmRows with the data corresponding to the
+	 * Creates an ObservableList of MonthRows with the data corresponding to the
 	 * given year and returns it
 	 * 
 	 * @param farmLand to obtain data from
 	 * @param yearNum  of year to make annual table on
 	 * @return ObservableList with data for Annual Report
 	 */
-	private static ObservableList<FarmRow> getData(FarmLand farmLand, Integer yearNum, Integer monthNum) {
-		ArrayList<FarmRow> farmList = new ArrayList<FarmRow>();
+	private static ObservableList<MonthRow> getData(FarmLand farmLand, Integer yearNum, Integer monthNum) {
+		
+		try {
+			// stores rows in order
+			ArrayList<MonthRow> farmList = new ArrayList<MonthRow>();
 
-		long totalWeight = farmLand.getAllFarmMonthTotal(yearNum, monthNum);
+			// weight across all farms for use in percentage calculation
+			long totalWeight = farmLand.getAllFarmMonthTotal(yearNum, monthNum);
 
-		for (String farm : farmLand.getFarms()) {
+			for (String farm : farmLand.getFarms()) {
 
-			// Calculate monthly weight and percentage of annual weight for this
-			// month. The Double.MIN_NORMAL is added to the denominator to avoid
-			// divide by zero errors.
-			long weight = farmLand.getFarm(farm).getMonthTotal(yearNum, monthNum);
-			double percentage = 100 * weight / (totalWeight + Double.MIN_NORMAL);
+				// Calculate monthly weight and percentage of annual weight for this
+				// month. The Double.MIN_NORMAL is added to the denominator to avoid
+				// divide by zero errors.
+				long weight = farmLand.getFarm(farm).getMonthTotal(yearNum, monthNum);
+				double percentage = 100 * weight / (totalWeight + Double.MIN_NORMAL);
 
-			// Convert the month, weight, and percentage to strings for display
-			String farmString = farm;
-			String percentageString = Double.toString(percentage);
+				// Convert the month, weight, and percentage to strings for display
+				String farmString = farm;
+				String percentageString = Double.toString(percentage);
 
-			// Take four significant figures of percentage(plus the decimal point)
-			int endIndex = Math.min(4, percentageString.length());
-			percentageString = percentageString.substring(0, endIndex);
+				// Take four significant figures of percentage(plus the decimal point)
+				int endIndex = Math.min(4, percentageString.length());
+				percentageString = percentageString.substring(0, endIndex);
+				
+				// Some formating for special cases
+				if (percentageString.equals("100.")) {
+					percentageString = "100";
+				} else if (percentageString.equals("0.0")) {
+					percentageString = "0";
+				}
 
-			// Row of table with data for this month
-			FarmRow newFarmRow = new FarmRow(farmString, weight, percentageString);
+				// Add row of table with data for this month
+				MonthRow newMonthRow = new MonthRow(farmString, weight, percentageString);
 
-			farmList.add(newFarmRow);
+				farmList.add(newMonthRow);
 
+			}
+
+			ObservableList<MonthRow> data = FXCollections.observableArrayList(farmList);
+
+			return data;
+
+		} catch (Exception e) {
+			// In case unexpected exception occurs, return empty data set
+			// This should never occur because the values inputed are checked
+			// for validity before being entered here, but just in case
+			ArrayList<MonthRow> farmList = new ArrayList<MonthRow>();
+			MonthRow newMonthRow = new MonthRow("Error Making Table", 0L, e.getMessage());
+			farmList.add(newMonthRow);
+			
+			return FXCollections.observableArrayList(farmList);
 		}
-
-		ObservableList<FarmRow> data = FXCollections.observableArrayList(farmList);
-
-		return data;
 
 	}
 }
