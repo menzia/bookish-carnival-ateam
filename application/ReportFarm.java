@@ -144,7 +144,7 @@ public class ReportFarm extends Stage {
 			return percentage.get();
 		}
 
-		public void setPercent(String percentage) {
+		public void setPercentage(String percentage) {
 			this.percentage.set(percentage);
 		}
 

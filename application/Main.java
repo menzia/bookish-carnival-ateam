@@ -83,7 +83,7 @@ public class Main extends Application {
 	 * @param primaryStage primary stage of the GUI
 	 * @return vertical box containing buttons for the four menu options
 	 */
-	public VBox menuButton(BorderPane bd, Stage primaryStage) {
+	private VBox menuButton(BorderPane bd, Stage primaryStage) {
 		
 		// Box which will contain all menu options
 		VBox leftvb = new VBox();

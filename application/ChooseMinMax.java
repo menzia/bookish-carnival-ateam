@@ -26,13 +26,13 @@ import javafx.scene.layout.VBox;
 
 public class ChooseMinMax {
 	// All possible valid month values
-	final static Integer[] months = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-	static FarmLand farmland;
+	private final static Integer[] months = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+	private static FarmLand farmland;
 	// farms and years are hard-coded in here, but in actual
 	// implementation will be calculated from the FarmLand
 	// object given
-	static String[] farms = { "Farm A", "Farm B", "Farm C" };
-	static Integer[] years = { 2017, 2018, 2019, 2020 };
+	private static String[] farms = { "Farm A", "Farm B", "Farm C" };
+	private static Integer[] years = { 2017, 2018, 2019, 2020 };
 
 	
 	public ChooseMinMax(FarmLand farmland) {
@@ -48,7 +48,7 @@ public class ChooseMinMax {
 	 * 
 	 * @return VBox containg UI for Min/Max display
 	 */
-	static public VBox tabPane() {
+	public VBox tabPane() {
 
 		TabPane tabPane = new TabPane();
 		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
@@ -71,7 +71,7 @@ public class ChooseMinMax {
 	 * 
 	 * @return VBox with UI controls for the By Month tab
 	 */
-	static public VBox byMonth() {
+	private VBox byMonth() {
 		VBox farmRep = new VBox();
 		farmRep.setSpacing(30);
 
@@ -105,7 +105,7 @@ public class ChooseMinMax {
 	 * 
 	 * @return VBox with UI controls for the By Farm tab
 	 */
-	static public VBox byFarm() {
+	private VBox byFarm() {
 		VBox monthRep = new VBox();
 		monthRep.setSpacing(30);
 
@@ -143,11 +143,20 @@ public class ChooseMinMax {
 	 * @param farmId to make report of
 	 * @param year   to make report of
 	 */
-	static public void byMonthAction(String farmId, Integer year) {
+	private void byMonthAction(String farmId, Integer year) {
 		// TODO:Implement actual version
 		System.out.println("By Month: " + farmId + " " + year);
+<<<<<<< HEAD
 		byMonthReport monthRep = new byMonthReport(farmland,farmId,year);
 		monthRep.show();	
+=======
+		ReportMinMaxMonthly monthRep = new ReportMinMaxMonthly(farmland,farmId,year);
+		monthRep.centerOnScreen();
+		
+		
+		
+		
+>>>>>>> 40cc3a32713c21acee80a3e32ae8f5c85bb0a2c2
 	}
 
 	/**
@@ -159,7 +168,7 @@ public class ChooseMinMax {
 	 * @param year to make report of
 	 * @param month to make report of
 	 */
-	static public void byFarmAction(Integer year, Integer month) {
+	private void byFarmAction(Integer year, Integer month) {
 		// TODO: Implement actual version
 		MinMaxbyFarm monthRep = new MinMaxbyFarm(farmland, year, month);
 		monthRep.show();
