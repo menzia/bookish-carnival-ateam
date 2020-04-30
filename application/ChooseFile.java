@@ -31,17 +31,17 @@ import javafx.stage.DirectoryChooser;
  *
  */
 public class ChooseFile {
-	private static final int WINDOW_WIDTH = 600;
+	private static final int WINDOW_WIDTH = 500;
 	private static final int WINDOW_HEIGHT = 200;
 	private static final String IMPORT_PROMPT = " Choose a Directory to Import From";
 	private static final String EXPORT_PROMPT = " Choose a Directory to Export To";
 	private static final String DEFAULT_LABEL = " No Directory Selected";
-	
-	private static final Label IMPORT_WARNING = 
-			new Label(" Note: Chosen directory must only contain .csv files\n\n"
-					+ " Warning: Importing will overwrite data with matching Farm ID and date");
-	
-	private static final Label EXPORT_WARNING = new Label("Warning: Exporting will overwrite previously exported files in same directory.");
+
+	private static final Label IMPORT_WARNING = new Label(" Note: Chosen directory must only contain .csv files\n\n"
+			+ " Warning: Importing will overwrite data with matching Farm ID and date");
+
+	private static final Label EXPORT_WARNING = new Label(
+			"Warning: Exporting will overwrite previously exported files in same directory.");
 
 	/**
 	 * Creates a stage in which the user can choose either to import data to their
@@ -197,8 +197,24 @@ public class ChooseFile {
 			confirmLabel.setText(DEFAULT_LABEL);
 		});
 
+		// Button which when pressed removes all data from the FarmLand
+		// object. Is colored red as implicit warning to user.
+		Button restartButton = new Button("RESET ALL DATA");
+		restartButton.setStyle("-fx-background-color: #ff5555 ; ");
+
+		restartButton.setOnAction(e -> {
+			farmLand.reset();
+
+			Scene successScene = new Scene(new Label(" All Data Successfully Reset"), WINDOW_WIDTH, WINDOW_HEIGHT);
+			Stage successStage = new Stage();
+
+			successStage.setTitle("All Data Reset");
+			successStage.setScene(successScene);
+			successStage.show();
+		});
+
 		// create a VBox containing all above parts
-		VBox vbox = new VBox(30, topSelection, confirmBar, fileButton, IMPORT_WARNING);
+		VBox vbox = new VBox(30, topSelection, confirmBar, fileButton, IMPORT_WARNING, restartButton);
 		vbox.setAlignment(Pos.CENTER);
 
 		return vbox;

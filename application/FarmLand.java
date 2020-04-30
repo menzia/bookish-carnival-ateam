@@ -46,6 +46,14 @@ public class FarmLand implements FarmLandADT {
 		farms = new TreeMap<String, Farm>();
 		allFarms = new Farm("Stores Weight of All Farms in System");
 	}
+	
+	/**
+	 * Resets the FarmLand object to one with no farms and no data
+	 */
+	public void reset() {
+		farms = new TreeMap<String,Farm>();
+		allFarms = new Farm("Stores Weight of All Farms in System");
+	}
 
 	/**
 	 * Returns the set of all farm id's in this data structure
