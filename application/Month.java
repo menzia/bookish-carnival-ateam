@@ -88,7 +88,7 @@ public class Month implements MonthADT {
 			return false;
 			
 		} else {
-			return true;
+			return false;
 		}
 	}
 	
@@ -283,7 +283,7 @@ public class Month implements MonthADT {
 		
 	    int numDays = size();
 	    long totalW = totalWeight();
-
+	    
 	    double average = totalW / (double)numDays;
 	    
 	    return Math.round(average);

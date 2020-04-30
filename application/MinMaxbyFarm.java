@@ -33,8 +33,8 @@ import javafx.stage.Stage;
 
 /**
  * 
- * MinMaxByFarm - Generates a Stage displaying a Min/Max/Avg report
- * by Farm for the selected month
+ * MinMaxByFarm - Generates a Stage displaying a Min/Max/Avg report by Farm for
+ * the selected month
  */
 public class MinMaxByFarm extends Stage {
 
@@ -88,7 +88,9 @@ public class MinMaxByFarm extends Stage {
 			// if inputs are valid, make talbe
 			table.getColumns().addAll(farmCol, minCol, maxCol, avgCol);
 			table.setItems(getData(farmLand, yearNum, month));
+
 			title.setText("Display Min/Max/Avg From All Farms " + '\n' + "For The Month : " + yearNum + "/" + month);
+			title.setText("Display Min/Max/Avg From All Farms " + '\n' + "For : " + yearNum + "/" + month);
 
 		}
 
@@ -185,8 +187,8 @@ public class MinMaxByFarm extends Stage {
 			// Stores rows of table in order
 			ArrayList<MinFarmRow> farmList = new ArrayList<MinFarmRow>();
 
+			// Add each row of table
 			for (String farm : farmLand.getFarms()) {
-
 				String farmString = farm;
 
 				// Calculate the entries in the row
@@ -199,6 +201,7 @@ public class MinMaxByFarm extends Stage {
 
 				farmList.add(newFarmRow);
 			}
+
 
 			ObservableList<MinFarmRow> data = FXCollections.observableArrayList(farmList);
 

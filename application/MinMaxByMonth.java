@@ -225,8 +225,8 @@ public class MinMaxByMonth extends Stage {
 			ObservableList<MinMonthRow> data = FXCollections.observableArrayList(new ArrayList<MinMonthRow>());
 			
 			return data;
-		}
+		}  
 
 	}
-
+   
 }
