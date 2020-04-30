@@ -75,7 +75,7 @@ public class ChooseAddFarm {
 	 * 
 	 * @param farmId to add to structure
 	 */
-	public void addFarmAction(TextField farmIdField) {
+	private void addFarmAction(TextField farmIdField) {
 		String farmId = farmIdField.getText();
 		Stage responseStage = new Stage();
 		String response;

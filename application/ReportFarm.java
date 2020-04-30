@@ -112,7 +112,7 @@ public class ReportFarm extends Stage {
 	 * @author menzia (2020)
 	 *
 	 */
-	public static class MonthRow {
+	private static class MonthRow {
 		private SimpleStringProperty month;
 		private SimpleLongProperty weights;
 		private SimpleStringProperty percentage;
@@ -124,27 +124,27 @@ public class ReportFarm extends Stage {
 
 		}
 
-		public String getMonth() {
+		private String getMonth() {
 			return month.get();
 		}
 
-		public void setMonth(String month) {
+		private void setMonth(String month) {
 			this.month.set(month);
 		}
 
-		public Long getWeights() {
+		private Long getWeights() {
 			return weights.get();
 		}
 
-		public void setWeights(Integer w) {
+		private void setWeights(Integer w) {
 			weights.set(w);
 		}
 
-		public String getPercentage() {
+		private String getPercentage() {
 			return percentage.get();
 		}
 
-		public void setPercent(String percentage) {
+		private void setPercent(String percentage) {
 			this.percentage.set(percentage);
 		}
 
