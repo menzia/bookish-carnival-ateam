@@ -88,7 +88,7 @@ public class Month implements MonthADT {
 			return false;
 			
 		} else {
-			return false;
+			return true;
 		}
 	}
 	
