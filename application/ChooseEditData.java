@@ -88,6 +88,7 @@ public class ChooseEditData {
 		editWeight.setSpacing(30);
 
 		// Gets farm Id from user
+		
 		ComboBox<String> idBox = new ComboBox<String>(FXCollections.observableArrayList(farmLand.getFarms()));
 		VBox farmId = new VBox(new Label(" Select Farm:"), idBox);
 

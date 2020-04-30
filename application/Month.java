@@ -14,6 +14,11 @@
  */
 package application;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Month - Implementation of MonthADT. Stores the weight of milk obtained on each day of
  * a given month. Note that the day numbers are assumed to start at 1 as they would
@@ -236,5 +241,35 @@ public class Month implements MonthADT {
 		
 		return set(0, dayNum);
 	}
+	public Integer[] sortInReverse() {
+	    Integer[] dailydata = new Integer[dailyWeights.length];
+        int counter = 0;
+        for(int i:dailyWeights) {
+            dailydata[counter] = (Integer)i;
+            counter++;
+        }
+        Arrays.sort(dailydata, Collections.reverseOrder());
+        return dailydata;
+	}
+	public long getMin() {
+	    Integer[] dailydata = sortInReverse();
+	    return dailydata[dailydata.length-1];
+	    
+	}
+	public long getMax() {
+	    Integer[]dailydata = sortInReverse();
+	    return dailydata[0];
+	}
+	public long getAverage() {
+	    int numDays = size();
+	    long totalW = totalWeight();
 
+	    return totalW/(long)numDays;
+	}
+	
+	public static void main(String args[]) {
+	    
+	}
+	
 }
+

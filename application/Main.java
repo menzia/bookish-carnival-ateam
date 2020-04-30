@@ -136,7 +136,10 @@ public class Main extends Application {
 		// generate tables displaying minimum, maximum,
 		// and average milk weights in several categories
 		RadioButton minmax = new RadioButton("Display Max/Min/Avg");
-		minmax.setOnAction(e -> bd.setCenter(ChooseMinMax.tabPane()));
+		minmax.setOnAction(e -> {
+		    ChooseMinMax minmaxData = new ChooseMinMax(farmLand);
+		    bd.setCenter(minmaxData.tabPane());
+		    });
 		minmax.setToggleGroup(group);
 		minmax.setPrefSize(150, 20);
 

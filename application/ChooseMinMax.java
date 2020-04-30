@@ -27,13 +27,20 @@ import javafx.scene.layout.VBox;
 public class ChooseMinMax {
 	// All possible valid month values
 	final static Integer[] months = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-
+	static FarmLand farmland;
 	// farms and years are hard-coded in here, but in actual
 	// implementation will be calculated from the FarmLand
 	// object given
 	static String[] farms = { "Farm A", "Farm B", "Farm C" };
 	static Integer[] years = { 2017, 2018, 2019, 2020 };
 
+	
+	public ChooseMinMax(FarmLand farmland) {
+	    this.farmland = farmland;
+	}
+	
+	
+	
 	/**
 	 * Creates the center dialogue box which allows the user to select the Min/Max
 	 * report they would like to create. In actual implementation will need to pass
@@ -69,16 +76,17 @@ public class ChooseMinMax {
 		farmRep.setSpacing(30);
 
 		// Gets farm Id from user
-		ComboBox<String> idBox = new ComboBox<String>(FXCollections.observableArrayList(farms));
+		ComboBox<String> idBox = new ComboBox<String>(FXCollections.observableArrayList(farmland.getFarms()));
 		VBox farmId = new VBox(new Label("Select Farm ID:"), idBox);
 
 		// Gets year from user
-		ComboBox<Integer> yearBox = new ComboBox<Integer>(FXCollections.observableArrayList(years));
+        ComboBox<Integer> yearBox = new ComboBox<Integer>(FXCollections.observableArrayList(farmland.getYears()));
 		VBox year = new VBox(new Label("Select Year:"), yearBox);
 
 		// Box containing all selection controls
 		VBox selections = new VBox(30, farmId, year);
 
+		
 		// Button pressed to actually generate report
 		Button gButton = new Button("Generate");
 		gButton.setOnAction(e -> byMonthAction(idBox.getValue(), yearBox.getValue()));
@@ -106,7 +114,7 @@ public class ChooseMinMax {
 		selections.setSpacing(30);
 
 		// Gets year number from user
-		ComboBox<Integer> yearBox = new ComboBox<Integer>(FXCollections.observableArrayList(years));
+        ComboBox<Integer> yearBox = new ComboBox<Integer>(FXCollections.observableArrayList(farmland.getYears()));
 		VBox year = new VBox(new Label("Select Year:"), yearBox);
 
 		// Gets month number from user
@@ -138,6 +146,12 @@ public class ChooseMinMax {
 	static public void byMonthAction(String farmId, Integer year) {
 		// TODO:Implement actual version
 		System.out.println("By Month: " + farmId + " " + year);
+		byMonthReport monthRep = new byMonthReport(farmland,farmId,year);
+		monthRep.show();
+		
+		
+		
+		
 	}
 
 	/**
