@@ -1,3 +1,18 @@
+/**
+ * MinMaxByMonth.java
+ * Author:   Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu) Alex Menzia(menzia@wisc.edu)
+ * Date:     4/29/2020
+ * 
+ * Course:   CS400
+ * Semester: Spring 2020 
+ * Lecture:  001/002/001
+ *
+ * List Collaborators: 
+ * 
+ * Other Credits: 
+ *
+ * Know Bugs: 
+ */
 package application;
 
 import java.util.ArrayList;
@@ -19,23 +34,23 @@ import javafx.stage.Stage;
 public class MinMaxByMonth extends Stage {
 
    private Scene scene;
-   private TableView<MonthRow> table;
+   private TableView<MinMonthRow> table;
    private VBox vbox = new VBox();
-   private  TableColumn<MonthRow, String> minCol ;
-   private  TableColumn<MonthRow, String> maxCol;
-   private  TableColumn<MonthRow, String> avgCol;
-   private TableColumn<MonthRow,String> monthCol;
+   private  TableColumn<MinMonthRow, String> minCol ;
+   private  TableColumn<MinMonthRow, String> maxCol;
+   private  TableColumn<MinMonthRow, String> avgCol;
+   private TableColumn<MinMonthRow,String> monthCol;
    private static String[] monthStr = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
    
    public MinMaxByMonth(FarmLand farmLand, String farmId, Integer yearNum){
        
-       minCol =  new TableColumn<MonthRow, String>("min(lbs)");
-       maxCol  = new TableColumn<MonthRow, String>(
+       minCol =  new TableColumn<MinMonthRow, String>("min(lbs)");
+       maxCol  = new TableColumn<MinMonthRow, String>(
            "max(lbs)");
-       avgCol  = new TableColumn<MonthRow, String>("Average(lbs)");
-       monthCol = new TableColumn<MonthRow, String>("Month");
+       avgCol  = new TableColumn<MinMonthRow, String>("Average(lbs)");
+       monthCol = new TableColumn<MinMonthRow, String>("Month");
        
-       table = new TableView<MonthRow>();
+       table = new TableView<MinMonthRow>();
        vbox = new VBox();
        scene = new Scene(new Group());
        table.setEditable(true);
@@ -45,16 +60,16 @@ public class MinMaxByMonth extends Stage {
        
        //month column
        monthCol.setMinWidth(100);
-       monthCol.setCellValueFactory(new PropertyValueFactory<MonthRow, String>("month"));
+       monthCol.setCellValueFactory(new PropertyValueFactory<MinMonthRow, String>("month"));
        //min column
        minCol.setMinWidth(140);
-       minCol.setCellValueFactory(new PropertyValueFactory<MonthRow, String>("min"));
+       minCol.setCellValueFactory(new PropertyValueFactory<MinMonthRow, String>("min"));
        //max column
        maxCol.setMinWidth(140);
-       maxCol.setCellValueFactory(new PropertyValueFactory<MonthRow, String>("max"));
+       maxCol.setCellValueFactory(new PropertyValueFactory<MinMonthRow, String>("max"));
        //average column
        avgCol.setMinWidth(140);
-       avgCol.setCellValueFactory(new PropertyValueFactory<MonthRow, String>("average"));
+       avgCol.setCellValueFactory(new PropertyValueFactory<MinMonthRow, String>("average"));
        
        
        Label title = new Label();
@@ -65,7 +80,7 @@ public class MinMaxByMonth extends Stage {
        } else {
            table.getColumns().addAll(monthCol, minCol, maxCol,avgCol);
            table.setItems(getData(farmLand, farmId, yearNum));
-           title.setText("\"" + farmId + "\" Min/Max/Avg by Month Report: " + yearNum);
+           title.setText("\"" + farmId + "\" Min/Max/Avg Daily Weight by Month For: " + yearNum);
        }
 
        title.setFont(new Font("Arial", 20));
@@ -93,7 +108,7 @@ public class MinMaxByMonth extends Stage {
    
    
    
-   public static class MonthRow {
+   public static class MinMonthRow {
        private SimpleStringProperty month;
        private SimpleLongProperty min;
        private SimpleLongProperty max;
@@ -104,7 +119,7 @@ public class MinMaxByMonth extends Stage {
        /*
         * 
         */
-       private MonthRow(String month, Long min, Long max, Long average) {
+       private MinMonthRow(String month, Long min, Long max, Long average) {
            this.month = new SimpleStringProperty(month);
            this.min = new SimpleLongProperty(min);
            this.max = new SimpleLongProperty(max);
@@ -143,8 +158,8 @@ public class MinMaxByMonth extends Stage {
        }
 
    }
-   private static ObservableList<MonthRow> getData(FarmLand farmLand, String farmId, Integer yearNum) {
-       ArrayList<MonthRow> monthList = new ArrayList<MonthRow>();
+   private static ObservableList<MinMonthRow> getData(FarmLand farmLand, String farmId, Integer yearNum) {
+       ArrayList<MinMonthRow> monthList = new ArrayList<MinMonthRow>();
        if (farmLand.contains(farmId)) {
            
            for (int monthNum = 1; monthNum <= 12; ++monthNum) {
@@ -153,16 +168,16 @@ public class MinMaxByMonth extends Stage {
                long average = farmLand.getFarm(farmId).getMonth(yearNum, monthNum).getAverage();
                String monthString = monthStr[monthNum - 1];
 
-               MonthRow newMonthRow = new MonthRow(monthString,min, max,average);
+               MinMonthRow newMinMonthRow = new MinMonthRow(monthString,min, max,average);
 
-               monthList.add(newMonthRow);
+               monthList.add(newMinMonthRow);
 
                
            }
 
            
        }
-       ObservableList<MonthRow> data = FXCollections.observableArrayList(monthList);
+       ObservableList<MinMonthRow> data = FXCollections.observableArrayList(monthList);
 
     return data;
        

@@ -27,14 +27,15 @@ import javafx.scene.layout.VBox;
 public class ChooseMinMax {
 	// All possible valid month values
 	private final static Integer[] months = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-	private static FarmLand farmland;
-	// farms and years are hard-coded in here, but in actual
-	// implementation will be calculated from the FarmLand
-	// object given
-	private static String[] farms = { "Farm A", "Farm B", "Farm C" };
-	private static Integer[] years = { 2017, 2018, 2019, 2020 };
+	// FarmLand where data is accessed
+	private FarmLand farmland;
 
-	
+	/**
+	 * Create a new ChooseMinMax object with the given FarmLand object
+	 * used for its underlying data.
+	 * 
+	 * @param farmland
+	 */
 	public ChooseMinMax(FarmLand farmland) {
 	    this.farmland = farmland;
 	}
@@ -135,36 +136,29 @@ public class ChooseMinMax {
 	}
 
 	/**
-	 * Generate a scene containing the min/max/average for a given farm on a given
+	 * Generate a scene containing the min/max/average daily weights for a given farm on a given
 	 * year by month
-	 * 
-	 * TODO:Implement when data structure finished
 	 * 
 	 * @param farmId to make report of
 	 * @param year   to make report of
 	 */
 	private void byMonthAction(String farmId, Integer year) {
-		// TODO:Implement actual version
-		System.out.println("By Month: " + farmId + " " + year);	
 
 		MinMaxByMonth monthRep = new MinMaxByMonth(farmland,farmId,year);
 		monthRep.centerOnScreen();
 	}
 
 	/**
-	 * Generate a scene containing the min/max/avg across all farms for a given year
+	 * Generate a scene containing the min/max/avg daily weight across all farms for a given year
 	 * and month
 	 * 
-	 * TODO:Implement when data structure finished
 	 * 
 	 * @param year to make report of
 	 * @param month to make report of
 	 */
 	private void byFarmAction(Integer year, Integer month) {
-		// TODO: Implement actual version
-		MinMaxbyFarm monthRep = new MinMaxbyFarm(farmland, year, month);
-		monthRep.show();
-		System.out.println("By Farm: " + year + "/" + month);
+		MinMaxByFarm monthRep = new MinMaxByFarm(farmland, year, month);
+		monthRep.centerOnScreen();
 
 	}
 
