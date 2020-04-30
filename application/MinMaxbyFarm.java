@@ -1,5 +1,10 @@
 /**
+ * MinMaxbyFarm.java 
  * 
+ * @author Linyi Lyu (2020)
+ * @author Ethan Huang (2020)
+ * @author Alex Menzia (2020)
+ *
  */
 package application;
 
@@ -94,7 +99,7 @@ public class MinMaxbyFarm extends Stage {
 
 		table.setEditable(true);
 		this.setTitle("Min/Max/Avg by all Farms Report");
-		this.setWidth(553);
+		this.setWidth(549);
 		this.setHeight(500);
 
 		this.setScene(scene);
