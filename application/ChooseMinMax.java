@@ -145,18 +145,10 @@ public class ChooseMinMax {
 	 */
 	private void byMonthAction(String farmId, Integer year) {
 		// TODO:Implement actual version
-		System.out.println("By Month: " + farmId + " " + year);
-<<<<<<< HEAD
-		byMonthReport monthRep = new byMonthReport(farmland,farmId,year);
-		monthRep.show();	
-=======
-		ReportMinMaxMonthly monthRep = new ReportMinMaxMonthly(farmland,farmId,year);
+		System.out.println("By Month: " + farmId + " " + year);	
+
+		MinMaxByMonth monthRep = new MinMaxByMonth(farmland,farmId,year);
 		monthRep.centerOnScreen();
-		
-		
-		
-		
->>>>>>> 40cc3a32713c21acee80a3e32ae8f5c85bb0a2c2
 	}
 
 	/**

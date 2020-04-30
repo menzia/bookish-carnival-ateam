@@ -170,17 +170,12 @@ public class FarmLand implements FarmLandADT {
 
 		// set daily weight to the desired weight for that farm
 		int prevWeight = farms.get(farmID).getDailyWeight(yearNum, monthNum, dayNum);
-		System.out.println("PrevWeight Farm: " + prevWeight);
 		farms.get(farmID).setDailyWeight(weight, yearNum, monthNum, dayNum);
-		
-		System.out.println(farms.get(farmID).getDailyWeight(yearNum, monthNum, dayNum));
 
 		// calculate amount that the weight has changed
 		int weightChange = weight - prevWeight;
-		System.out.println("Weight change: " + weightChange);
 
 		// account for weight change in allFarms
-		System.out.println("All Farms Daily " + allFarms.getDailyWeight(yearNum, monthNum, dayNum));
 		allFarms.addToDailyWeight(weightChange, yearNum, monthNum, dayNum);
 	}
 	
@@ -274,7 +269,6 @@ public class FarmLand implements FarmLandADT {
 					// date have a month, day, and year component
 					if (date.length != 3) {
 						sc.close();
-						System.out.print(date);
 						throw new DataFormatException(
 								"Cannot read date on line " + lineNum + "in the file " + file.getPath());
 					}

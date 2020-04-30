@@ -17,7 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class ReportMinMaxMonthly extends Stage {
+public class MinMaxByMonth extends Stage {
 
    private Scene scene;
    private TableView<MonthRow> table;
@@ -28,7 +28,7 @@ public class ReportMinMaxMonthly extends Stage {
    private TableColumn<MonthRow,String> monthCol;
    private static String[] monthStr = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
    
-   public ReportMinMaxMonthly(FarmLand farmLand, String farmId, Integer yearNum){
+   public MinMaxByMonth(FarmLand farmLand, String farmId, Integer yearNum){
        
        minCol =  new TableColumn<MonthRow, String>("min(lbs)");
        maxCol  = new TableColumn<MonthRow, String>(
