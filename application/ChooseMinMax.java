@@ -146,7 +146,7 @@ public class ChooseMinMax {
 	private void byMonthAction(String farmId, Integer year) {
 		// TODO:Implement actual version
 		System.out.println("By Month: " + farmId + " " + year);
-		ReportMinMaxMonth monthRep = new ReportMinMaxMonth(farmland,farmId,year);
+		ReportMinMaxMonthly monthRep = new ReportMinMaxMonthly(farmland,farmId,year);
 		monthRep.centerOnScreen();
 		
 		

@@ -2,7 +2,6 @@ package application;
 
 import java.util.ArrayList;
 import application.ReportAnnual.FarmRow;
-import application.ReportFarm.MonthRow;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -17,25 +16,27 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-public class byMonthReport extends Stage {
+
+public class ReportMinMaxMonthly extends Stage {
 
    private Scene scene;
-   private TableView<monthRow> table;
+   private TableView<MonthRow> table;
    private VBox vbox = new VBox();
-   private  TableColumn<monthRow, String> minCol ;
-   private  TableColumn<monthRow, String> maxCol;
-   private  TableColumn<monthRow, String> avgCol;
-   private TableColumn<monthRow,String> monthCol;
+   private  TableColumn<MonthRow, String> minCol ;
+   private  TableColumn<MonthRow, String> maxCol;
+   private  TableColumn<MonthRow, String> avgCol;
+   private TableColumn<MonthRow,String> monthCol;
    private static String[] monthStr = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
-   byMonthReport(FarmLand farmLand, String farmId, Integer yearNum){
+   
+   public ReportMinMaxMonthly(FarmLand farmLand, String farmId, Integer yearNum){
        
-       minCol =  new TableColumn<monthRow, String>("min(lbs)");
-       maxCol  = new TableColumn<monthRow, String>(
+       minCol =  new TableColumn<MonthRow, String>("min(lbs)");
+       maxCol  = new TableColumn<MonthRow, String>(
            "max(lbs)");
-       avgCol  = new TableColumn<monthRow, String>("Average(lbs)");
-       monthCol = new TableColumn<monthRow, String>("Month");
+       avgCol  = new TableColumn<MonthRow, String>("Average(lbs)");
+       monthCol = new TableColumn<MonthRow, String>("Month");
        
-       table = new TableView<monthRow>();
+       table = new TableView<MonthRow>();
        vbox = new VBox();
        scene = new Scene(new Group());
        table.setEditable(true);
@@ -45,16 +46,16 @@ public class byMonthReport extends Stage {
        
        //month column
        monthCol.setMinWidth(100);
-       monthCol.setCellValueFactory(new PropertyValueFactory<monthRow, String>("month"));
+       monthCol.setCellValueFactory(new PropertyValueFactory<MonthRow, String>("month"));
        //min column
        minCol.setMinWidth(140);
-       minCol.setCellValueFactory(new PropertyValueFactory<monthRow, String>("min"));
+       minCol.setCellValueFactory(new PropertyValueFactory<MonthRow, String>("min"));
        //max column
        maxCol.setMinWidth(140);
-       maxCol.setCellValueFactory(new PropertyValueFactory<monthRow, String>("max"));
+       maxCol.setCellValueFactory(new PropertyValueFactory<MonthRow, String>("max"));
        //average column
        avgCol.setMinWidth(140);
-       avgCol.setCellValueFactory(new PropertyValueFactory<monthRow, String>("average"));
+       avgCol.setCellValueFactory(new PropertyValueFactory<MonthRow, String>("average"));
        
        
        Label title = new Label();
@@ -78,7 +79,7 @@ public class byMonthReport extends Stage {
 
        table.setEditable(true);
        this.setTitle("Min/Max/Avg by Month Report");
-       this.setWidth(450);
+       this.setWidth(800);
        this.setHeight(500);
 
        this.setScene(scene);
@@ -93,7 +94,7 @@ public class byMonthReport extends Stage {
    
    
    
-   public static class monthRow {
+   public static class MonthRow {
        private SimpleStringProperty month;
        private SimpleLongProperty min;
        private SimpleLongProperty max;
@@ -104,7 +105,7 @@ public class byMonthReport extends Stage {
        /*
         * 
         */
-       private monthRow(String month, Long min, Long max, Long average) {
+       private MonthRow(String month, Long min, Long max, Long average) {
            this.month = new SimpleStringProperty(month);
            this.min = new SimpleLongProperty(min);
            this.max = new SimpleLongProperty(max);
@@ -143,8 +144,8 @@ public class byMonthReport extends Stage {
        }
 
    }
-   private static ObservableList<monthRow> getData(FarmLand farmLand, String farmId, Integer yearNum) {
-       ArrayList<monthRow> monthList = new ArrayList<monthRow>();
+   private static ObservableList<MonthRow> getData(FarmLand farmLand, String farmId, Integer yearNum) {
+       ArrayList<MonthRow> monthList = new ArrayList<MonthRow>();
        if (farmLand.contains(farmId)) {
            
            for (int monthNum = 1; monthNum <= 12; ++monthNum) {
@@ -153,7 +154,7 @@ public class byMonthReport extends Stage {
                long average = farmLand.getFarm(farmId).getMonth(yearNum, monthNum).getAverage();
                String monthString = monthStr[monthNum - 1];
 
-               monthRow newMonthRow = new monthRow(monthString,min, max,average);
+               MonthRow newMonthRow = new MonthRow(monthString,min, max,average);
 
                monthList.add(newMonthRow);
 
@@ -162,7 +163,7 @@ public class byMonthReport extends Stage {
 
            
        }
-       ObservableList<monthRow> data = FXCollections.observableArrayList(monthList);
+       ObservableList<MonthRow> data = FXCollections.observableArrayList(monthList);
 
     return data;
        
