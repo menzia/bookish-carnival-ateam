@@ -93,7 +93,7 @@ public class MinMaxByMonth extends Stage {
 
        table.setEditable(true);
        this.setTitle("Min/Max/Avg by Month Report");
-       this.setWidth(800);
+       this.setWidth(549);
        this.setHeight(500);
 
        this.setScene(scene);
