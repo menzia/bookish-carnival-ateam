@@ -59,7 +59,7 @@ public class Month implements MonthADT {
 	 * @return number of days in given month
 	 * @throws IllegalArgumentException if month number is invalid
 	 */
-	public static int getNumDays(int yearNum,int monthNum) throws IllegalArgumentException {
+	private static int getNumDays(int yearNum,int monthNum) throws IllegalArgumentException {
 		if (monthNum < 1 || monthNum > 12) {
 			throw new IllegalArgumentException("Month number must be between 1 and 12");
 		}

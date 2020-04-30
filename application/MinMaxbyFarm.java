@@ -33,7 +33,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-
 public class MinMaxByFarm extends Stage {
 
 	private Scene scene;
@@ -88,7 +87,7 @@ public class MinMaxByFarm extends Stage {
 		} else {
 			table.getColumns().addAll(farmCol, Min, Max, Avg);
 			table.setItems(getData(farmLand, yearNum, month));
-			title.setText("Display Min/Max/Avg From All Farms "+ '\n' +"For : "+ yearNum + "/" +  month);
+			title.setText("Display Min/Max/Avg From All Farms " + '\n' + "For : " + yearNum + "/" + month);
 
 		}
 
@@ -166,6 +165,14 @@ public class MinMaxByFarm extends Stage {
 
 	}
 
+	/**
+	 * getData method
+	 * 
+	 * @param farmLand
+	 * @param yearNum
+	 * @param month
+	 * @return
+	 */
 	private static ObservableList<byFarmRow> getData(FarmLand farmLand, Integer yearNum, Integer month) {
 		ArrayList<byFarmRow> farmList = new ArrayList<byFarmRow>();
 
@@ -173,15 +180,13 @@ public class MinMaxByFarm extends Stage {
 
 		for (String farm : farmLand.getFarms()) {
 
-
-			// Convert the month, weight, and percentage to strings for display
 			String farmString = farm;
 
-			long max =  farmLand.getFarm(farm).getMonth(yearNum, month).getMax();
-			long avg =  farmLand.getFarm(farm).getMonth(yearNum, month).getAverage();
-			long min =  farmLand.getFarm(farm).getMonth(yearNum, month).getMin();
+			long max = farmLand.getFarm(farm).getMonth(yearNum, month).getMax();
+			long avg = farmLand.getFarm(farm).getMonth(yearNum, month).getAverage();
+			long min = farmLand.getFarm(farm).getMonth(yearNum, month).getMin();
 
-			// Row of table with data for this month
+			// Row of table with data for this year / month
 			byFarmRow newFarmRow = new byFarmRow(farmString, min, max, avg);
 
 			farmList.add(newFarmRow);
@@ -192,7 +197,5 @@ public class MinMaxByFarm extends Stage {
 		return data;
 
 	}
-
-
 
 }

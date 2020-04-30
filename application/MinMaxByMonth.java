@@ -99,8 +99,6 @@ public class MinMaxByMonth extends Stage {
        this.setScene(scene);
        this.show();
        // show scene
- 
-       
    }
    
    
