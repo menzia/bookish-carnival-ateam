@@ -17,7 +17,6 @@ package application;
  * Year - Implements YearADT. Stores and allows access to milk weight data for
  * every day in a year. Uses Month.java.
  * 
- * @author menzia (2020)
  *
  */
 public class Year implements YearADT {
@@ -62,6 +61,7 @@ public class Year implements YearADT {
 		if (monthNum < 1 || monthNum > 12) {
 
 			throw new IllegalArgumentException("Month number must be between 1 and 12");
+			
 		} else {
 
 			return months[monthNum - 1];
@@ -185,6 +185,7 @@ public class Year implements YearADT {
 	public int clearDailyWeight(int monthNum, int dayNum) {
 
 		return setDailyWeight(0, monthNum, dayNum);
+		
 	}
 
 }

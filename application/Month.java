@@ -14,18 +14,11 @@
  */
 package application;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 /**
  * Month - Implementation of MonthADT. Stores the weight of milk obtained on each day of
  * a given month. Note that the day numbers are assumed to start at 1 as they would
  * in a normal calendar.
  * 
- * @author menzia (2020)
- *
  */
 public class Month implements MonthADT {
 	
@@ -85,13 +78,13 @@ public class Month implements MonthADT {
 	 * Returns true iff the given year is a leap year
 	 */
 	private static boolean isLeap(int yearNum) {
-		if (yearNum % 4 == 0) {
+		if (yearNum % 4 != 0) {
 			return false;
 			
-		} else if (yearNum % 400 == 0) {
+		} else if (yearNum % 100 != 0) {
 			return true;
 			
-		} else if (yearNum % 100 == 0) {
+		} else if (yearNum % 400 != 0) {
 			return false;
 			
 		} else {
@@ -214,6 +207,7 @@ public class Month implements MonthADT {
 		return getRange(dayNumStart, dailyWeights.length);
 	}
 	
+	@Override
 	/**
 	 * Returns the total amount of weight from the start of the
 	 * month to the given day. If day is out of range,
@@ -241,34 +235,58 @@ public class Month implements MonthADT {
 		
 		return set(0, dayNum);
 	}
-	public Integer[] sortInReverse() {
-	    Integer[] dailydata = new Integer[dailyWeights.length];
-        int counter = 0;
-        for(int i:dailyWeights) {
-            dailydata[counter] = (Integer)i;
-            counter++;
-        }
-        Arrays.sort(dailydata, Collections.reverseOrder());
-        return dailydata;
-	}
+	
+	@Override
+	/**
+	 * Returns the minimum daily weight for a day in this month
+	 * 
+	 * @return minimum daily weight
+	 */
 	public long getMin() {
-	    Integer[] dailydata = sortInReverse();
-	    return dailydata[dailydata.length-1];
+	    int min = Integer.MAX_VALUE;
+	    
+	    for (int i = 0; i < dailyWeights.length; ++i) {
+	    	if (dailyWeights[i] < min) {
+	    		min = dailyWeights[i];
+	    	}
+	    }
+	    
+	    return min;
 	    
 	}
+	
+	@Override
+	/**
+	 * Return the maximum daily weight for a day in this month.
+	 * 
+	 * @return maximum daily weight in this month
+	 */
 	public long getMax() {
-	    Integer[]dailydata = sortInReverse();
-	    return dailydata[0];
+	    int max = 0;
+	    for (int i = 0; i < dailyWeights.length; ++i) {
+	    	if (dailyWeights[i] > max) {
+	    		max = dailyWeights[i];
+	    	}
+	    }
+	    
+	    return max;
 	}
+	
+	@Override
+	/**
+	 * Return the average daily weight for this month,
+	 * rounded to the nearest whole number.
+	 * 
+	 * @return average daily weight
+	 */
 	public long getAverage() {
+		
 	    int numDays = size();
 	    long totalW = totalWeight();
 
-	    return totalW/(long)numDays;
-	}
-	
-	public static void main(String args[]) {
+	    double average = totalW / (double)numDays;
 	    
+	    return Math.round(average);
 	}
 	
 }

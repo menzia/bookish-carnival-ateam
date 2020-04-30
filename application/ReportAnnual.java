@@ -16,7 +16,6 @@
 package application;
 
 import java.util.ArrayList;
-
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;

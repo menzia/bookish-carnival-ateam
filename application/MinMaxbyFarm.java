@@ -16,8 +16,6 @@
 package application;
 
 import java.util.ArrayList;
-
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -33,32 +31,33 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-
+/**
+ * 
+ * MinMaxByFarm - Generates a Stage displaying a Min/Max/Avg report
+ * by Farm for the selected month
+ */
 public class MinMaxByFarm extends Stage {
-
-	private Scene scene;
-	private TableView<byFarmRow> table;
-	private VBox vbox = new VBox();
-	// for all farms feature
-	// May want to move these into the constructor method instead of as
-	// static fields, but not sure.
-	private static TableColumn<byFarmRow, String> farmCol = new TableColumn<byFarmRow, String>("Farm ID");
-	private static TableColumn<byFarmRow, String> Min = new TableColumn<byFarmRow, String>("Min");
-	private static TableColumn<byFarmRow, String> Max = new TableColumn<byFarmRow, String>("Max");
-	private static TableColumn<byFarmRow, String> Avg = new TableColumn<byFarmRow, String>("Avg");
 
 	/**
 	 * Creates the center dialogue box which allows the user to select the Min/Max
 	 * report they would like to create. In actual implementation will need to pass
 	 * in access to the FarmLand object so that a report can be created
 	 * 
-	 * @return VBox containg UI for Min/Max display
-	 */
-	/**
-	 * Displays an example farm report to the screen
+	 * @return VBox containing UI for Min/Max display by farm
 	 */
 	MinMaxByFarm(FarmLand farmLand, Integer yearNum, Integer month) {
-		table = new TableView<byFarmRow>();
+		// The table and its containers
+		Scene scene;
+		TableView<MinFarmRow> table;
+		VBox vbox = new VBox();
+
+		// Columns of the table
+		TableColumn<MinFarmRow, String> farmCol = new TableColumn<MinFarmRow, String>("Farm ID");
+		TableColumn<MinFarmRow, String> minCol = new TableColumn<MinFarmRow, String>("Min");
+		TableColumn<MinFarmRow, String> maxCol = new TableColumn<MinFarmRow, String>("Max");
+		TableColumn<MinFarmRow, String> avgCol = new TableColumn<MinFarmRow, String>("Avg");
+
+		table = new TableView<MinFarmRow>();
 		vbox = new VBox();
 
 		scene = new Scene(new Group());
@@ -66,19 +65,19 @@ public class MinMaxByFarm extends Stage {
 
 		// month column
 		farmCol.setMinWidth(100);
-		farmCol.setCellValueFactory(new PropertyValueFactory<byFarmRow, String>("farm"));
+		farmCol.setCellValueFactory(new PropertyValueFactory<MinFarmRow, String>("farm"));
 
 		// Min column
-		Min.setMinWidth(140);
-		Min.setCellValueFactory(new PropertyValueFactory<byFarmRow, String>("Min"));
+		minCol.setMinWidth(140);
+		minCol.setCellValueFactory(new PropertyValueFactory<MinFarmRow, String>("Min"));
 
 		// Max column
-		Max.setMinWidth(140);
-		Max.setCellValueFactory(new PropertyValueFactory<byFarmRow, String>("Max"));
+		maxCol.setMinWidth(140);
+		maxCol.setCellValueFactory(new PropertyValueFactory<MinFarmRow, String>("Max"));
 
 		// Avg column
-		Avg.setMinWidth(140);
-		Avg.setCellValueFactory(new PropertyValueFactory<byFarmRow, String>("Avg"));
+		avgCol.setMinWidth(140);
+		avgCol.setCellValueFactory(new PropertyValueFactory<MinFarmRow, String>("Avg"));
 
 		Label title = new Label();
 
@@ -86,12 +85,14 @@ public class MinMaxByFarm extends Stage {
 			title.setText("Error: Must choose year and month");
 
 		} else {
-			table.getColumns().addAll(farmCol, Min, Max, Avg);
+			// if inputs are valid, make talbe
+			table.getColumns().addAll(farmCol, minCol, maxCol, avgCol);
 			table.setItems(getData(farmLand, yearNum, month));
-			title.setText("Display Min/Max/Avg From All Farms "+ '\n' +"For : "+ yearNum + "/" +  month);
+			title.setText("Display Min/Max/Avg From All Farms " + '\n' + "For The Month : " + yearNum + "/" + month);
 
 		}
 
+		// Format table and display
 		title.setFont(new Font("Arial", 20));
 
 		vbox.setSpacing(5);
@@ -100,10 +101,10 @@ public class MinMaxByFarm extends Stage {
 
 		((Group) scene.getRoot()).getChildren().addAll(vbox);
 
-		table.setEditable(true);
+		table.setEditable(false);
 		this.setTitle("Min/Max/Avg by all Farms Report");
-		this.setWidth(549);
-		this.setHeight(500);
+		this.setWidth(600);
+		this.setHeight(400);
 
 		this.setScene(scene);
 		this.show();
@@ -112,19 +113,23 @@ public class MinMaxByFarm extends Stage {
 	}
 
 	/**
-	 * 
-	 * byFarmRow - TODO Describe the purpose of this user-defined type
-	 * 
-	 * @author Ethan Huang (2020)
-	 *
+	 * Stores the data for a single row of the min/max by farm table.
 	 */
-	public static class byFarmRow {
+	public static class MinFarmRow {
 		private SimpleStringProperty farm;
-		private SimpleLongProperty min;
-		private SimpleLongProperty max;
-		private SimpleLongProperty avg;
+		private SimpleLongProperty min;// minimum daily weight for this farm
+		private SimpleLongProperty max;// maximum daily weight for this farm
+		private SimpleLongProperty avg;// average daily weight for this farm
 
-		private byFarmRow(String farm, Long min, Long max, Long avg) {
+		/**
+		 * Constructs a new row with the given data
+		 * 
+		 * @param farm id of farm to make row on
+		 * @param min  minimum daily weight for this farm
+		 * @param max  maximum daily weight for this farm
+		 * @param avg  average daily weight for this farm
+		 */
+		public MinFarmRow(String farm, Long min, Long max, Long avg) {
 			this.farm = new SimpleStringProperty(farm);
 			this.min = new SimpleLongProperty(min);
 			this.max = new SimpleLongProperty(max);
@@ -166,33 +171,49 @@ public class MinMaxByFarm extends Stage {
 
 	}
 
-	private static ObservableList<byFarmRow> getData(FarmLand farmLand, Integer yearNum, Integer month) {
-		ArrayList<byFarmRow> farmList = new ArrayList<byFarmRow>();
+	/**
+	 * Returns a list containing the data for a table using the given month If the
+	 * inputs are invalid, will return an empty list.
+	 * 
+	 * @param farmLand to get data from
+	 * @param yearNum  of month to make table on
+	 * @param monthNum number of month to make table on
+	 * @return
+	 */
+	private static ObservableList<MinFarmRow> getData(FarmLand farmLand, Integer yearNum, Integer monthNum) {
+		try {
+			// Stores rows of table in order
+			ArrayList<MinFarmRow> farmList = new ArrayList<MinFarmRow>();
 
-		long totalWeight = farmLand.getAllFarmsYearTotal(yearNum);
+			for (String farm : farmLand.getFarms()) {
 
-		for (String farm : farmLand.getFarms()) {
+				String farmString = farm;
 
+				// Calculate the entries in the row
+				long max = farmLand.getFarm(farm).getMonth(yearNum, monthNum).getMax();
+				long avg = farmLand.getFarm(farm).getMonth(yearNum, monthNum).getAverage();
+				long min = farmLand.getFarm(farm).getMonth(yearNum, monthNum).getMin();
 
-			// Convert the month, weight, and percentage to strings for display
-			String farmString = farm;
+				// Row of table with data for this month
+				MinFarmRow newFarmRow = new MinFarmRow(farmString, min, max, avg);
 
-			long max =  farmLand.getFarm(farm).getMonth(yearNum, month).getMax();
-			long avg =  farmLand.getFarm(farm).getMonth(yearNum, month).getAverage();
-			long min =  farmLand.getFarm(farm).getMonth(yearNum, month).getMin();
+				farmList.add(newFarmRow);
+			}
 
-			// Row of table with data for this month
-			byFarmRow newFarmRow = new byFarmRow(farmString, min, max, avg);
+			ObservableList<MinFarmRow> data = FXCollections.observableArrayList(farmList);
 
-			farmList.add(newFarmRow);
+			return data;
+			
+		} catch (Exception e) {
+			// If an unexpected exception is encountered, return empty list. In practice
+			// this should never happen as the inputs are checked for correctness when
+			// they are selected.
+			System.out.println(e.getMessage());
+			ObservableList<MinFarmRow> data = FXCollections.observableArrayList(new ArrayList<MinFarmRow>());
+
+			return data;
+
 		}
-
-		ObservableList<byFarmRow> data = FXCollections.observableArrayList(farmList);
-
-		return data;
-
 	}
-
-
 
 }

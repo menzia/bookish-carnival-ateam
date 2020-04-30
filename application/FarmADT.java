@@ -13,6 +13,9 @@
  */
 package application;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 /**
  * FarmADT - Stores milk data for a given farm across an arbitrary number of years and
  * allows access to it. Also allows access to an ID string which identifies this farm
@@ -30,14 +33,14 @@ public interface FarmADT {
 	
 	/**
 	 * Return the YearADT object corresponding to the given year number at this farm.
-	 * If no data is stored for that year, returns null
+	 * If no data is stored for that year, returns empty year object
 	 * 
 	 * @return YearADT object corresponding to the given year number.
 	 */
 	public YearADT getYear(int yearNum);
 	
 	/** Returns the MonthADT object corresponding to the given year number and month
-	 * number at this farm. If no data is stored for this month, returns null
+	 * number at this farm. If no data is stored for this month, returns empty month object
 	 * @param yearNum of month object to return
 	 * @param monthNum of month object to return
 	 * @return MonthADT object corresponding to the desired month
@@ -90,6 +93,7 @@ public interface FarmADT {
 	/**
 	 * Set the daily weight for this farm and the given date to the given weight
 	 * @param weight to set the daily weight to
+	 * 
 	 * @param yearNum of date to reset
 	 * @param monthNum of date to reset
 	 * @param dayNum of date to reset
@@ -100,6 +104,7 @@ public interface FarmADT {
 	/**
 	 * Adds to the daily weight for this farm and the given date by the given weight
 	 * @param weight to add to the daily weight
+	 * 
 	 * @param yearNum of date to reset
 	 * @param monthNum of date to reset
 	 * @param dayNum of date to reset
@@ -111,10 +116,22 @@ public interface FarmADT {
 	/**
 	 * Set the daily weight for this farm and the given weight to zero
 	 * @param yearNum of date to reset
+	 * 
 	 * @param monthNum of date to reset
 	 * @param dayNum of date to reset
 	 * @return the previous weight stored at that date
 	 */
 	public int clearDailyWeight(int yearNum, int monthNum, int dayNum);
+	
+	/**
+	 * Writes the data from this farm for the given year and month into the given
+	 * file writer in csv format.
+	 * 
+	 * @param wrter to write onto file with
+	 * @param yearNum of data to write
+	 * @param monthNum of data to write
+	 * @throws IOException if an I/O error occurs
+	 */
+	public void exportData(FileWriter wrter, int yearNum, int monthNum) throws IOException;
 	
 }

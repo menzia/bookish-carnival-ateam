@@ -24,8 +24,6 @@ import java.util.TreeMap;
  * Farm - Stores the data on the amount of milk weight that a farm has sold on
  * by day as well as an id associated to that farm. Also has various methods for
  * updating data, saving data to files, and calculating results
- * 
- * @author menzia (2020)
  *
  */
 public class Farm implements FarmADT {
@@ -71,7 +69,7 @@ public class Farm implements FarmADT {
 	@Override
 	/**
 	 * Return the YearADT object corresponding to the given year number at this
-	 * farm. If no data is stored for that year, returns null
+	 * farm. If no data is stored for that year, returns empty year
 	 * 
 	 * @return YearADT object corresponding to the given year number.
 	 */
@@ -79,16 +77,14 @@ public class Farm implements FarmADT {
 		if (years.containsKey(yearNum)) {
 			return years.get(yearNum);
 		} else {
-			// may want to change to return null
-			// if this construction is too problematic
-			return null;
+			return new Year(yearNum);
 		}
 	}
 
 	@Override
 	/**
 	 * Returns the MonthADT object corresponding to the given year number and month
-	 * number at this farm. If no data is stored for this month, returns null
+	 * number at this farm. If no data is stored for this month, returns empty month
 	 * 
 	 * @param yearNum  of month object to return
 	 * @param monthNum of month object to return
@@ -99,7 +95,7 @@ public class Farm implements FarmADT {
 		if (years.containsKey(yearNum)) {
 			return years.get(yearNum).getMonth(monthNum);
 		} else {
-			return null;
+			return new Month(yearNum, monthNum);
 		}
 	}
 
@@ -243,11 +239,9 @@ public class Farm implements FarmADT {
 	 * @throws IllegalArgumentException if date is invalid
 	 */
 	public int getDailyWeight(int yearNum, int monthNum, int dayNum) throws IllegalArgumentException {
-		if (!years.containsKey(yearNum)) {
-			return 0;
-		} else {
-			return years.get(yearNum).getMonth(monthNum).get(dayNum);
-		}
+			
+		return getMonth(yearNum, monthNum).get(dayNum);
+			
 	}
 
 	@Override
@@ -307,12 +301,11 @@ public class Farm implements FarmADT {
 			throw new IllegalArgumentException("Cannot have negative final weight");
 		}
 
-		
-
 		setDailyWeight(newWeight, yearNum, monthNum, dayNum);
 
 	}
 
+	@Override
 	/**
 	 * Writes the data from this farm for the given year and month into the given
 	 * file writer in csv format.
@@ -323,11 +316,14 @@ public class Farm implements FarmADT {
 	 * @throws IOException if an I/O error occurs
 	 */
 	public void exportData(FileWriter wrter, int yearNum, int monthNum) throws IOException {
+		
 		if (years.get(yearNum) != null) {
+			
 			Year year = years.get(yearNum);
 			Month month = year.getMonth(monthNum);
 
 			for (int dayNum = 1; dayNum <= month.size(); ++dayNum) {
+				
 				int weight = month.get(dayNum);
 				if (weight > 0) {
 					wrter.write(dataLine(yearNum, monthNum, dayNum, weight));

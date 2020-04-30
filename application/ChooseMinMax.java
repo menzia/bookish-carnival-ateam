@@ -24,9 +24,18 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+/**
+ * 
+ * ChooseMinMax - Used to display a box in which the user can display
+ * reports on the minimum,maximum, and average daily weights
+ * by month or by farm.
+ *
+ */
 public class ChooseMinMax {
+	
 	// All possible valid month values
 	private final static Integer[] months = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+	
 	// FarmLand where data is accessed
 	private FarmLand farmland;
 
@@ -47,7 +56,7 @@ public class ChooseMinMax {
 	 * report they would like to create. In actual implementation will need to pass
 	 * in access to the FarmLand object so that a report can be created
 	 * 
-	 * @return VBox containg UI for Min/Max display
+	 * @return VBox containing UI for Min/Max display
 	 */
 	public VBox tabPane() {
 
@@ -130,7 +139,7 @@ public class ChooseMinMax {
 
 		// Add all above nodes plus explanatory label
 		monthRep.getChildren().addAll(selections, gButton,
-				new Label("Note: If year is selectable, there is no data on it"));
+				new Label("Note: If year is not selectable, there is no data on it"));
 
 		return monthRep;
 	}

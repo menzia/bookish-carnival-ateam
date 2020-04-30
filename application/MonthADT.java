@@ -86,5 +86,27 @@ public interface MonthADT {
 	 * @return the previous weight in the given day
 	 */
 	public int clear(int dayNum);
+	
+	/**
+	 * Returns the minimum daily weight for a day in this month
+	 * 
+	 * @return minimum daily weight
+	 */
+	public long getMin();
+	
+	/**
+	 * Return the maximum daily weight for a day in this month.
+	 * 
+	 * @return maximum daily weight in this month
+	 */
+	public long getMax();
+	
+	/**
+	 * Return the average daily weight for this month,
+	 * rounded to the nearest whole number.
+	 * 
+	 * @return average daily weight
+	 */
+	public long getAverage();
 
 }

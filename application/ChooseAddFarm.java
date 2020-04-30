@@ -25,8 +25,6 @@ import javafx.stage.Stage;
 /**
  * ChooseAddFarm - Used to display box in which user can add a new farm id
  * to their data structure from Main.java
- * 
- * @author menzia (2020)
  *
  */
 public class ChooseAddFarm {
