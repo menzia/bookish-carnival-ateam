@@ -33,8 +33,7 @@ public class ChooseGenerateReport {
 
 	/**
 	 * Creates the center dialogue box which allows the user to select the report
-	 * they would like to create. In actual implementation will need to pass in
-	 * access to the FarmLand object so that a report can be created
+	 * they would like to create and display the selected report
 	 * 
 	 * @return vertical box containing UI controls for report generation
 	 */
@@ -76,10 +75,12 @@ public class ChooseGenerateReport {
 		VBox farmId = new VBox(new Label("Select Farm ID:"), idBox);
 
 		// ComboBox gets an Integer from the user for the year number
+		// Limited to years which there is data on to make it easier for
+		// user to navigate
 		ComboBox<Integer> yearBox = new ComboBox<Integer>(FXCollections.observableArrayList(farmLand.getYears()));
 		VBox year = new VBox(new Label("Select Year:"), yearBox);
 
-		// Sub vertical box containg all user selections
+		// Sub vertical box containing all user selections
 		VBox selections = new VBox(30, farmId, year);
 
 		// Button which is pressed to actually make the report
@@ -106,6 +107,8 @@ public class ChooseGenerateReport {
 		yearRep.setSpacing(30);
 
 		// ComboBox gets Integer from user for the year selection
+		// Limited to years which have data on them in order to simplify
+		// for user.
 		ComboBox<Integer> yearBox = new ComboBox<Integer>(FXCollections.observableArrayList(farmLand.getYears()));
 		VBox year = new VBox(new Label("Select Year:"), yearBox);
 
@@ -174,10 +177,12 @@ public class ChooseGenerateReport {
 
 		// Gets the start date from the user
 		DatePicker startBox = new DatePicker();
+		startBox.setEditable(false);
 		VBox start = new VBox(new Label("Select start date:"), startBox);
 
 		// Gets the end date from the user
 		DatePicker endBox = new DatePicker();
+		endBox.setEditable(false);
 		VBox end = new VBox(new Label("Selected end date:"), endBox);
 
 		selections.getChildren().addAll(start, end);

@@ -104,12 +104,12 @@ public class ReportAnnual extends Stage {
 
 	/**
 	 * 
-	 * FarmRow - TODO Describe the purpose of this user-defined type
+	 * FarmRow - Store data for a single row of the annual report
 	 * 
 	 * @author menzia (2020)
 	 *
 	 */
-	public static class FarmRow {
+	private static class FarmRow {
 		private SimpleStringProperty farm;
 		private SimpleLongProperty weights;
 		private SimpleStringProperty percentage;

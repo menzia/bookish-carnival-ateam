@@ -27,26 +27,29 @@ import javafx.stage.DirectoryChooser;
  * ChooseFile - Contains method chooseFileDialogue(), which returns a vertical
  * box containing the input structure for getting the user to choose a directory
  * to import data from or to export data to.
- * 
  *
  */
 public class ChooseFile {
 	private static final int WINDOW_WIDTH = 500;
 	private static final int WINDOW_HEIGHT = 200;
+
 	private static final String IMPORT_PROMPT = " Choose a Directory to Import From";
 	private static final String EXPORT_PROMPT = " Choose a Directory to Export To";
 	private static final String DEFAULT_LABEL = " No Directory Selected";
 
-	private static final Label IMPORT_WARNING = new Label(" Note: Chosen directory must only contain .csv files\n\n"
-			+ " Warning: Importing will overwrite data with matching Farm ID and date");
+	private static final String IMPORT_WARNING = " Note: Chosen directory must only contain .csv files\n\n"
+			+ " Warning: Importing will overwrite data with matching Farm ID and date";
 
-	private static final Label EXPORT_WARNING = new Label(
-			"Warning: Exporting will overwrite previously exported files in same directory.");
+	private static final String EXPORT_WARNING = "Warning: Exporting will overwrite previously exported files in same directory.";
 
 	/**
 	 * Creates a stage in which the user can choose either to import data to their
 	 * project or export the data in their project to a specified directory.
 	 * 
+	 * @param stage    Stage object of the main GUI
+	 * @param farmLand FarmLand object which stores data for the main GUI
+	 * @return a VBox object containing the UI interface needed for importing and
+	 *         exporting csv files
 	 */
 	static public VBox chooseFileDialogue(Stage stage, FarmLand farmLand) {
 
@@ -69,10 +72,11 @@ public class ChooseFile {
 
 		// Next section will be a button which the user can
 		// press to open a dialogue where they can choose the
-		// directory they want to import or export.
+		// directory they want to import to or export from
 		DirectoryChooser chooser = new DirectoryChooser();
 		// will display and save the user's chosen directory
 		Label confirmLabel = new Label(DEFAULT_LABEL);
+
 		// user presses this to confirm import/export
 		Button confirmButton = new Button("Import");
 		HBox confirmBar = new HBox(20, confirmLabel, confirmButton);
@@ -81,11 +85,17 @@ public class ChooseFile {
 		// User presses this to open a dialogue where they can choose a directory
 		Button fileButton = new Button(IMPORT_PROMPT);
 
+		// Label which contains warning for user
+		// Start of as import warning, switch to export
+		// when needed
+		Label warning = new Label(IMPORT_WARNING);
+
 		// When import button is pressed, switch all to import mode
 		importButton.setOnAction(e -> {
 			fileButton.setText(IMPORT_PROMPT);
 			confirmLabel.setText(DEFAULT_LABEL);
 			confirmButton.setText("Import");
+			warning.setText(IMPORT_WARNING);
 
 		});
 
@@ -94,6 +104,7 @@ public class ChooseFile {
 			fileButton.setText(EXPORT_PROMPT);
 			confirmLabel.setText(DEFAULT_LABEL);
 			confirmButton.setText("Export");
+			warning.setText(EXPORT_WARNING);
 		});
 
 		// When pressed, file button opens directory dialogue and change the
@@ -214,7 +225,7 @@ public class ChooseFile {
 		});
 
 		// create a VBox containing all above parts
-		VBox vbox = new VBox(30, topSelection, confirmBar, fileButton, IMPORT_WARNING, restartButton);
+		VBox vbox = new VBox(30, topSelection, confirmBar, fileButton, warning, restartButton);
 		vbox.setAlignment(Pos.CENTER);
 
 		return vbox;
