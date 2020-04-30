@@ -1,10 +1,17 @@
 /**
- * MinMaxbyFarm.java 
+ * MinMaxByFarm.java
+ * Author:   Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu) Alex Menzia(menzia@wisc.edu)
+ * Date:     4/29/2020
  * 
- * @author Linyi Lyu (2020)
- * @author Ethan Huang (2020)
- * @author Alex Menzia (2020)
+ * Course:   CS400
+ * Semester: Spring 2020 
+ * Lecture:  001/002/001
  *
+ * List Collaborators: 
+ * 
+ * Other Credits: 
+ *
+ * Know Bugs: 
  */
 package application;
 
@@ -26,11 +33,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-/**
- * @author Ethan Huang
- *
- */
-public class MinMaxbyFarm extends Stage {
+
+public class MinMaxByFarm extends Stage {
 
 	private Scene scene;
 	private TableView<byFarmRow> table;
@@ -53,7 +57,7 @@ public class MinMaxbyFarm extends Stage {
 	/**
 	 * Displays an example farm report to the screen
 	 */
-	MinMaxbyFarm(FarmLand farmLand, Integer yearNum, Integer month) {
+	MinMaxByFarm(FarmLand farmLand, Integer yearNum, Integer month) {
 		table = new TableView<byFarmRow>();
 		vbox = new VBox();
 
