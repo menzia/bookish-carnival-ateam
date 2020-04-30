@@ -59,7 +59,7 @@ public class Month implements MonthADT {
 	 * @return number of days in given month
 	 * @throws IllegalArgumentException if month number is invalid
 	 */
-	private static int getNumDays(int yearNum,int monthNum) throws IllegalArgumentException {
+	public static int getNumDays(int yearNum,int monthNum) throws IllegalArgumentException {
 		if (monthNum < 1 || monthNum > 12) {
 			throw new IllegalArgumentException("Month number must be between 1 and 12");
 		}
@@ -86,7 +86,7 @@ public class Month implements MonthADT {
 	 */
 	private static boolean isLeap(int yearNum) {
 		if (yearNum % 4 == 0) {
-			return false;
+			return true;
 			
 		} else if (yearNum % 400 == 0) {
 			return true;
@@ -95,7 +95,7 @@ public class Month implements MonthADT {
 			return false;
 			
 		} else {
-			return true;
+			return false;
 		}
 	}
 	
@@ -267,8 +267,9 @@ public class Month implements MonthADT {
 	    return totalW/(long)numDays;
 	}
 	
+	//for test only
 	public static void main(String args[]) {
-	    
+	   
 	}
 	
 }
