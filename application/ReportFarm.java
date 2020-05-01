@@ -44,7 +44,7 @@ import javafx.stage.Stage;
 public class ReportFarm extends Stage {
 
 	// Strings which will show up on left column for each month of year
-	private static String[] monthStrings = { "01-Jan", " 02-Feb", " 03-Mar", " 04-Apr", " 05-May", " 06-Jun",
+	private static String[] monthStrings = { " 01-Jan", " 02-Feb", " 03-Mar", " 04-Apr", " 05-May", " 06-Jun",
 			" 07-Jul", " 08-Aug", " 09-Sep", " 10-Oct", " 11-Nov", " 12-Dec" };
 
 	/**
@@ -240,19 +240,25 @@ public class ReportFarm extends Stage {
 	 * @param farmId of farm to report on
 	 * @param yearNum of year to report on
 	 */
-	public static void printToDirectory(String dirName,FarmLand farmLand, String farmId, int yearNum) {
-		File file = new File(dirName + "/FarmReport-" + farmId + "-" + yearNum + ".txt");
-		try {
+	public static void printToDirectory(File dir,FarmLand farmLand, String farmId, Integer yearNum) {
 		
+		File file = null;//file where the report will be written
+		
+		try {
 			
+			file = new File(dir, "/FarmReport-" + farmId + "-" + yearNum + ".txt");
 			FileWriter wrter = new FileWriter(file);
-			Farm farm = farmLand.getFarm(farmId);
 			
+			// farm to write report on
+			Farm farm = farmLand.getFarm(farmId);
+			// for use in percent calculation
 			Long totalWeight = farm.getYearTotal(yearNum);
 					
-			wrter.write("Monthly Report: " + farmId + " : " + yearNum + "\n");
-			wrter.write(" Month | Percent | Total Weight \n");
+			// Explanatory top two lines
+			wrter.write("Farm Report: " + farmId + " : " + yearNum + "\n\n");
+			wrter.write(" Month  | Percent | Total Weight \n");
 			
+			//Write each line of report
 			for (int monthNum = 1; monthNum <= 12; ++monthNum) {				
 				// Calculate monthly weight and percentage of annual weight for this
 				// month. The Double.MIN_NORMAL is added to the denominator to avoid
@@ -268,13 +274,20 @@ public class ReportFarm extends Stage {
 				int endIndex = Math.min(4, percentageString.length());
 				percentageString = percentageString.substring(0, endIndex);
 				
+				// Format special cases for alignment
+				if (percentageString.equals("0.0") ){
+					percentageString = "0.00";
+				}
+				
+				// Add line to report for this month
 				String line = monthString + " |   " + percentageString + "  | " + weight + "\n";
 				wrter.write(line);
 			}
 			
+			// Display success message and close wrter
 			Stage responseStage = new Stage();
 			responseStage.setTitle("Farm Report");
-			String response = "Report successfully written to " + dirName;
+			String response = "Report successfully written to " + dir.getPath();
 			
 			responseStage.setScene(new Scene(new Label(response), 400,300));
 			responseStage.show();
@@ -283,8 +296,12 @@ public class ReportFarm extends Stage {
 			
 		} catch (Exception e) {
 			
-			file.delete();
+			// if report cannot be made properly, delete the partial file made
+			if (file != null) {
+				file.delete();
+			}
 			
+			// display failure response to user
 			Stage responseStage = new Stage();
 			responseStage.setTitle("Farm Report");
 			String response = " Error: Report not written\n " + e.getMessage();
