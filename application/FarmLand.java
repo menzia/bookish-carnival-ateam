@@ -29,7 +29,6 @@ import java.util.zip.DataFormatException;
  * farms. Also has methods for generating tables displaying certain parts of the
  * data.
  * 
- * @author menzia (2020)
  *
  */
 public class FarmLand implements FarmLandADT {

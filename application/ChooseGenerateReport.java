@@ -25,6 +25,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
 
 public class ChooseGenerateReport {
 
@@ -207,6 +208,7 @@ public class ChooseGenerateReport {
 		ReportFarm fm = new ReportFarm(farmLand, farmId, year);
 		fm.centerOnScreen();
 	}
+	
 
 	/**
 	 * Generates and displays an annual report for the given year.

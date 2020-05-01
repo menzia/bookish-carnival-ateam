@@ -15,6 +15,8 @@
  */
 package application;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -42,8 +44,8 @@ import javafx.stage.Stage;
 public class ReportFarm extends Stage {
 
 	// Strings which will show up on left column for each month of year
-	private static String[] monthStrings = { "01-Jan", "02-Feb", "03-Mar", "04-Apr", "05-May", "06-Jun", "07-Jul",
-			"08-Aug", "09-Sep", "10-Oct", "11-Nov", "12-Dec" };
+	private static String[] monthStrings = { "01-Jan", " 02-Feb", " 03-Mar", " 04-Apr", " 05-May", " 06-Jun",
+			" 07-Jul", " 08-Aug", " 09-Sep", " 10-Oct", " 11-Nov", " 12-Dec" };
 
 	/**
 	 * Displays a farm report to the screen using the given data
@@ -224,9 +226,72 @@ public class ReportFarm extends Stage {
 			ArrayList<FarmRow> monthList = new ArrayList<FarmRow>();
 			FarmRow newFarmRow = new FarmRow("Error making table", 0L, e.getMessage());
 			monthList.add(newFarmRow);
-			
+
 			return FXCollections.observableArrayList(monthList);
 		}
 
+	}
+
+	/**
+	 * Prints a farm report to the given directory in a .txt file
+	 * 
+	 * @param dirName directory to write report to
+	 * @param farmLand to get data from
+	 * @param farmId of farm to report on
+	 * @param yearNum of year to report on
+	 */
+	public static void printToDirectory(String dirName,FarmLand farmLand, String farmId, int yearNum) {
+		File file = new File(dirName + "/FarmReport-" + farmId + "-" + yearNum + ".txt");
+		try {
+		
+			
+			FileWriter wrter = new FileWriter(file);
+			Farm farm = farmLand.getFarm(farmId);
+			
+			Long totalWeight = farm.getYearTotal(yearNum);
+					
+			wrter.write("Monthly Report: " + farmId + " : " + yearNum + "\n");
+			wrter.write(" Month | Percent | Total Weight \n");
+			
+			for (int monthNum = 1; monthNum <= 12; ++monthNum) {				
+				// Calculate monthly weight and percentage of annual weight for this
+				// month. The Double.MIN_NORMAL is added to the denominator to avoid
+				// divide by zero errors.
+				long weight = farmLand.getFarm(farmId).getMonthTotal(yearNum, monthNum);
+				double percentage = 100 * weight / (totalWeight + Double.MIN_NORMAL);
+
+				// Convert the month, weight, and percentage to strings for display
+				String monthString = monthStrings[monthNum - 1];
+				String percentageString = Double.toString(percentage);
+
+				// Take four significant figures of percentage(plus the decimal point)
+				int endIndex = Math.min(4, percentageString.length());
+				percentageString = percentageString.substring(0, endIndex);
+				
+				String line = monthString + " |   " + percentageString + "  | " + weight + "\n";
+				wrter.write(line);
+			}
+			
+			Stage responseStage = new Stage();
+			responseStage.setTitle("Farm Report");
+			String response = "Report successfully written to " + dirName;
+			
+			responseStage.setScene(new Scene(new Label(response), 400,300));
+			responseStage.show();
+			
+			wrter.close();
+			
+		} catch (Exception e) {
+			
+			file.delete();
+			
+			Stage responseStage = new Stage();
+			responseStage.setTitle("Farm Report");
+			String response = " Error: Report not written\n " + e.getMessage();
+			
+			responseStage.setScene(new Scene(new Label(response), 400,300));
+			responseStage.show();
+			
+		}
 	}
 }
