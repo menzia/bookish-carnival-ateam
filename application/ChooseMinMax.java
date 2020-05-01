@@ -99,6 +99,7 @@ public class ChooseMinMax {
 		
 		// Button pressed to actually generate report
 		Button gButton = new Button("Generate");
+		gButton.setStyle("-fx-background-color: #99ff99 ; -fx-border-color: #005500; ");
 		gButton.setOnAction(e -> byMonthAction(idBox.getValue(), yearBox.getValue()));
 
 		// Add all above nodes plus an explanatory label
@@ -135,6 +136,7 @@ public class ChooseMinMax {
 
 		// Button pressed to actually make report
 		Button gButton = new Button("Generate");
+		gButton.setStyle("-fx-background-color: #99ff99 ; -fx-border-color: #005500; ");
 		gButton.setOnAction(e -> byFarmAction(yearBox.getValue(), monthBox.getValue()));
 
 		// Add all above nodes plus explanatory label

@@ -51,7 +51,7 @@ public class ChooseGenerateReport {
 
 		// Have one tab for each type of report
 		Tab tab1 = new Tab("Farm Report", farmRep(farmLand, stage));
-		Tab tab2 = new Tab("Annual Report", annualRep(farmLand));
+		Tab tab2 = new Tab("Annual Report", annualRep(farmLand,stage));
 		Tab tab3 = new Tab("Monthly Report", monthRep(farmLand));
 		Tab tab4 = new Tab("Range Report", rangeRep(farmLand));
 
@@ -92,10 +92,13 @@ public class ChooseGenerateReport {
 
 		// Button which is pressed to actually make the report
 		Button gButton = new Button("Display Report");
+		// Make green to distinguish
+		gButton.setStyle("-fx-background-color: #99ff99 ; -fx-border-color: #005500; ");
 		gButton.setOnAction(e -> farmReportAction(farmLand, idBox.getValue(), yearBox.getValue()));
 
 		// Button pressed to save Farm Report to file
 		Button fileButton = new Button("Save Report to Directory");
+		fileButton.setStyle("-fx-background-color: #99ff99 ; -fx-border-color: #005500; ");
 		DirectoryChooser chooser = new DirectoryChooser();
 		fileButton.setOnAction(e -> {
 			File dir = chooser.showDialog(stage);
@@ -118,7 +121,7 @@ public class ChooseGenerateReport {
 	 * 
 	 * @return VBox containing the UI controls for the Annual Report tab
 	 */
-	static public VBox annualRep(FarmLand farmLand) {
+	static public VBox annualRep(FarmLand farmLand, Stage stage) {
 		VBox yearRep = new VBox();
 		yearRep.setSpacing(30);
 
@@ -130,10 +133,23 @@ public class ChooseGenerateReport {
 
 		// Button which is pressed to generate report
 		Button gButton = new Button("Display Report");
+		// Make green to distinguish
 		gButton.setOnAction(e -> annualReportAction(farmLand, yearBox.getValue()));
+		gButton.setStyle("-fx-background-color: #99ff99 ; -fx-border-color: #005500; ");
+		
+		// Button pressed to save Farm Report to file
+		Button fileButton = new Button("Save Report to Directory");
+		// Make it green to distinguish
+		fileButton.setStyle("-fx-background-color: #99ff99 ; -fx-border-color: #005500; ");
+		DirectoryChooser chooser = new DirectoryChooser();
+		fileButton.setOnAction(e -> {
+			File dir = chooser.showDialog(stage);
+			annualReportFile(dir, farmLand, yearBox.getValue());
+
+		});
 
 		// Add all above nodes to main box, along with explanatory message
-		yearRep.getChildren().addAll(year, gButton,
+		yearRep.getChildren().addAll(year, gButton, fileButton,
 				new Label("Note: If year is not selectable, there is no data on it"));
 
 		return yearRep;
@@ -167,6 +183,7 @@ public class ChooseGenerateReport {
 
 		// Button which is pressed to actually make the report
 		Button gButton = new Button("Display Report");
+		gButton.setStyle("-fx-background-color: #99ff99 ; -fx-border-color: #005500; ");
 		gButton.setOnAction(e -> monthlyReportAction(farmLand, yearBox.getValue(), monthBox.getValue()));
 
 		// Add all above nodes along with an explanatory message
@@ -205,6 +222,7 @@ public class ChooseGenerateReport {
 
 		// Button which is pressed to actually make report
 		Button gButton = new Button("Display Report");
+		gButton.setStyle("-fx-background-color: #99ff99 ; -fx-border-color: #005500; ");
 		gButton.setOnAction(e -> rangeReportAction(farmLand, startBox.getValue(), endBox.getValue()));
 
 		// Add all nodes to main VBox
@@ -258,6 +276,15 @@ public class ChooseGenerateReport {
 		rangeRep.centerOnScreen();
 	}
 
+	/**
+	 * Tries to save the farm report for the given data to the given directory.
+	 * If it cannot do this for whatever reason, displays an error message.
+	 * 
+	 * @param dir directory to save report to
+	 * @param farmLand to get data from
+	 * @param farmId of farm to make report on
+	 * @param yearNum of year to make report on
+	 */
 	static public void farmReportFile(File dir, FarmLand farmLand, String farmId, Integer yearNum) {
 		if (dir == null || farmLand == null || farmId == null || yearNum == null) {
 			Stage responseStage = new Stage();
@@ -274,6 +301,43 @@ public class ChooseGenerateReport {
 			} catch (Exception e) {
 				Stage responseStage = new Stage();
 				responseStage.setTitle("Farm Report");
+				String response = "Unexpected Error: " + e.getMessage();
+
+				responseStage.setScene(new Scene(new Label(response), 400, 300));
+				responseStage.show();
+
+			}
+		}
+	}
+	
+	/**
+	 * Tries to save the annual report for the given data to the given directory.
+	 * If it cannot do this for whatever reason, displays an error message.
+	 * 
+	 * @param dir directory to save file in
+	 * @param farmLand to get data from
+	 * @param yearNum to make report on
+	 */
+	static public void annualReportFile(File dir, FarmLand farmLand, Integer yearNum) {
+		if (dir == null || farmLand == null || yearNum == null) {
+			// display error message
+			Stage responseStage = new Stage();
+			responseStage.setTitle("Annual Report");
+			String response = "Must choose directory and year";
+
+			responseStage.setScene(new Scene(new Label(response), 400, 300));
+			responseStage.show();
+			
+		} else {
+
+			try {
+				// try to print to text file
+				ReportAnnual.printToDirectory(dir, farmLand, yearNum);
+
+			} catch (Exception e) {
+				// display error message if something goes wrong
+				Stage responseStage = new Stage();
+				responseStage.setTitle("Annual Report");
 				String response = "Unexpected Error: " + e.getMessage();
 
 				responseStage.setScene(new Scene(new Label(response), 400, 300));

@@ -60,6 +60,7 @@ public class ChooseAddFarm {
 
 		// Button which is pressed to actually create new farm
 		Button gButton = new Button("Submit");
+		gButton.setStyle("-fx-background-color: #99ff99 ; -fx-border-color: #005500; ");
 		gButton.setOnAction(e -> addFarmAction(farmIdField));
 
 		addFarm.getChildren().addAll(farmId, gButton);

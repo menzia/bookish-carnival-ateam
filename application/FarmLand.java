@@ -35,6 +35,7 @@ public class FarmLand implements FarmLandADT {
 	
 	private TreeMap<String, Farm> farms;// where data on individual farms is stored
 	private Farm allFarms;// where data on the combined weight of all farms is stored
+	private int longestId;//length of longest id
 
 	private static final String OPENING_LINE = "date,farm_id,weight\n";// first line for .csv files
 
@@ -44,6 +45,7 @@ public class FarmLand implements FarmLandADT {
 	public FarmLand() {
 		farms = new TreeMap<String, Farm>();
 		allFarms = new Farm("Stores Weight of All Farms in System");
+		longestId = 0;
 	}
 	
 	/**
@@ -52,6 +54,7 @@ public class FarmLand implements FarmLandADT {
 	public void reset() {
 		farms = new TreeMap<String,Farm>();
 		allFarms = new Farm("Stores Weight of All Farms in System");
+		longestId = 0;
 	}
 
 	/**
@@ -156,7 +159,9 @@ public class FarmLand implements FarmLandADT {
 		if (!this.contains(farmID)) {
 
 			farms.put(farmID, new Farm(farmID));
-
+			if (farmID.length() > longestId) {
+				longestId = farmID.length();
+			}
 		}
 
 	}
@@ -365,6 +370,15 @@ public class FarmLand implements FarmLandADT {
 
 		}
 
+	}
+	
+	/**
+	 * Returns the length of the longest string used in an ID for this FarmLand
+	 * 
+	 * @return longest string used as an ID
+	 */
+	public int getLongestId() {
+		return longestId;
 	}
 	
 

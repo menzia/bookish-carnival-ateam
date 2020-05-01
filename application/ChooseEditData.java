@@ -1,5 +1,4 @@
 /**
- * ChooseEditData.java
  * Author:   Linyi Lyu (llyu4@wisc.edu) Ethan Huang (ihuang22@wisc.edu) Alex Menzia(menzia@wisc.edu)
  * Date:     4/29/2020
  * 
@@ -111,6 +110,7 @@ public class ChooseEditData {
 
 		// Button pressed to actually implement changes
 		Button gButton = new Button("Submit");
+		gButton.setStyle("-fx-background-color: #99ff99 ; -fx-border-color: #005500; ");
 		gButton.setOnAction(e -> editWeightAction(idBox.getValue(), dateBox.getValue(), weightBox.getText()));
 
 		// Include all above nodes plus an explanatory label
@@ -151,6 +151,7 @@ public class ChooseEditData {
 
 		// Button pressed to actually implement changes
 		Button gButton = new Button("Submit");
+		gButton.setStyle("-fx-background-color: #99ff99 ; -fx-border-color: #005500; ");
 		gButton.setOnAction(e -> addWeightAction(idBox.getValue(), dateBox.getValue(), weightBox.getText()));
 
 		// Include all above nodes plus an explanatory label
@@ -187,6 +188,7 @@ public class ChooseEditData {
 
 		// Button pressed to actually implement changes
 		Button gButton = new Button("Submit");
+		gButton.setStyle("-fx-background-color: #99ff99 ; -fx-border-color: #005500; ");
 		gButton.setOnAction(e -> viewWeightAction(idBox.getValue(), dateBox.getValue()));
 
 		// Include all above nodes plus an explanatory label
