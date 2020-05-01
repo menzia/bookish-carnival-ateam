@@ -17,8 +17,6 @@ package application;
  * MonthADT - Stores the weight of milk obtained on each day of
  * a given month.
  * 
- * TODO:May want to add access to month number and year number
- * 
  * @author menzia (2020)
  *
  */
