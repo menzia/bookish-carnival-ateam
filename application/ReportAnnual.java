@@ -298,7 +298,7 @@ public class ReportAnnual extends Stage {
 			
 			// display failure response to user
 			Stage responseStage = new Stage();
-			responseStage.setTitle("Farm Report");
+			responseStage.setTitle("Annual Report");
 			String response = " Error: Report not written\n " + e.getMessage();
 			
 			responseStage.setScene(new Scene(new Label(response), 400,300));

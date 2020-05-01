@@ -15,6 +15,8 @@
  */
 package application;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -223,5 +225,110 @@ public class ReportMonthly extends Stage {
 			return FXCollections.observableArrayList(farmList);
 		}
 
+	}
+
+	/**
+	 * Tries to print the monthly report for the given data to the given directory.
+	 * 
+	 * @param dir directory to save file to
+	 * @param farmLand to get data from
+	 * @param yearNum of year to print report on
+	 */
+	public static void printToDirectory(File dir, FarmLand farmLand, Integer yearNum, Integer monthNum) {
+		
+		File file = null;//file where the report will be written
+		
+		try {
+			
+			file = new File(dir, "/MonthlyReport-" + yearNum + ".txt");
+			FileWriter wrter = new FileWriter(file);
+			
+			// for use in percent calculation
+			Long totalWeight = farmLand.getAllFarmMonthTotal(yearNum, monthNum);
+					
+			// Explanatory top two lines
+			wrter.write("Monthly Report: " + yearNum + "/" + monthNum + "\n\n");
+			
+			// make sure lengths of strings are all the same
+			int longest = farmLand.getLongestId();
+			String firstColumn = increaseToLength("Farm",longest);
+			
+			wrter.write(firstColumn + " | Percent | Total Weight \n");
+			
+			//Write each line of report
+			for (String farm: farmLand.getFarms()) {				
+				// Calculate monthly weight and percentage of annual weight for this
+				// month. The Double.MIN_NORMAL is added to the denominator to avoid
+				// divide by zero errors.
+				long weight = farmLand.getFarm(farm).getMonthTotal(yearNum, monthNum);
+				double percentage = 100 * weight / (totalWeight + Double.MIN_NORMAL);
+
+				// Convert the month, weight, and percentage to strings for display
+				
+				String percentageString = Double.toString(percentage);
+
+				// Take four significant figures of percentage(plus the decimal point)
+				int endIndex = Math.min(4, percentageString.length());
+				percentageString = percentageString.substring(0, endIndex);
+				
+				// Format special cases for alignment
+				if (percentageString.equals("0.0") ){
+					percentageString = "0.00";
+				}
+				
+				// Add line to report for this month
+				String line = increaseToLength(farm, longest) + " |   " + percentageString + "  | " + weight + "\n";
+				wrter.write(line);
+			}
+			
+			// Display success message and close wrter
+			Stage responseStage = new Stage();
+			responseStage.setTitle("Monthly Report");
+			String response = "Report successfully written to " + dir.getPath();
+			
+			responseStage.setScene(new Scene(new Label(response), 400,300));
+			responseStage.show();
+			
+			wrter.close();
+			
+		} catch (Exception e) {
+			
+			// if report cannot be made properly, delete the partial file made
+			if (file != null) {
+				file.delete();
+			}
+			
+			// display failure response to user
+			Stage responseStage = new Stage();
+			responseStage.setTitle("Monthly Report");
+			String response = " Error: Report not written\n " + e.getMessage();
+			
+			responseStage.setScene(new Scene(new Label(response), 400,300));
+			responseStage.show();
+			
+		}
+		
+	}
+	
+	/**
+	 * Returns the given string increased to the given length if it
+	 * is not already longer than it.
+	 * 
+	 * @param string to increase length of
+	 * @param length to increase string to
+	 * @return string with increased length
+	 */
+	private static String increaseToLength(String string, int length) {
+		String newString = string;
+		if (string.length() < length) {
+			int spaces = length - string.length();
+			
+			for (int i = 0; i < spaces; ++i) {
+				newString = newString + " ";
+			}
+			
+		}
+		
+		return newString;
 	}
 }

@@ -40,7 +40,7 @@ public class ChooseGenerateReport {
 	 * they would like to create and display the selected report
 	 * 
 	 * @param farmLand to get data from
-	 * @param stage of main GUI
+	 * @param stage    of main GUI
 	 * 
 	 * @return vertical box containing UI controls for report generation
 	 */
@@ -51,9 +51,9 @@ public class ChooseGenerateReport {
 
 		// Have one tab for each type of report
 		Tab tab1 = new Tab("Farm Report", farmRep(farmLand, stage));
-		Tab tab2 = new Tab("Annual Report", annualRep(farmLand,stage));
-		Tab tab3 = new Tab("Monthly Report", monthRep(farmLand));
-		Tab tab4 = new Tab("Range Report", rangeRep(farmLand));
+		Tab tab2 = new Tab("Annual Report", annualRep(farmLand, stage));
+		Tab tab3 = new Tab("Monthly Report", monthRep(farmLand, stage));
+		Tab tab4 = new Tab("Range Report", rangeRep(farmLand, stage));
 
 		tabPane.getTabs().add(tab1);
 		tabPane.getTabs().add(tab2);
@@ -107,7 +107,7 @@ public class ChooseGenerateReport {
 		});
 
 		// Add all above nodes, plus an explanatory message
-		farmRep.getChildren().addAll(selections, gButton,fileButton,
+		farmRep.getChildren().addAll(selections, gButton, fileButton,
 				new Label("Note: If an ID or a year is not selectable, there is not data on it"));
 
 		return farmRep;
@@ -136,7 +136,7 @@ public class ChooseGenerateReport {
 		// Make green to distinguish
 		gButton.setOnAction(e -> annualReportAction(farmLand, yearBox.getValue()));
 		gButton.setStyle("-fx-background-color: #99ff99 ; -fx-border-color: #005500; ");
-		
+
 		// Button pressed to save Farm Report to file
 		Button fileButton = new Button("Save Report to Directory");
 		// Make it green to distinguish
@@ -163,7 +163,7 @@ public class ChooseGenerateReport {
 	 * 
 	 * @return a VBox containing all UI controls for the Month Report tab
 	 */
-	static public VBox monthRep(FarmLand farmLand) {
+	static public VBox monthRep(FarmLand farmLand, Stage stage) {
 		VBox monthRep = new VBox();
 		monthRep.setSpacing(30);
 
@@ -186,8 +186,19 @@ public class ChooseGenerateReport {
 		gButton.setStyle("-fx-background-color: #99ff99 ; -fx-border-color: #005500; ");
 		gButton.setOnAction(e -> monthlyReportAction(farmLand, yearBox.getValue(), monthBox.getValue()));
 
+		// Button pressed to save Farm Report to file
+		Button fileButton = new Button("Save Report to Directory");
+		// Make it green to distinguish
+		fileButton.setStyle("-fx-background-color: #99ff99 ; -fx-border-color: #005500; ");
+		DirectoryChooser chooser = new DirectoryChooser();
+		fileButton.setOnAction(e -> {
+			File dir = chooser.showDialog(stage);
+			monthlyReportFile(dir, farmLand, yearBox.getValue(), monthBox.getValue());
+
+		});
+
 		// Add all above nodes along with an explanatory message
-		monthRep.getChildren().addAll(selections, gButton,
+		monthRep.getChildren().addAll(selections, gButton,fileButton,
 				new Label("Note: If year is selectable, there is no data on it"));
 
 		return monthRep;
@@ -200,7 +211,7 @@ public class ChooseGenerateReport {
 	 * 
 	 * @return VBox containing UI controls for Range Report tab
 	 */
-	static public VBox rangeRep(FarmLand farmLand) {
+	static public VBox rangeRep(FarmLand farmLand, Stage stage) {
 		VBox rangeRep = new VBox();
 		rangeRep.setSpacing(30);
 
@@ -225,8 +236,19 @@ public class ChooseGenerateReport {
 		gButton.setStyle("-fx-background-color: #99ff99 ; -fx-border-color: #005500; ");
 		gButton.setOnAction(e -> rangeReportAction(farmLand, startBox.getValue(), endBox.getValue()));
 
+		// Button pressed to save Farm Report to file
+		Button fileButton = new Button("Save Report to Directory");
+		// Make it green to distinguish
+		fileButton.setStyle("-fx-background-color: #99ff99 ; -fx-border-color: #005500; ");
+		DirectoryChooser chooser = new DirectoryChooser();
+		fileButton.setOnAction(e -> {
+			File dir = chooser.showDialog(stage);
+			rangeReportFile(dir, farmLand, startBox.getValue(), endBox.getValue());
+
+		});
+
 		// Add all nodes to main VBox
-		rangeRep.getChildren().addAll(selections, gButton);
+		rangeRep.getChildren().addAll(selections, gButton,fileButton);
 
 		return rangeRep;
 	}
@@ -277,13 +299,13 @@ public class ChooseGenerateReport {
 	}
 
 	/**
-	 * Tries to save the farm report for the given data to the given directory.
-	 * If it cannot do this for whatever reason, displays an error message.
+	 * Tries to save the farm report for the given data to the given directory. If
+	 * it cannot do this for whatever reason, displays an error message.
 	 * 
-	 * @param dir directory to save report to
+	 * @param dir      directory to save report to
 	 * @param farmLand to get data from
-	 * @param farmId of farm to make report on
-	 * @param yearNum of year to make report on
+	 * @param farmId   of farm to make report on
+	 * @param yearNum  of year to make report on
 	 */
 	static public void farmReportFile(File dir, FarmLand farmLand, String farmId, Integer yearNum) {
 		if (dir == null || farmLand == null || farmId == null || yearNum == null) {
@@ -309,14 +331,14 @@ public class ChooseGenerateReport {
 			}
 		}
 	}
-	
+
 	/**
-	 * Tries to save the annual report for the given data to the given directory.
-	 * If it cannot do this for whatever reason, displays an error message.
+	 * Tries to save the annual report for the given data to the given directory. If
+	 * it cannot do this for whatever reason, displays an error message.
 	 * 
-	 * @param dir directory to save file in
+	 * @param dir      directory to save file in
 	 * @param farmLand to get data from
-	 * @param yearNum to make report on
+	 * @param yearNum  to make report on
 	 */
 	static public void annualReportFile(File dir, FarmLand farmLand, Integer yearNum) {
 		if (dir == null || farmLand == null || yearNum == null) {
@@ -327,7 +349,7 @@ public class ChooseGenerateReport {
 
 			responseStage.setScene(new Scene(new Label(response), 400, 300));
 			responseStage.show();
-			
+
 		} else {
 
 			try {
@@ -346,5 +368,83 @@ public class ChooseGenerateReport {
 			}
 		}
 	}
+	
+	/**
+	 * Tries to save the monthly report for the given data to the given directory. If
+	 * it cannot do this for whatever reason, displays an error message.
+	 * 
+	 * @param dir      directory to save file in
+	 * @param farmLand to get data from
+	 * @param yearNum  of month to make report on
+	 * @param monthNum of month to make report on
+	 */
+	static public void monthlyReportFile(File dir, FarmLand farmLand, Integer yearNum, Integer monthNum) {
+		if (dir == null || farmLand == null || yearNum == null) {
+			// display error message
+			Stage responseStage = new Stage();
+			responseStage.setTitle("Monthly Report");
+			String response = "Must choose directory, year, and month";
+
+			responseStage.setScene(new Scene(new Label(response), 400, 300));
+			responseStage.show();
+
+		} else {
+
+			try {
+				// try to print to text file
+				ReportMonthly.printToDirectory(dir, farmLand, yearNum, monthNum);
+
+			} catch (Exception e) {
+				// display error message if something goes wrong
+				Stage responseStage = new Stage();
+				responseStage.setTitle("Monthly Report");
+				String response = "Unexpected Error: " + e.getMessage();
+
+				responseStage.setScene(new Scene(new Label(response), 400, 300));
+				responseStage.show();
+
+			}
+		}
+	}
+	
+	/**
+	 * Tries to save the range report for the given data to the given directory. If
+	 * it cannot do this for whatever reason, displays an error message.
+	 * 
+	 * @param dir      directory to save file in
+	 * @param farmLand to get data from
+	 * @param start day to begin range
+	 * @param end day to end range
+	 */
+	static public void rangeReportFile(File dir, FarmLand farmLand, LocalDate start, LocalDate end) {
+		if (dir == null || farmLand == null || start == null || end == null) {
+			// display error message
+			Stage responseStage = new Stage();
+			responseStage.setTitle("Range Report");
+			String response = "Must choose directory,start, and end";
+
+			responseStage.setScene(new Scene(new Label(response), 400, 300));
+			responseStage.show();
+
+		} else {
+
+			try {
+				// try to print to text file
+				ReportRange.printToDirectory(dir, farmLand, start, end);
+
+			} catch (Exception e) {
+				// display error message if something goes wrong
+				Stage responseStage = new Stage();
+				responseStage.setTitle("Range Report");
+				String response = "Unexpected Error: " + e.getMessage();
+
+				responseStage.setScene(new Scene(new Label(response), 400, 300));
+				responseStage.show();
+
+			}
+		}
+	}
+	
+	
 
 }
