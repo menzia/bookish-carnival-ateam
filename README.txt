@@ -1,7 +1,7 @@
 README
 
 Course: CS400
-Semester: Spring 2019
+Semester: Spring 2020
 Project name: Milk Weight Program
 Team Members:
 1. Alex Menzia, 001, and menzia@wisc.edu
