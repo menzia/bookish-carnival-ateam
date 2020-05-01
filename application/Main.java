@@ -106,7 +106,7 @@ public class Main extends Application {
 		report.setToggleGroup(group);
 		report.setPrefSize(150, 20);
 		report.setOnAction(e -> {
-			bd.setCenter(ChooseGenerateReport.tabPane(farmLand));
+			bd.setCenter(ChooseGenerateReport.tabPane(farmLand, primaryStage));
 		});
 
 		// Button taking user to screen where they can

@@ -15,17 +15,20 @@
  */
 package application;
 
+import java.io.File;
 import java.time.LocalDate;
 import javafx.collections.FXCollections;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.Tab;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 public class ChooseGenerateReport {
 
@@ -36,15 +39,18 @@ public class ChooseGenerateReport {
 	 * Creates the center dialogue box which allows the user to select the report
 	 * they would like to create and display the selected report
 	 * 
+	 * @param farmLand to get data from
+	 * @param stage of main GUI
+	 * 
 	 * @return vertical box containing UI controls for report generation
 	 */
-	static public VBox tabPane(FarmLand farmLand) {
+	static public VBox tabPane(FarmLand farmLand, Stage stage) {
 
 		TabPane tabPane = new TabPane();
 		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
 		// Have one tab for each type of report
-		Tab tab1 = new Tab("Farm Report", farmRep(farmLand));
+		Tab tab1 = new Tab("Farm Report", farmRep(farmLand, stage));
 		Tab tab2 = new Tab("Annual Report", annualRep(farmLand));
 		Tab tab3 = new Tab("Monthly Report", monthRep(farmLand));
 		Tab tab4 = new Tab("Range Report", rangeRep(farmLand));
@@ -66,7 +72,7 @@ public class ChooseGenerateReport {
 	 * 
 	 * @return VBox containing UI controls for Farm Report
 	 */
-	static public VBox farmRep(FarmLand farmLand) {
+	static public VBox farmRep(FarmLand farmLand, Stage stage) {
 		// Vertical box containing everything below
 		VBox farmRep = new VBox();
 		farmRep.setSpacing(30);
@@ -85,11 +91,20 @@ public class ChooseGenerateReport {
 		VBox selections = new VBox(30, farmId, year);
 
 		// Button which is pressed to actually make the report
-		Button gButton = new Button("Generate");
+		Button gButton = new Button("Display Report");
 		gButton.setOnAction(e -> farmReportAction(farmLand, idBox.getValue(), yearBox.getValue()));
 
+		// Button pressed to save Farm Report to file
+		Button fileButton = new Button("Save Report to Directory");
+		DirectoryChooser chooser = new DirectoryChooser();
+		fileButton.setOnAction(e -> {
+			File dir = chooser.showDialog(stage);
+			farmReportFile(dir, farmLand, idBox.getValue(), yearBox.getValue());
+
+		});
+
 		// Add all above nodes, plus an explanatory message
-		farmRep.getChildren().addAll(selections, gButton,
+		farmRep.getChildren().addAll(selections, gButton,fileButton,
 				new Label("Note: If an ID or a year is not selectable, there is not data on it"));
 
 		return farmRep;
@@ -114,7 +129,7 @@ public class ChooseGenerateReport {
 		VBox year = new VBox(new Label("Select Year:"), yearBox);
 
 		// Button which is pressed to generate report
-		Button gButton = new Button("Generate");
+		Button gButton = new Button("Display Report");
 		gButton.setOnAction(e -> annualReportAction(farmLand, yearBox.getValue()));
 
 		// Add all above nodes to main box, along with explanatory message
@@ -151,7 +166,7 @@ public class ChooseGenerateReport {
 		selections.getChildren().addAll(year, month);
 
 		// Button which is pressed to actually make the report
-		Button gButton = new Button("Generate");
+		Button gButton = new Button("Display Report");
 		gButton.setOnAction(e -> monthlyReportAction(farmLand, yearBox.getValue(), monthBox.getValue()));
 
 		// Add all above nodes along with an explanatory message
@@ -189,7 +204,7 @@ public class ChooseGenerateReport {
 		selections.getChildren().addAll(start, end);
 
 		// Button which is pressed to actually make report
-		Button gButton = new Button("Generate");
+		Button gButton = new Button("Display Report");
 		gButton.setOnAction(e -> rangeReportAction(farmLand, startBox.getValue(), endBox.getValue()));
 
 		// Add all nodes to main VBox
@@ -208,7 +223,6 @@ public class ChooseGenerateReport {
 		ReportFarm fm = new ReportFarm(farmLand, farmId, year);
 		fm.centerOnScreen();
 	}
-	
 
 	/**
 	 * Generates and displays an annual report for the given year.
@@ -242,6 +256,31 @@ public class ChooseGenerateReport {
 	static public void rangeReportAction(FarmLand farmLand, LocalDate start, LocalDate end) {
 		ReportRange rangeRep = new ReportRange(farmLand, start, end);
 		rangeRep.centerOnScreen();
+	}
+
+	static public void farmReportFile(File dir, FarmLand farmLand, String farmId, Integer yearNum) {
+		if (dir == null || farmLand == null || farmId == null || yearNum == null) {
+			Stage responseStage = new Stage();
+			responseStage.setTitle("Farm Report");
+			String response = "Must choose directory, farm, and year";
+
+			responseStage.setScene(new Scene(new Label(response), 400, 300));
+			responseStage.show();
+		} else {
+
+			try {
+				ReportFarm.printToDirectory(dir, farmLand, farmId, yearNum);
+
+			} catch (Exception e) {
+				Stage responseStage = new Stage();
+				responseStage.setTitle("Farm Report");
+				String response = "Unexpected Error: " + e.getMessage();
+
+				responseStage.setScene(new Scene(new Label(response), 400, 300));
+				responseStage.show();
+
+			}
+		}
 	}
 
 }
